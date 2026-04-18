@@ -389,14 +389,14 @@ body { display: flex; justify-content: center; }
 </style>
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>义乌行箱驿站</title>
+<title>电动行李箱租借</title>
 
 </head>
 <body>
 <div id="app">
   <!-- HOME PAGE -->
   <div class="page show" id="page-home">
-    <div class="nav-bar"><h1>🧳 义乌行箱驿站</h1><p>植物园专属配套，轻松游玩不累脚</p></div>
+    <div class="nav-bar"><h1>🧳 电动行李箱租借</h1><p>植物园专属配套，轻松游玩不累脚</p></div>
     <div class="search-bar"><span class="ico">🔍</span><input placeholder="搜索附近归还点..."></div>
     <div class="banner" id="banner"><div class="banner-inner" style="background:linear-gradient(135deg,#2D3436,#636e72)"><div class="banner-text"><h3>扫码即用</h3><p>30秒快速租借，随借随还</p></div><span class="emoji">📱</span></div><div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div></div></div>
     <div class="card"><div class="quick">
@@ -407,13 +407,12 @@ body { display: flex; justify-content: center; }
     </div></div>
     <div class="card"><div class="section-hd"><span class="t">💰 计费方式</span><span class="m">查看详情 ›</span></div>
       <div class="pricing-row">
-        <div class="pricing-card"><span class="name">时租</span><span class="price">¥20</span><span class="unit">/小时</span></div>
-        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥100</span><span class="unit">/天</span></div>
+        <div class="pricing-card"><span class="name">时租</span><span class="price">¥19</span><span class="unit">/小时</span></div>
+        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥78</span><span class="unit">/天</span></div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每30分钟计费¥10 · 同一天最高¥100封顶</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每小时计费¥19 · 同一天最高¥78封顶</div>
     </div>
-    <div class="card"><div class="section-hd"><span class="t">📍 附近可用设备</span><span class="m">查看全部 ›</span></div><div id="home-devices"></div></div>
-    <div class="card"><div class="section-hd"><span class="t">🏪 归还点</span></div><div id="home-sites"></div></div>
+    <div class="card"><div class="section-hd"><span class="t">🏪 服务站点</span></div><div id="home-sites"></div></div>
   </div>
 
   <!-- DEVICE LIST PAGE -->
@@ -452,7 +451,7 @@ body { display: flex; justify-content: center; }
       <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
       <div class="fee-row"><span>押金</span><span>¥200</span></div>
       <div class="fee-row hl"><span>已产生费用</span><span class="price" id="ra-total">¥0</span></div>
-      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">按30分钟¥10计费，同一天最高¥100封顶</span>
+      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥19，同一天最高¥78封顶</span>
     </div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚠️ 温馨提醒</span>
       <div class="rule">请在植物园指定归还点归还，切勿随意丢弃</div><div class="rule">归还前请拍照留证</div><div class="rule">逾期将按1.5倍费率计费</div>
@@ -630,6 +629,13 @@ body { display: flex; justify-content: center; }
         </div>
       </div>
       <div class="pay-modal-footer">
+        <div style="background:#fff8f0;border-radius:8px;padding:10px 12px;font-size:11px;color:#666;line-height:1.7;max-height:72px;overflow-y:auto;margin-bottom:10px">
+          <b style="color:#E65100">租赁协议：</b>租借人在使用设备过程中，须自行注意人身安全。因个人操作不当、摔倒、碰撞等意外造成的人身伤害，与义乌行箱驿站无关，本站不承担任何责任。设备损坏须照价赔偿，逾期未还按1.5倍计费，押金将在设备归还无损后1-3个工作日内原路退还。
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray);margin-bottom:10px;cursor:pointer">
+          <input type="checkbox" id="agree-checkbox" style="width:16px;height:16px;accent-color:var(--primary)">
+          我已阅读并同意以上租赁协议
+        </label>
         <button class="pay-confirm" onclick="handlePayConfirm()">我已完成支付</button>
         <div class="pay-note">遇到问题？<span style="color:var(--primary);cursor:pointer">联系客服</span></div>
       </div>
@@ -640,7 +646,7 @@ body { display: flex; justify-content: center; }
   <div class="auth-modal-mask" id="auth-modal" style="display:none;">
     <div class="auth-modal">
       <div class="logo">🧳</div>
-      <div class="brand">义乌行箱驿站</div>
+      <div class="brand">电动行李箱租借</div>
       <div class="slogan">植物园专属配套，轻松游玩不累脚</div>
       <div class="auth-tabs">
         <div class="auth-tab on" id="auth-tab-login" onclick="switchAuthTab('login')">登录</div>
@@ -717,8 +723,8 @@ const SITES = [
 const RULES = ['最高时速6km/h，请勿在机动车道骑行','锂电池请勿暴晒、浸水、摔打，远离火源','设备归还需到植物园指定归还点','如遇设备故障，请立即联系客服','正常磨损免赔，人为损坏照价赔偿','未成年人需在监护人陪同下使用'];
 // 时租: ¥20/小时 (¥10/30分钟), 日租: ¥100封顶/天
 const PLANS = [
-  {id:'hourly',name:'时租',price:20,unit:'/小时'},
-  {id:'daily',name:'日封顶',price:100,unit:'/天'}
+  {id:'hourly',name:'时租',price:19,unit:'/小时'},
+  {id:'daily',name:'日封顶',price:78,unit:'/天'}
 ];
 const DEPOSIT = 200;
 const BANNERS = [
@@ -734,15 +740,7 @@ const ORDER_STATUS = {pending:{text:'待支付',cls:'tag-warning'},active:{text:
 function loadOrders() {
   const s = localStorage.getItem('ywx_orders');
   if (s) return JSON.parse(s);
-  const now = Date.now();
-  const defaults = [
-    {id:'ORD20260415001',deviceId:'BOX-001',deviceName:'电动行李箱A1',status:'active',plan:'daily',planFee:100,deposit:200,startAt:now-3600000*5,endAt:null,fee:100},
-    {id:'ORD20260414002',deviceId:'BOX-002',deviceName:'电动行李箱A2',status:'completed',plan:'hourly',planFee:20,deposit:200,startAt:now-86400000*2,endAt:now-86400000*2+3600000*3,fee:60},
-    {id:'ORD20260413003',deviceId:'BOX-003',deviceName:'电动行李箱B1',status:'completed',plan:'daily',planFee:100,deposit:200,startAt:now-86400000*3,endAt:now-86400000*3+3600000*4,fee:80},
-    {id:'ORD20260412004',deviceId:'BOX-004',deviceName:'电动行李箱B2',status:'overdue',plan:'daily',planFee:100,deposit:200,startAt:now-86400000*5,endAt:null,fee:300}
-  ];
-  saveOrders(defaults);
-  return defaults;
+  return [];
 }
 function saveOrders(o) { localStorage.setItem('ywx_orders', JSON.stringify(o)); }
 function getActiveOrder() { return loadOrders().find(o => o.status === 'active'); }
@@ -959,6 +957,8 @@ function updateQrArea() {
   document.getElementById('pay-qr-text').textContent = (isWechat ? '微信' : '支付宝') + '扫码付款给「柒号谷社」';
 }
 function handlePayConfirm() {
+  const cb = document.getElementById('agree-checkbox');
+  if (cb && !cb.checked) { toast('请先阅读并同意租赁协议'); return; }
   hidePayModal();
   doConfirmRent();
 }
@@ -1124,12 +1124,12 @@ function doConfirmRent() {
 }
 
 // ===== RENTAL TIMER =====
-// Billing: ¥10 per 30min (=¥20/hr), daily cap ¥100
+// Billing: ¥19 per hour (60min block, round up), daily cap ¥78
 function calcFee(elapsedMs) {
   const elapsedMins = elapsedMs / 1000 / 60;
-  const slots = Math.ceil(elapsedMins / 30); // round up to 30min blocks
-  const fee = slots * 10; // ¥10 per slot
-  return Math.min(fee, 100); // cap at ¥100
+  const slots = Math.ceil(elapsedMins / 60); // round up to 60min blocks
+  const fee = slots * 19; // ¥19 per hour
+  return Math.min(fee, 78); // cap at ¥78
 }
 
 function startRentalTimer() {
