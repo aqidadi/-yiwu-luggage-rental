@@ -728,7 +728,10 @@ function getUser() {
 function saveUser(u) { localStorage.setItem('ywx_user', JSON.stringify(u)); }
 function isLoggedIn() { return !!getUser(); }
 
-function showAuthModal() {
+let pendingAfterLogin = null;
+
+function showAuthModal(afterLogin) {
+  if (afterLogin) pendingAfterLogin = afterLogin;
   document.getElementById('auth-modal').style.display = 'flex';
 }
 function hideAuthModal() {
@@ -780,6 +783,11 @@ function handleQuickLogin() {
   hideAuthModal();
   updateProfileUI();
   toast('欢迎，' + user.name);
+  if (pendingAfterLogin) {
+    const cb = pendingAfterLogin;
+    pendingAfterLogin = null;
+    setTimeout(cb, 300);
+  }
 }
 
 function handleLogin() {
@@ -1115,7 +1123,7 @@ function selectPlan(id) { selectedPlan = id; renderDetailPricing(); }
 
 function handleRent() {
   if (!selectedDevice) return;
-  if (!isLoggedIn()) { showAuthModal(); return; }
+  if (!isLoggedIn()) { showAuthModal(handleRent); return; }
   const active = getActiveOrder();
   if (active) { toast('您有进行中的订单，请先归还'); navigateTo('rental-active'); return; }
   showModal('agreement');
