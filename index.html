@@ -511,9 +511,9 @@ body { display: flex; justify-content: center; }
       <div class="menu-item" onclick="switchTabTo('orders')"><span class="mi">📋</span><span class="mt">我的订单</span><span class="ma">›</span></div>
       <div class="menu-item" onclick="navigateTo('help')"><span class="mi">📖</span><span class="mt">使用指南</span><span class="ma">›</span></div>
       <div class="menu-item" onclick="navigateTo('agreement')"><span class="mi">📄</span><span class="mt">租赁协议</span><span class="ma">›</span></div>
-      <div class="menu-item"><span class="mi">🔗</span><span class="mt">分享给朋友</span><span class="ma">›</span></div>
-      <div class="menu-item"><span class="mi">📞</span><span class="mt">联系客服</span><span class="ma">›</span></div>
-      <div class="menu-item"><span class="mi">ℹ️</span><span class="mt">关于我们</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="handleShare()"><span class="mi">🔗</span><span class="mt">分享给朋友</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="handleContact()"><span class="mi">📞</span><span class="mt">联系客服</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="handleAbout()"><span class="mi">ℹ️</span><span class="mt">关于我们</span><span class="ma">›</span></div>
       <div class="menu-item" onclick="openAdmin()"><span class="mi">🔧</span><span class="mt" style="color:var(--primary)">管理后台</span><span class="ma">›</span></div>
       <div class="menu-item" id="menu-logout" style="display:none" onclick="handleLogout()"><span class="mi">🚪</span><span class="mt" style="color:var(--danger)">退出登录</span><span class="ma">›</span></div>
     </div>
@@ -822,6 +822,28 @@ function handleRegister() {
   hideAuthModal();
   updateProfileUI();
   toast('🎉 注册成功！');
+}
+
+function handleShare() {
+  const url = location.href.split('?')[0];
+  if (navigator.share) {
+    navigator.share({ title: '电动行李箱租借', text: '义乌植物园专属电动行李箱租借，轻松游玩不累脚！', url });
+  } else {
+    navigator.clipboard && navigator.clipboard.writeText(url);
+    toast('链接已复制，快分享给朋友吧！');
+  }
+}
+
+function handleContact() {
+  const c = document.getElementById('modal-content');
+  c.innerHTML = `<div style="text-align:center;padding:8px 0 4px"><div style="font-size:36px">📞</div><h3 style="margin:10px 0 16px">联系客服</h3><div style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:8px">18630721779</div><div style="font-size:12px;color:var(--gray);margin-bottom:20px">服务时间：08:00 - 22:00</div><a href="tel:18630721779" style="display:block;width:100%;height:44px;background:var(--primary);color:#fff;border:none;border-radius:22px;font-size:15px;font-weight:600;cursor:pointer;line-height:44px;text-decoration:none">立即拨打</a><button class="btn btn-secondary btn-block" style="margin-top:10px" onclick="hideModal()">关闭</button></div>`;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function handleAbout() {
+  const c = document.getElementById('modal-content');
+  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">电动行李箱租借</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">义乌植物园专属配套服务</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>• 服务地点：义乌植物园东门/西门/北门</p><p>• 计费方式：¥19/小时，最高¥78/天封顶</p><p>• 押金：¥500，归还无损后原路退还</p><p>• 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
+  document.getElementById('modal').style.display = 'flex';
 }
 
 function openAdmin() {
