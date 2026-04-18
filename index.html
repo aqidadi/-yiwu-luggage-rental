@@ -582,9 +582,9 @@ body { display: flex; justify-content: center; }
           </div>
         </div>
         <div class="pay-qr" id="pay-qr-area">
-          <div class="qr-icon">📱</div>
-          <div>请使用微信扫码支付</div>
-          <div class="qr-tip">支付成功后自动解锁设备</div>
+          <img src="wechat.jpg" id="pay-qr-img" style="width:130px;height:130px;border-radius:8px;object-fit:cover;">
+          <div id="pay-qr-text" style="font-size:13px;color:var(--gray);margin-top:6px">微信扫码付款给「柒号谷社」</div>
+          <div class="qr-tip">付款后告知工作人员，押金退还时原路返回</div>
         </div>
       </div>
       <div class="pay-modal-footer">
@@ -913,10 +913,8 @@ function selectPayMethod(method) {
 }
 function updateQrArea() {
   const isWechat = selectedPayMethod === 'wechat';
-  document.getElementById('pay-qr-area').innerHTML = `
-    <div class="qr-icon">${isWechat ? '💚' : '💙'}</div>
-    <div>请使用${isWechat ? '微信' : '支付宝'}扫码支付</div>
-    <div class="qr-tip">支付成功后自动解锁设备</div>`;
+  document.getElementById('pay-qr-img').src = isWechat ? 'wechat.jpg' : 'alipay.jpg';
+  document.getElementById('pay-qr-text').textContent = (isWechat ? '微信' : '支付宝') + '扫码付款给「柒号谷社」';
 }
 function handlePayConfirm() {
   hidePayModal();
