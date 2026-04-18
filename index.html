@@ -514,7 +514,7 @@ body { display: flex; justify-content: center; }
       <div class="menu-item"><span class="mi">🔗</span><span class="mt">分享给朋友</span><span class="ma">›</span></div>
       <div class="menu-item"><span class="mi">📞</span><span class="mt">联系客服</span><span class="ma">›</span></div>
       <div class="menu-item"><span class="mi">ℹ️</span><span class="mt">关于我们</span><span class="ma">›</span></div>
-      <div class="menu-item" onclick="navigateTo('admin')"><span class="mi">🔧</span><span class="mt" style="color:var(--primary)">管理后台</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="openAdmin()"><span class="mi">🔧</span><span class="mt" style="color:var(--primary)">管理后台</span><span class="ma">›</span></div>
       <div class="menu-item" id="menu-logout" style="display:none" onclick="handleLogout()"><span class="mi">🚪</span><span class="mt" style="color:var(--danger)">退出登录</span><span class="ma">›</span></div>
     </div>
   </div>
@@ -822,6 +822,13 @@ function handleRegister() {
   hideAuthModal();
   updateProfileUI();
   toast('🎉 注册成功！');
+}
+
+function openAdmin() {
+  const pwd = prompt('请输入管理员密码');
+  if (pwd === null) return;
+  if (pwd !== 'zuxiang2026') { toast('密码错误'); return; }
+  navigateTo('admin');
 }
 
 function handleLogout() {
@@ -1302,7 +1309,20 @@ function initAdminUsers() {
 }
 
 function initAdminFinance(period) {
-  const data = {today:{orders:3,income:240,refund:0},week:{orders:18,income:1440,refund:200},month:{orders:65,income:5200,refund:800}};
+  const orders = loadOrders();
+  const now = new Date();
+  const todayStr = now.toDateString();
+  const weekAgo = Date.now() - 7*86400000;
+  const monthAgo = Date.now() - 30*86400000;
+  const calc = (filter) => {
+    const f = orders.filter(filter);
+    return {orders: f.length, income: f.reduce((s,o)=>s+(o.fee||0),0), refund: 0};
+  };
+  const data = {
+    today: calc(o => new Date(o.startAt).toDateString()===todayStr),
+    week: calc(o => o.startAt >= weekAgo),
+    month: calc(o => o.startAt >= monthAgo)
+  };
   const d = data[period] || data.today;
   document.getElementById('finance-content').innerHTML = `
     <div class="stats-grid" style="padding:0;margin:0 0 16px">
