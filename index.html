@@ -942,7 +942,7 @@ function renderBanner() {
 
 function handleScanRent() {
   if (!isLoggedIn()) { showAuthModal(); return; }
-  toast('请扫描设备上的二维码');
+  navigateTo('device-list');
 }
 
 // ===== DEVICE LIST =====
