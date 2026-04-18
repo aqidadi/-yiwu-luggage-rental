@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>悦行管理后台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#1a1a2e;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.lock-box{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:340px;text-align:center}
+.lock-box h2{font-size:20px;margin:12px 0 6px}
+.lock-box p{font-size:13px;color:#888;margin-bottom:24px}
+input{width:100%;height:44px;border:1px solid #eee;border-radius:10px;padding:0 14px;font-size:15px;outline:none;margin-bottom:14px;text-align:center;letter-spacing:4px}
+button{width:100%;height:44px;background:#FF6B35;color:#fff;border:none;border-radius:22px;font-size:15px;font-weight:600;cursor:pointer}
+.admin-wrap{display:none;min-height:100vh;background:#f5f6fa}
+.admin-hd{background:linear-gradient(135deg,#2D3436,#1a1a2e);padding:52px 20px 24px;color:#fff}
+.admin-hd h2{font-size:20px;font-weight:700}
+.admin-hd p{font-size:12px;opacity:0.6;margin-top:4px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.stat-card{background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+.stat-card .v{font-size:28px;font-weight:700;color:#FF6B35}
+.stat-card .l{font-size:12px;color:#888;margin-top:4px}
+.section{background:#fff;margin:0 16px 12px;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+.section-hd{padding:14px 16px;font-size:15px;font-weight:600;border-bottom:1px solid #f0f0f0}
+.order-item{padding:12px 16px;border-bottom:1px solid #f9f9f9;display:flex;justify-content:space-between;align-items:center}
+.order-item:last-child{border-bottom:none}
+.order-info .name{font-size:14px;font-weight:500}
+.order-info .meta{font-size:11px;color:#888;margin-top:2px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.tag-success{background:#e8f8ef;color:#27ae60}
+.tag-warning{background:#fff3e0;color:#e67e22}
+.tag-danger{background:#fdecea;color:#e74c3c}
+.tag-info{background:#e8f4fd;color:#2980b9}
+.device-item{padding:12px 16px;border-bottom:1px solid #f9f9f9;display:flex;justify-content:space-between;align-items:center}
+.device-item:last-child{border-bottom:none}
+.btn-sm{padding:4px 12px;border-radius:8px;border:none;font-size:12px;cursor:pointer;font-weight:500}
+.btn-available{background:#e8f8ef;color:#27ae60}
+.btn-maintenance{background:#fdecea;color:#e74c3c}
+</style>
+</head>
+<body>
+<div id="lock-screen">
+  <div class="lock-box">
+    <div style="font-size:48px">🔐</div>
+    <h2>悦行管理后台</h2>
+    <p>请输入管理员密码</p>
+    <input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPwd()">
+    <button onclick="checkPwd()">进入后台</button>
+  </div>
+</div>
+
+<div class="admin-wrap" id="admin-wrap">
+  <div class="admin-hd">
+    <h2>🔧 悦行管理后台</h2>
+    <p id="admin-date"></p>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="v" id="s-today">0</div><div class="l">今日订单</div></div>
+    <div class="stat-card"><div class="v" id="s-active">0</div><div class="l">租赁中</div></div>
+    <div class="stat-card"><div class="v" id="s-income">¥0</div><div class="l">今日收入</div></div>
+    <div class="stat-card"><div class="v" id="s-total">¥0</div><div class="l">累计收入</div></div>
+  </div>
+  <div class="section">
+    <div class="section-hd">📋 当前订单</div>
+    <div id="order-list"></div>
+  </div>
+  <div class="section">
+    <div class="section-hd">🧳 设备状态</div>
+    <div id="device-list"></div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PWD = 'hu5471327';
+const STATUS_MAP = {available:'可用',rented:'租赁中',maintenance:'维护中',offline:'离线'};
+const ORDER_STATUS = {pending:'待支付',active:'租赁中',completed:'已完成',cancelled:'已取消',overdue:'已逾期',returned:'待结算'};
+const STATUS_CLS = {active:'tag-success',completed:'tag-info',overdue:'tag-danger',pending:'tag-warning',cancelled:'tag-info',returned:'tag-warning'};
+
+function checkPwd(){
+  const v = document.getElementById('pwd-input').value;
+  if(v===ADMIN_PWD){
+    document.getElementById('lock-screen').style.display='none';
+    document.getElementById('admin-wrap').style.display='block';
+    document.body.style.background='#f5f6fa';
+    initAdmin();
+  } else {
+    alert('密码错误');
+    document.getElementById('pwd-input').value='';
+  }
+}
+
+function initAdmin(){
+  const d = new Date();
+  document.getElementById('admin-date').textContent = d.toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  const orders = JSON.parse(localStorage.getItem('ywx_orders')||'[]');
+  const todayStr = d.toDateString();
+  const todayOrders = orders.filter(o=>new Date(o.startAt).toDateString()===todayStr);
+  const activeOrders = orders.filter(o=>o.status==='active');
+  const todayIncome = orders.filter(o=>o.status==='completed'&&new Date(o.endAt||o.startAt).toDateString()===todayStr).reduce((s,o)=>s+(o.fee||0),0);
+  const totalIncome = orders.filter(o=>o.status==='completed').reduce((s,o)=>s+(o.fee||0),0);
+  document.getElementById('s-today').textContent = todayOrders.length;
+  document.getElementById('s-active').textContent = activeOrders.length;
+  document.getElementById('s-income').textContent = '¥'+todayIncome;
+  document.getElementById('s-total').textContent = '¥'+totalIncome;
+
+  const orderList = document.getElementById('order-list');
+  if(!orders.length){orderList.innerHTML='<div style="padding:20px;text-align:center;color:#888;font-size:13px">暂无订单</div>';} 
+  else {
+    orderList.innerHTML = [...orders].reverse().slice(0,20).map(o=>`
+      <div class="order-item">
+        <div class="order-info">
+          <div class="name">${o.deviceName||o.deviceId} · ${o.plan==='hourly'?'时租':'日封顶'}</div>
+          <div class="meta">${o.id} · ${new Date(o.startAt).toLocaleString('zh-CN')}</div>
+          <div class="meta">用户：${o.userId||'游客'} · 押金¥${o.deposit||500}</div>
+        </div>
+        <div style="text-align:right">
+          <span class="tag ${STATUS_CLS[o.status]||'tag-info'}">${ORDER_STATUS[o.status]||o.status}</span>
+          <div style="font-size:13px;font-weight:600;margin-top:4px;color:#FF6B35">¥${o.fee||0}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  const DEVICES=[
+    {id:'BOX-001',name:'电动行李箱A1',model:'标准版',battery:98,location:'植物园东门'},
+    {id:'BOX-002',name:'电动行李箱A2',model:'标准版',battery:97,location:'植物园东门'},
+    {id:'BOX-003',name:'电动行李箱B1',model:'加强版',battery:96,location:'植物园西门'},
+    {id:'BOX-004',name:'电动行李箱B2',model:'加强版',battery:99,location:'植物园北门'},
+  ];
+  const activeDevices = activeOrders.map(o=>o.deviceId);
+  document.getElementById('device-list').innerHTML = DEVICES.map(d=>{
+    const isRented = activeDevices.includes(d.id);
+    const status = isRented?'租赁中':'可用';
+    const cls = isRented?'tag-warning':'tag-success';
+    return `<div class="device-item">
+      <div><div style="font-size:14px;font-weight:500">${d.name}</div>
+      <div style="font-size:11px;color:#888;margin-top:2px">📍${d.location} · 🔋${d.battery}%</div></div>
+      <span class="tag ${cls}">${status}</span>
+    </div>`;
+  }).join('');
+}
+</script>
+</body></html>
