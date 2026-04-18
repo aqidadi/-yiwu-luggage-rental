@@ -1,0 +1,1245 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+* { margin: 0px; padding: 0px; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root { --primary: #FF6B35; --primary-light: #FFF0E8; --dark: #2D3436; --gray: #636e72; --light: #f5f6fa; --border: #eee; --danger: #e74c3c; --success: #2ecc71; --warning: #f39c12; --radius: 12px; }
+
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif; background: var(--light); color: var(--dark); font-size: 14px; }
+
+body { display: flex; justify-content: center; }
+
+#app { width: 100%; max-width: 414px; min-height: 100vh; background: rgb(255, 255, 255); position: relative; overflow-x: hidden; box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 40px; }
+
+.nav-bar { background: linear-gradient(135deg,var(--primary),#e85d26); padding: 52px 20px 20px; color: rgb(255, 255, 255); }
+
+.nav-bar h1 { font-size: 22px; font-weight: 700; }
+
+.nav-bar p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+.search-bar { margin: -14px 16px 12px; position: relative; z-index: 5; }
+
+.search-bar input { width: 100%; height: 40px; border: none; border-radius: 20px; padding: 0px 16px 0px 40px; background: rgb(255, 255, 255); font-size: 13px; box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px; outline: none; }
+
+.search-bar .ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+
+.card { background: rgb(255, 255, 255); margin: 10px 16px; border-radius: var(--radius); padding: 16px; box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 6px; }
+
+.section-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+
+.section-hd .t { font-size: 15px; font-weight: 600; }
+
+.section-hd .m { font-size: 12px; color: var(--gray); }
+
+.banner { height: 140px; margin: 10px 16px; border-radius: var(--radius); overflow: hidden; position: relative; }
+
+.banner-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0px 24px; color: rgb(255, 255, 255); }
+
+.banner-text h3 { font-size: 20px; font-weight: 700; }
+
+.banner-text p { font-size: 12px; opacity: 0.9; margin-top: 4px; }
+
+.banner .emoji { font-size: 56px; }
+
+.banner .dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+
+.banner .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); }
+
+.banner .dot.on { background: rgb(255, 255, 255); width: 16px; border-radius: 3px; }
+
+.quick { display: flex; justify-content: space-around; }
+
+.q-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+.q-ico { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+
+.q-txt { font-size: 11px; color: var(--gray); }
+
+.pricing-row { display: flex; gap: 10px; margin-top: 8px; }
+
+.pricing-card { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; background: var(--light); border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
+
+.pricing-card.active { border-color: var(--primary); background: var(--primary-light); }
+
+.pricing-card .name { font-size: 12px; color: var(--gray); }
+
+.pricing-card .price { font-size: 22px; font-weight: 700; color: var(--danger); margin: 4px 0px; }
+
+.pricing-card .unit { font-size: 11px; color: var(--gray); }
+
+.dev-card { display: flex; padding: 12px 0px; border-bottom: 1px solid var(--border); cursor: pointer; }
+
+.dev-card:last-child { border: none; }
+
+.dev-img { width: 72px; height: 72px; border-radius: 8px; background: var(--light); margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
+
+.dev-info { flex: 1 1 0%; display: flex; flex-direction: column; justify-content: space-between; }
+
+.dev-top { display: flex; justify-content: space-between; align-items: center; }
+
+.dev-name { font-size: 14px; font-weight: 600; }
+
+.dev-model { font-size: 12px; color: var(--gray); }
+
+.dev-bottom { display: flex; justify-content: space-between; }
+
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+
+.tag-success { background: rgb(232, 248, 239); color: var(--success); }
+
+.tag-warning { background: rgb(255, 243, 224); color: var(--warning); }
+
+.tag-danger { background: rgb(253, 232, 232); color: var(--danger); }
+
+.tag-info { background: rgb(240, 240, 240); color: var(--gray); }
+
+.site-item { padding: 10px 0px; border-bottom: 1px solid var(--border); }
+
+.site-item:last-child { border: none; }
+
+.site-name { font-size: 14px; font-weight: 500; }
+
+.site-addr { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+.tab-bar { position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 414px; display: flex; background: rgb(255, 255, 255); border-top: 1px solid var(--border); z-index: 100; padding: 6px 0 env(safe-area-inset-bottom); }
+
+.tab-item { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0px; cursor: pointer; transition: 0.2s; }
+
+.tab-item .ti { font-size: 20px; }
+
+.tab-item .tt { font-size: 10px; color: var(--gray); }
+
+.tab-item.on .tt { color: var(--primary); font-weight: 600; }
+
+.page { display: none; min-height: 100vh; padding-bottom: 70px; }
+
+.page.show { display: block; animation: 0.25s ease 0s 1 normal none running fadeIn; }
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0px); }
+}
+
+.detail-swiper { height: 220px; background: linear-gradient(135deg, rgb(255, 107, 53), rgb(232, 93, 38)); display: flex; align-items: center; justify-content: center; font-size: 80px; color: rgba(255, 255, 255, 0.3); }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+
+.info-item { display: flex; flex-direction: column; }
+
+.info-item .l { font-size: 11px; color: var(--gray); }
+
+.info-item .v { font-size: 13px; margin-top: 2px; }
+
+.battery-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+
+.battery-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+.rules-list { margin-top: 6px; }
+
+.rule { padding: 4px 0px; font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+.rule::before { content: "•"; color: var(--primary); margin-right: 8px; }
+
+.bottom-bar { position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 414px; display: flex; align-items: center; padding-top: 12px; padding-right: 16px; padding-left: 16px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.06) 0px -2px 10px; z-index: 100; gap: 10px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+
+.bottom-bar .total { flex: 1 1 0%; }
+
+.bottom-bar .total .l { font-size: 12px; color: var(--gray); }
+
+.bottom-bar .total .p { font-size: 20px; font-weight: 700; color: var(--danger); }
+
+.btn { height: 40px; border: none; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.15s; }
+
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); flex-shrink: 0; padding: 0px 24px; }
+
+.btn-primary:active { transform: scale(0.96); opacity: 0.85; }
+
+.btn-secondary { background: var(--light); color: var(--dark); flex-shrink: 0; padding: 0px 16px; }
+
+.btn-secondary:active { background: rgb(238, 238, 238); }
+
+.btn-block { width: 100%; }
+
+.btn-sm { height: 32px; font-size: 12px; padding: 0px 14px; }
+
+.rental-card { background: linear-gradient(135deg,var(--primary),#e85d26); margin: 16px; border-radius: var(--radius); padding: 20px; color: rgb(255, 255, 255); }
+
+.rental-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.2); margin-top: 16px; }
+
+.stat-item { display: flex; flex-direction: column; align-items: center; }
+
+.stat-item .v { font-size: 24px; font-weight: 700; }
+
+.stat-item .l { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+.stat-divider { width: 1px; height: 40px; background: rgba(255, 255, 255, 0.3); }
+
+.timer { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 2px; }
+
+.tabs { display: flex; background: rgb(255, 255, 255); border-bottom: 1px solid var(--border); }
+
+.tab-btn { flex: 1 1 0%; text-align: center; padding: 14px 0px; font-size: 13px; color: var(--gray); cursor: pointer; position: relative; transition: 0.2s; }
+
+.tab-btn.on { color: var(--primary); font-weight: 600; }
+
+.tab-btn.on::after { content: ""; position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%); width: 24px; height: 3px; background: var(--primary); border-radius: 2px; }
+
+.order-card { cursor: pointer; }
+
+.order-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+.order-hd .n { font-size: 14px; font-weight: 600; }
+
+.order-row { display: flex; justify-content: space-between; padding: 4px 0px; font-size: 12px; }
+
+.order-row .l { color: var(--gray); }
+
+.order-row .v { font-weight: 500; }
+
+.price { color: var(--danger) !important; font-weight: 600 !important; }
+
+.profile-hd { background: linear-gradient(135deg,var(--primary),#e85d26); padding: 52px 20px 32px; color: rgb(255, 255, 255); }
+
+.user-row { display: flex; align-items: center; gap: 12px; }
+
+.avatar { width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 2px solid rgba(255, 255, 255, 0.4); }
+
+.user-info .name { font-size: 18px; font-weight: 700; }
+
+.user-info .id { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+
+.credit-card { display: flex; align-items: center; justify-content: space-between; margin-top: -16px; position: relative; z-index: 5; }
+
+.credit-num { font-size: 36px; font-weight: 700; color: var(--primary); }
+
+.credit-lv { font-size: 12px; color: var(--primary); background: var(--primary-light); padding: 2px 10px; border-radius: 6px; margin-left: 8px; }
+
+.asset-row { display: flex; gap: 0px; }
+
+.asset-item { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; }
+
+.asset-item .v { font-size: 20px; font-weight: 700; }
+
+.asset-item .l { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+.asset-div { width: 1px; background: var(--border); margin: 12px 0px; }
+
+.menu-item { display: flex; align-items: center; padding: 14px 0px; border-bottom: 1px solid var(--border); cursor: pointer; }
+
+.menu-item:last-child { border: none; }
+
+.menu-item .mi { font-size: 18px; margin-right: 12px; }
+
+.menu-item .mt { flex: 1 1 0%; font-size: 14px; }
+
+.menu-item .ma { color: var(--gray); font-size: 16px; }
+
+.return-site { display: flex; align-items: center; padding: 14px; border: 2px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+
+.return-site.on { border-color: var(--primary); background: var(--primary-light); }
+
+.return-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(204, 204, 204); margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgb(255, 255, 255); }
+
+.return-site.on .return-radio { border-color: var(--primary); background: var(--primary); }
+
+.photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+
+.photo-item { width: 90px; height: 90px; border-radius: 8px; background: var(--light); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
+
+.photo-item.add { border: 2px dashed rgb(204, 204, 204); font-size: 32px; color: rgb(204, 204, 204); }
+
+.modal-mask { position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+
+.modal { background: rgb(255, 255, 255); border-radius: 16px; padding: 24px; width: 100%; max-width: 340px; max-height: 80vh; overflow-y: auto; }
+
+.modal h3 { font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 16px; }
+
+.modal-body { font-size: 13px; line-height: 1.8; color: var(--gray); margin-bottom: 16px; white-space: pre-wrap; }
+
+.modal-footer { display: flex; gap: 10px; }
+
+.admin-hd { background: linear-gradient(135deg,var(--dark),#1a1a2e); padding: 52px 20px 24px; color: rgb(255, 255, 255); }
+
+.admin-hd h2 { font-size: 20px; font-weight: 700; }
+
+.admin-hd p { font-size: 12px; opacity: 0.6; margin-top: 2px; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0px 16px; margin-top: -12px; position: relative; z-index: 5; }
+
+.stat-card { background: rgb(255, 255, 255); border-radius: var(--radius); padding: 14px; box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 8px; }
+
+.stat-card .n { font-size: 24px; font-weight: 700; display: block; }
+
+.stat-card .l { font-size: 11px; color: var(--gray); margin-top: 2px; display: block; }
+
+.stat-card.accent { border-left: 4px solid var(--primary); }
+
+.stat-card.money { border-left: 4px solid var(--danger); }
+
+.shortcut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+
+.shortcut { display: flex; flex-direction: column; align-items: center; padding: 12px 0px; cursor: pointer; border-radius: 8px; transition: 0.2s; }
+
+.shortcut:active { background: var(--light); }
+
+.shortcut .si { font-size: 24px; margin-bottom: 4px; }
+
+.shortcut .st { font-size: 11px; color: var(--gray); }
+
+.bar-chart { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+.bar-row { display: flex; align-items: center; gap: 10px; }
+
+.bar-label { width: 40px; font-size: 12px; color: var(--gray); }
+
+.bar-track { flex: 1 1 0%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+
+.bar-num { width: 30px; font-size: 12px; font-weight: 600; text-align: right; }
+
+.back-btn { position: absolute; top: 54px; left: 16px; font-size: 18px; cursor: pointer; z-index: 10; padding: 6px 10px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgb(255, 255, 255); }
+
+.empty { padding: 40px 0px; text-align: center; }
+
+.empty .e { font-size: 48px; margin-bottom: 8px; }
+
+.empty .t { color: var(--gray); font-size: 13px; }
+
+.page-content { padding-bottom: 80px; }
+
+.page-content.no-tab { padding-bottom: 20px; }
+
+.extend-opts { display: flex; gap: 10px; margin-bottom: 16px; }
+
+.extend-opt { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: 0.2s; }
+
+.extend-opt.on { border-color: var(--primary); background: var(--primary-light); }
+
+.extend-opt .t { font-size: 13px; }
+
+.extend-opt .p { font-size: 14px; font-weight: 600; color: var(--danger); margin-top: 4px; }
+
+.fee-row { display: flex; justify-content: space-between; padding: 10px 0px; font-size: 13px; }
+
+.fee-row.hl { font-weight: 600; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 14px; }
+
+/* ===== LOGIN/REGISTER MODAL ===== */
+.auth-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; justify-content: center; z-index: 500; }
+.auth-modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px 40px; width: 100%; max-width: 414px; }
+.auth-modal .logo { text-align: center; margin-bottom: 8px; font-size: 36px; }
+.auth-modal .brand { text-align: center; font-size: 18px; font-weight: 700; color: var(--dark); }
+.auth-modal .slogan { text-align: center; font-size: 12px; color: var(--gray); margin-bottom: 20px; }
+.auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.auth-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 15px; color: var(--gray); cursor: pointer; position: relative; }
+.auth-tab.on { color: var(--primary); font-weight: 600; }
+.auth-tab.on::after { content:''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 32px; height: 3px; background: var(--primary); border-radius: 2px; }
+.auth-input-group { margin-bottom: 14px; }
+.auth-input-group label { font-size: 12px; color: var(--gray); display: block; margin-bottom: 5px; }
+.auth-input-row { display: flex; gap: 8px; }
+.auth-input { width: 100%; height: 44px; border: 1px solid var(--border); border-radius: 10px; padding: 0 14px; font-size: 14px; outline: none; transition: 0.2s; }
+.auth-input:focus { border-color: var(--primary); }
+.btn-sms { height: 44px; white-space: nowrap; border-radius: 10px; font-size: 13px; padding: 0 14px; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); cursor: pointer; flex-shrink: 0; }
+.btn-sms:disabled { opacity: 0.5; cursor: not-allowed; }
+.auth-submit { width: 100%; height: 46px; background: var(--primary); color: #fff; border: none; border-radius: 23px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 6px; }
+.auth-submit:active { opacity: 0.85; }
+.auth-skip { text-align: center; margin-top: 14px; font-size: 13px; color: var(--gray); cursor: pointer; }
+.auth-skip span { color: var(--primary); }
+
+/* ===== PAYMENT MODAL ===== */
+.pay-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
+.pay-modal { background: #fff; border-radius: 16px; width: 100%; max-width: 340px; overflow: hidden; }
+.pay-modal-hd { background: linear-gradient(135deg, var(--primary), #e85d26); padding: 20px; color: #fff; text-align: center; }
+.pay-modal-hd .amount { font-size: 32px; font-weight: 700; }
+.pay-modal-hd .amount-label { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+.pay-modal-body { padding: 20px; }
+.pay-amount-detail { background: var(--light); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
+.pay-amount-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+.pay-amount-row .label { color: var(--gray); }
+.pay-methods { display: flex; gap: 10px; margin-bottom: 16px; }
+.pay-method { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 14px 0; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: 0.2s; }
+.pay-method.on { border-color: var(--primary); background: var(--primary-light); }
+.pay-method .pm-icon { font-size: 28px; margin-bottom: 4px; }
+.pay-method .pm-name { font-size: 12px; font-weight: 600; }
+.pay-qr { background: #f0f0f0; border-radius: 10px; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 14px; color: var(--gray); font-size: 13px; gap: 6px; }
+.pay-qr .qr-icon { font-size: 36px; }
+.pay-qr .qr-tip { font-size: 11px; }
+.pay-confirm { width: 100%; height: 44px; background: var(--primary); color: #fff; border: none; border-radius: 22px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.pay-confirm:active { opacity: 0.85; }
+.pay-note { text-align: center; font-size: 11px; color: var(--gray); margin-top: 10px; }
+.pay-modal-footer { padding: 0 20px 20px; }
+</style>
+
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>义乌行箱驿站</title>
+
+</head>
+<body>
+<div id="app">
+  <!-- HOME PAGE -->
+  <div class="page show" id="page-home">
+    <div class="nav-bar"><h1>🧳 义乌行箱驿站</h1><p>植物园专属配套，轻松游玩不累脚</p></div>
+    <div class="search-bar"><span class="ico">🔍</span><input placeholder="搜索附近归还点..."></div>
+    <div class="banner" id="banner"><div class="banner-inner" style="background:linear-gradient(135deg,#2D3436,#636e72)"><div class="banner-text"><h3>扫码即用</h3><p>30秒快速租借，随借随还</p></div><span class="emoji">📱</span></div><div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    <div class="card"><div class="quick">
+      <div class="q-item" onclick="handleScanRent()"><div class="q-ico" style="background:#E8F8EF">📷</div><span class="q-txt">扫码租借</span></div>
+      <div class="q-item" onclick="switchTabTo('device-list')"><div class="q-ico" style="background:#E3F2FD">📋</div><span class="q-txt">设备列表</span></div>
+      <div class="q-item" onclick="navigateTo('help')"><div class="q-ico" style="background:#FFF3E0">📖</div><span class="q-txt">使用指南</span></div>
+      <div class="q-item" onclick="switchTabTo('profile')"><div class="q-ico" style="background:#F3E5F5">👤</div><span class="q-txt">个人中心</span></div>
+    </div></div>
+    <div class="card"><div class="section-hd"><span class="t">💰 计费方式</span><span class="m">查看详情 ›</span></div>
+      <div class="pricing-row">
+        <div class="pricing-card"><span class="name">时租</span><span class="price">¥20</span><span class="unit">/小时</span></div>
+        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥100</span><span class="unit">/天</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每30分钟计费¥10 · 同一天最高¥100封顶</div>
+    </div>
+    <div class="card"><div class="section-hd"><span class="t">📍 附近可用设备</span><span class="m">查看全部 ›</span></div><div id="home-devices"></div></div>
+    <div class="card"><div class="section-hd"><span class="t">🏪 归还点</span></div><div id="home-sites"></div></div>
+  </div>
+
+  <!-- DEVICE LIST PAGE -->
+  <div class="page" id="page-device-list">
+    <div class="nav-bar"><h1>📋 可用设备</h1><p>选择你的出行伙伴</p></div>
+    <div class="search-bar"><span class="ico">🔍</span><input id="dev-search" placeholder="搜索设备编号/名称..." oninput="filterDevices()"></div>
+    <div class="card" id="device-list-content"></div>
+  </div>
+
+  <!-- DEVICE DETAIL PAGE -->
+  <div class="page" id="page-device-detail">
+    <div class="detail-swiper" id="detail-swiper">🧳</div>
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="detail-name" style="font-size:18px;font-weight:700"></span><span id="detail-status" class="tag"></span></div>
+      <div class="info-grid" id="detail-info"></div>
+      <div class="battery-bar"><div class="battery-fill" id="detail-battery-bar"></div></div>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚠️ 使用须知</span><div id="detail-rules"></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">💰 选择套餐</span>
+      <div class="pricing-row" id="detail-pricing"></div>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🛡️ 押金</span>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:24px;font-weight:700;color:var(--warning)">¥200</span><span style="font-size:12px;color:var(--gray)">租赁结束后原路退回</span></div>
+    </div>
+    <div class="bottom-bar no-tab" id="detail-bottom" style="display: none;"></div>
+  </div>
+
+  <!-- RENTAL ACTIVE PAGE -->
+  <div class="page" id="page-rental-active">
+    <div class="nav-bar"><h1>🧳 租赁中</h1><p>实时计费中</p></div>
+    <div class="rental-card">
+      <div style="display:flex;align-items:center"><span style="font-size:40px;margin-right:12px">🧳</span><div><div id="ra-device" style="font-size:16px;font-weight:600"></div><span class="tag tag-success">租赁中</span></div></div>
+      <div class="rental-stats"><div class="stat-item"><span class="v timer" id="ra-timer">00:00:00</span><span class="l">已租时长</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v price" id="ra-fee">¥0</span><span class="l">当前费用</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v" id="ra-battery">80%</span><span class="l">剩余电量</span></div></div>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约24分钟</span></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">💰 费用明细</span>
+      <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
+      <div class="fee-row"><span>押金</span><span>¥200</span></div>
+      <div class="fee-row hl"><span>已产生费用</span><span class="price" id="ra-total">¥0</span></div>
+      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">按30分钟¥10计费，同一天最高¥100封顶</span>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚠️ 温馨提醒</span>
+      <div class="rule">请在植物园指定归还点归还，切勿随意丢弃</div><div class="rule">归还前请拍照留证</div><div class="rule">逾期将按1.5倍费率计费</div>
+    </div>
+    <div class="bottom-bar no-tab" style="display: flex;">
+      <button class="btn btn-secondary">📞 客服</button>
+      <button class="btn btn-secondary" onclick="showModal('extend')">⏱️ 延长</button>
+      <button class="btn btn-primary" onclick="navigateTo('return')">📦 归还</button>
+    </div>
+  </div>
+
+  <!-- RETURN PAGE -->
+  <div class="page" id="page-return">
+    <div class="nav-bar"><h1>📦 归还设备</h1><p>选择归还点并确认</p></div>
+    <div style="margin:16px;padding:12px 16px;background:#FFF3E0;border-radius:10px;font-size:13px;color:#E65100">📦 归还前请检查设备外观，拍照上传留证</div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📍 选择归还点</span><div id="return-sites"></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📸 拍照留证</span>
+      <div class="photo-grid">
+        <div class="photo-item" style="background:#e8f8ef">✅ 已拍</div>
+        <div class="photo-item" style="background:#e8f8ef">✅ 已拍</div>
+        <div class="photo-item add">＋</div>
+      </div>
+      <span style="font-size:11px;color:var(--gray);margin-top:10px;display:block">建议拍摄：正面、侧面、各角度</span>
+    </div>
+    <div class="bottom-bar no-tab"><button class="btn btn-primary btn-block" id="return-btn" onclick="handleReturn()">确认归还</button></div>
+  </div>
+
+  <!-- ORDERS PAGE -->
+  <div class="page" id="page-orders">
+    <div class="nav-bar"><h1>📋 我的订单</h1></div>
+    <div class="tabs">
+      <div class="tab-btn on" onclick="filterOrders('all',this)">全部</div>
+      <div class="tab-btn" onclick="filterOrders('active',this)">进行中</div>
+      <div class="tab-btn" onclick="filterOrders('completed',this)">已完成</div>
+      <div class="tab-btn" onclick="filterOrders('overdue',this)">逾期</div>
+    </div>
+    <div id="orders-list"></div>
+  </div>
+
+  <!-- ORDER DETAIL PAGE -->
+  <div class="page" id="page-order-detail">
+    <div class="nav-bar"><h1>📋 订单详情</h1></div>
+    <div class="card" id="order-detail-content"></div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div class="page" id="page-profile">
+    <div class="profile-hd" id="profile-hd">
+      <div class="user-row">
+        <div class="avatar">😎</div>
+        <div class="user-info"><div class="name" id="profile-name">游客</div><div class="id" id="profile-id">请登录账号</div></div>
+      </div>
+    </div>
+    <div class="card credit-card"><div><span style="font-size:12px;color:var(--gray)">信用分</span><div style="display:flex;align-items:baseline;margin-top:4px"><span class="credit-num">95</span><span class="credit-lv">优秀</span></div></div></div>
+    <div class="card"><div class="asset-row"><div class="asset-item"><span class="v">¥0</span><span class="l">余额</span></div><div class="asset-div"></div><div class="asset-item"><span class="v" id="profile-order-count">0</span><span class="l">累计订单</span></div><div class="asset-div"></div><div class="asset-item"><span class="v" id="profile-spent">¥0</span><span class="l">累计消费</span></div></div></div>
+    <div class="card" style="padding:0 16px">
+      <div class="menu-item" onclick="switchTabTo('orders')"><span class="mi">📋</span><span class="mt">我的订单</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="navigateTo('help')"><span class="mi">📖</span><span class="mt">使用指南</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="navigateTo('agreement')"><span class="mi">📄</span><span class="mt">租赁协议</span><span class="ma">›</span></div>
+      <div class="menu-item"><span class="mi">🔗</span><span class="mt">分享给朋友</span><span class="ma">›</span></div>
+      <div class="menu-item"><span class="mi">📞</span><span class="mt">联系客服</span><span class="ma">›</span></div>
+      <div class="menu-item"><span class="mi">ℹ️</span><span class="mt">关于我们</span><span class="ma">›</span></div>
+      <div class="menu-item" onclick="navigateTo('admin')"><span class="mi">🔧</span><span class="mt" style="color:var(--primary)">管理后台</span><span class="ma">›</span></div>
+      <div class="menu-item" id="menu-logout" style="display:none" onclick="handleLogout()"><span class="mi">🚪</span><span class="mt" style="color:var(--danger)">退出登录</span><span class="ma">›</span></div>
+    </div>
+  </div>
+
+  <!-- HELP PAGE -->
+  <div class="page" id="page-help">
+    <div class="nav-bar"><h1>📖 使用指南</h1></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">🧳 如何租借</div><div class="rule">打开小程序，在首页点击"扫码租借"或从设备列表选择</div><div class="rule">选择套餐（时租/日封顶），确认押金后点击租借</div><div class="rule">阅读并同意租赁协议，完成支付后租借生效</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">📦 如何归还</div><div class="rule">在"租赁中"页面点击"立即归还"</div><div class="rule">选择植物园最近的归还点，拍照留证后确认归还</div><div class="rule">系统自动结算费用，押金原路退还（1-3个工作日）</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">⚠️ 安全须知</div><div class="rule">最高时速6km/h，请勿在机动车道骑行</div><div class="rule">锂电池请勿暴晒、浸水、摔打，远离火源</div><div class="rule">如遇设备故障，请立即联系客服</div><div class="rule">正常磨损免赔，人为损坏照价赔偿</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">📞 联系我们</div><div class="rule">客服热线：400-XXX-XXXX</div><div class="rule">服务时间：08:00 - 22:00</div><div class="rule">地点：义乌植物园各门口服务台</div></div>
+  </div>
+
+  <!-- AGREEMENT PAGE -->
+  <div class="page" id="page-agreement">
+    <div class="nav-bar"><h1>📄 租赁协议</h1></div>
+    <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong>义乌行箱驿站租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥200在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
+  </div>
+
+  <!-- ADMIN PAGE -->
+  <div class="page" id="page-admin">
+    <div class="admin-hd"><h2>🔧 管理后台</h2><p id="admin-date"></p></div>
+    <div class="stats-grid" id="admin-stats"></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚡ 快捷操作</span>
+      <div class="shortcut-grid">
+        <div class="shortcut" onclick="navigateTo('admin-devices')"><span class="si">🧳</span><span class="st">设备管理</span></div>
+        <div class="shortcut" onclick="navigateTo('admin-orders')"><span class="si">📋</span><span class="st">订单管理</span></div>
+        <div class="shortcut" onclick="navigateTo('admin-users')"><span class="si">👥</span><span class="st">用户管理</span></div>
+        <div class="shortcut" onclick="navigateTo('admin-finance')"><span class="si">💰</span><span class="st">财务统计</span></div>
+      </div>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">📊 设备状态</span>
+      <div class="bar-chart" id="admin-device-bars"></div>
+    </div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🕐 最近订单</span><div id="admin-recent-orders"></div></div>
+  </div>
+
+  <!-- ADMIN SUB PAGES -->
+  <div class="page" id="page-admin-devices">
+    <div class="admin-hd"><h2>🧳 设备管理</h2></div>
+    <div style="padding:16px"><div style="display:flex;gap:10px;margin-bottom:16px"><input style="flex:1;height:36px;border:1px solid var(--border);border-radius:18px;padding:0 14px;font-size:13px;outline:none" placeholder="搜索设备..."><button class="btn btn-primary btn-sm">+ 添加</button></div><div id="admin-device-list"></div></div>
+  </div>
+  <div class="page" id="page-admin-orders">
+    <div class="admin-hd"><h2>📋 订单管理</h2></div>
+    <div style="padding:16px"><div class="tabs" style="margin-bottom:12px"><div class="tab-btn on" onclick="adminOrderTab('all',this)">全部</div><div class="tab-btn" onclick="adminOrderTab('active',this)">进行中</div><div class="tab-btn" onclick="adminOrderTab('completed',this)">已完成</div></div><div id="admin-order-list"></div></div>
+  </div>
+  <div class="page" id="page-admin-users">
+    <div class="admin-hd"><h2>👥 用户管理</h2></div>
+    <div style="padding:16px"><div id="admin-user-list"></div></div>
+  </div>
+  <div class="page" id="page-admin-finance">
+    <div class="admin-hd"><h2>💰 财务统计</h2></div>
+    <div style="padding:16px"><div class="tabs" style="margin-bottom:12px"><div class="tab-btn on" onclick="financePeriod('today',this)">今日</div><div class="tab-btn" onclick="financePeriod('week',this)">本周</div><div class="tab-btn" onclick="financePeriod('month',this)">本月</div></div><div id="finance-content"></div></div>
+  </div>
+
+  <!-- GENERAL MODAL -->
+  <div class="modal-mask" id="modal" style="display: none;">
+    <div class="modal" id="modal-content"></div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="pay-modal-mask" id="pay-modal" style="display:none;">
+    <div class="pay-modal">
+      <div class="pay-modal-hd">
+        <div style="font-size:13px;opacity:0.85;margin-bottom:4px">需支付金额</div>
+        <div class="amount" id="pay-total-amount">¥220</div>
+        <div class="amount-label">租金 + ¥200押金（完成后退还）</div>
+      </div>
+      <div class="pay-modal-body">
+        <div class="pay-amount-detail">
+          <div class="pay-amount-row"><span class="label">租金预估</span><span id="pay-rental-fee">¥20</span></div>
+          <div class="pay-amount-row"><span class="label">押金（退还）</span><span>¥200</span></div>
+          <div class="pay-amount-row" style="font-weight:600;padding-top:6px;border-top:1px solid var(--border);margin-top:4px"><span>合计</span><span id="pay-total-calc" style="color:var(--danger)">¥220</span></div>
+        </div>
+        <div class="pay-methods">
+          <div class="pay-method on" id="pm-wechat" onclick="selectPayMethod('wechat')">
+            <div class="pm-icon">💚</div>
+            <div class="pm-name">微信支付</div>
+          </div>
+          <div class="pay-method" id="pm-alipay" onclick="selectPayMethod('alipay')">
+            <div class="pm-icon">💙</div>
+            <div class="pm-name">支付宝</div>
+          </div>
+        </div>
+        <div class="pay-qr" id="pay-qr-area">
+          <div class="qr-icon">📱</div>
+          <div>请使用微信扫码支付</div>
+          <div class="qr-tip">支付成功后自动解锁设备</div>
+        </div>
+      </div>
+      <div class="pay-modal-footer">
+        <button class="pay-confirm" onclick="handlePayConfirm()">我已完成支付</button>
+        <div class="pay-note">遇到问题？<span style="color:var(--primary);cursor:pointer">联系客服</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN/REGISTER MODAL -->
+  <div class="auth-modal-mask" id="auth-modal" style="display:none;">
+    <div class="auth-modal">
+      <div class="logo">🧳</div>
+      <div class="brand">义乌行箱驿站</div>
+      <div class="slogan">植物园专属配套，轻松游玩不累脚</div>
+      <div class="auth-tabs">
+        <div class="auth-tab on" id="auth-tab-login" onclick="switchAuthTab('login')">登录</div>
+        <div class="auth-tab" id="auth-tab-register" onclick="switchAuthTab('register')">注册</div>
+      </div>
+      <div id="auth-login-form">
+        <div class="auth-input-group">
+          <label>手机号</label>
+          <input class="auth-input" id="login-phone" type="tel" maxlength="11" placeholder="请输入手机号">
+        </div>
+        <div class="auth-input-group">
+          <label>密码</label>
+          <input class="auth-input" id="login-password" type="password" placeholder="请输入密码">
+        </div>
+        <button class="auth-submit" onclick="handleLogin()">登录</button>
+      </div>
+      <div id="auth-register-form" style="display:none">
+        <div class="auth-input-group">
+          <label>手机号</label>
+          <input class="auth-input" id="reg-phone" type="tel" maxlength="11" placeholder="请输入手机号">
+        </div>
+        <div class="auth-input-group">
+          <label>验证码</label>
+          <div class="auth-input-row">
+            <input class="auth-input" id="reg-sms" type="number" maxlength="6" placeholder="输入6位验证码">
+            <button class="btn-sms" id="sms-btn" onclick="sendSMS()">获取验证码</button>
+          </div>
+        </div>
+        <div class="auth-input-group">
+          <label>设置密码</label>
+          <input class="auth-input" id="reg-password" type="password" placeholder="至少6位密码">
+        </div>
+        <button class="auth-submit" onclick="handleRegister()">注册并登录</button>
+      </div>
+      <div class="auth-skip" onclick="skipAuth()">暂不登录，<span>游客浏览</span></div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tab-bar">
+    <div class="tab-item on" onclick="switchTabTo('home')"><span class="ti">🏠</span><span class="tt">首页</span></div>
+    <div class="tab-item" onclick="switchTabTo('device-list')"><span class="ti">🧳</span><span class="tt">设备</span></div>
+    <div class="tab-item" onclick="switchTabTo('orders')"><span class="ti">📋</span><span class="tt">订单</span></div>
+    <div class="tab-item" onclick="switchTabTo('profile')"><span class="ti">👤</span><span class="tt">我的</span></div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); color: rgb(255, 255, 255); padding: 10px 20px; border-radius: 8px; font-size: 13px; z-index: 300; display: none; pointer-events: none; text-align: center; max-width: 200px;"></div>
+</div>
+
+<script>
+// ===== PAYMENT CONFIG =====
+// TODO: 接入虎皮椒聚合收款 https://www.hupijiao.com 替换此处二维码
+const PAYMENT_CONFIG = {
+  provider: 'hupijiao',       // 虎皮椒聚合收款
+  merchantId: 'YOUR_MERCHANT_ID',  // 替换为你的商户ID
+  notifyUrl: 'YOUR_NOTIFY_URL',    // 替换为你的回调地址
+  // 接入说明: 注册 hupijiao.com → 获取商户ID → 生成收款码
+};
+
+// ===== DATA =====
+const DEVICES = [
+  {id:'BOX-001',name:'电动行李箱A1',model:'标准版',battery:92,weight:12,status:'available',location:'植物园东门',site:'site_01'},
+  {id:'BOX-002',name:'电动行李箱A2',model:'标准版',battery:78,weight:12,status:'available',location:'植物园东门',site:'site_01'},
+  {id:'BOX-003',name:'电动行李箱B1',model:'加强版',battery:65,weight:14,status:'available',location:'植物园西门',site:'site_02'},
+  {id:'BOX-004',name:'电动行李箱B2',model:'加强版',battery:88,weight:14,status:'available',location:'植物园北门',site:'site_03'},
+  {id:'BOX-005',name:'电动行李箱C1',model:'轻量版',battery:55,weight:10,status:'maintenance',location:'仓库',site:null}
+];
+const SITES = [
+  {id:'site_01',name:'植物园东门服务台',address:'义乌植物园东门入口旁'},
+  {id:'site_02',name:'植物园西门服务台',address:'义乌植物园西门入口旁'},
+  {id:'site_03',name:'植物园北门服务台',address:'义乌植物园北门入口旁'}
+];
+const RULES = ['最高时速6km/h，请勿在机动车道骑行','锂电池请勿暴晒、浸水、摔打，远离火源','设备归还需到植物园指定归还点','如遇设备故障，请立即联系客服','正常磨损免赔，人为损坏照价赔偿','未成年人需在监护人陪同下使用'];
+// 时租: ¥20/小时 (¥10/30分钟), 日租: ¥100封顶/天
+const PLANS = [
+  {id:'hourly',name:'时租',price:20,unit:'/小时'},
+  {id:'daily',name:'日封顶',price:100,unit:'/天'}
+];
+const DEPOSIT = 200;
+const BANNERS = [
+  {title:'电动行李箱',desc:'解放双手，轻松逛植物园',emoji:'🧳',bg:'linear-gradient(135deg,#FF6B35,#e85d26)'},
+  {title:'扫码即用',desc:'30秒快速租借，随借随还',emoji:'📱',bg:'linear-gradient(135deg,#2D3436,#636e72)'},
+  {title:'安全可靠',desc:'¥200押金，退还有保障',emoji:'🛡️',bg:'linear-gradient(135deg,#e17055,#d63031)'}
+];
+
+const STATUS_MAP = {available:{text:'可用',cls:'tag-success'},rented:{text:'已租出',cls:'tag-warning'},maintenance:{text:'维护中',cls:'tag-danger'},offline:{text:'离线',cls:'tag-info'}};
+const ORDER_STATUS = {pending:{text:'待支付',cls:'tag-warning'},active:{text:'租赁中',cls:'tag-success'},completed:{text:'已完成',cls:'tag-info'},cancelled:{text:'已取消',cls:'tag-info'},overdue:{text:'已逾期',cls:'tag-danger'},returned:{text:'待结算',cls:'tag-info'}};
+
+// ===== ORDER STORAGE =====
+function loadOrders() {
+  const s = localStorage.getItem('ywx_orders');
+  if (s) return JSON.parse(s);
+  const now = Date.now();
+  const defaults = [
+    {id:'ORD20260415001',deviceId:'BOX-001',deviceName:'电动行李箱A1',status:'active',plan:'daily',planFee:100,deposit:200,startAt:now-3600000*5,endAt:null,fee:100},
+    {id:'ORD20260414002',deviceId:'BOX-002',deviceName:'电动行李箱A2',status:'completed',plan:'hourly',planFee:20,deposit:200,startAt:now-86400000*2,endAt:now-86400000*2+3600000*3,fee:60},
+    {id:'ORD20260413003',deviceId:'BOX-003',deviceName:'电动行李箱B1',status:'completed',plan:'daily',planFee:100,deposit:200,startAt:now-86400000*3,endAt:now-86400000*3+3600000*4,fee:80},
+    {id:'ORD20260412004',deviceId:'BOX-004',deviceName:'电动行李箱B2',status:'overdue',plan:'daily',planFee:100,deposit:200,startAt:now-86400000*5,endAt:null,fee:300}
+  ];
+  saveOrders(defaults);
+  return defaults;
+}
+function saveOrders(o) { localStorage.setItem('ywx_orders', JSON.stringify(o)); }
+function getActiveOrder() { return loadOrders().find(o => o.status === 'active'); }
+
+// ===== USER AUTH =====
+function getUser() {
+  const s = localStorage.getItem('ywx_user');
+  return s ? JSON.parse(s) : null;
+}
+function saveUser(u) { localStorage.setItem('ywx_user', JSON.stringify(u)); }
+function isLoggedIn() { return !!getUser(); }
+
+function showAuthModal() {
+  document.getElementById('auth-modal').style.display = 'flex';
+}
+function hideAuthModal() {
+  document.getElementById('auth-modal').style.display = 'none';
+}
+function skipAuth() {
+  hideAuthModal();
+  toast('已以游客身份浏览');
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('auth-tab-login').classList.toggle('on', tab === 'login');
+  document.getElementById('auth-tab-register').classList.toggle('on', tab === 'register');
+  document.getElementById('auth-login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('auth-register-form').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+let smsCountdown = 0;
+function sendSMS() {
+  const phone = document.getElementById('reg-phone').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
+  const btn = document.getElementById('sms-btn');
+  btn.disabled = true;
+  smsCountdown = 60;
+  // Mock: always succeeds with code 123456
+  toast('验证码已发送（测试码：123456）');
+  const timer = setInterval(() => {
+    smsCountdown--;
+    btn.textContent = smsCountdown + 's';
+    if (smsCountdown <= 0) {
+      clearInterval(timer);
+      btn.disabled = false;
+      btn.textContent = '获取验证码';
+    }
+  }, 1000);
+}
+
+function handleLogin() {
+  const phone = document.getElementById('login-phone').value.trim();
+  const pwd = document.getElementById('login-password').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
+  if (!pwd) { toast('请输入密码'); return; }
+  // Check stored users
+  const users = JSON.parse(localStorage.getItem('ywx_users') || '[]');
+  const user = users.find(u => u.phone === phone && u.password === pwd);
+  if (!user) { toast('手机号或密码错误'); return; }
+  saveUser({phone, id: user.id, name: user.name || '用户' + phone.slice(-4)});
+  hideAuthModal();
+  updateProfileUI();
+  toast('✅ 登录成功！欢迎回来');
+}
+
+function handleRegister() {
+  const phone = document.getElementById('reg-phone').value.trim();
+  const sms = document.getElementById('reg-sms').value.trim();
+  const pwd = document.getElementById('reg-password').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
+  if (sms !== '123456') { toast('验证码错误（测试码：123456）'); return; }
+  if (pwd.length < 6) { toast('密码至少6位'); return; }
+  const users = JSON.parse(localStorage.getItem('ywx_users') || '[]');
+  if (users.find(u => u.phone === phone)) { toast('该手机号已注册，请登录'); switchAuthTab('login'); return; }
+  const newUser = {phone, password: pwd, id: 'YWX' + Date.now().toString().slice(-6), name: '用户' + phone.slice(-4)};
+  users.push(newUser);
+  localStorage.setItem('ywx_users', JSON.stringify(users));
+  saveUser({phone, id: newUser.id, name: newUser.name});
+  hideAuthModal();
+  updateProfileUI();
+  toast('🎉 注册成功！');
+}
+
+function handleLogout() {
+  if (!confirm('确定要退出登录吗？')) return;
+  localStorage.removeItem('ywx_user');
+  updateProfileUI();
+  toast('已退出登录');
+}
+
+function updateProfileUI() {
+  const user = getUser();
+  const logoutMenu = document.getElementById('menu-logout');
+  if (user) {
+    document.getElementById('profile-name').textContent = user.name || ('用户' + user.phone.slice(-4));
+    document.getElementById('profile-id').textContent = 'ID: ' + user.id + ' | ' + maskPhone(user.phone);
+    logoutMenu.style.display = 'flex';
+  } else {
+    document.getElementById('profile-name').textContent = '游客';
+    document.getElementById('profile-id').textContent = '点击登录账号';
+    logoutMenu.style.display = 'none';
+  }
+  // Update order stats
+  const orders = loadOrders();
+  const completed = orders.filter(o => o.status === 'completed' || o.status === 'overdue');
+  document.getElementById('profile-order-count').textContent = completed.length;
+  document.getElementById('profile-spent').textContent = '¥' + completed.reduce((s,o)=>s+(o.fee||0),0);
+}
+
+function maskPhone(phone) {
+  return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+}
+
+// ===== STATE =====
+let currentPage = 'home';
+let selectedDevice = null;
+let selectedPlan = 'hourly';
+let selectedReturnSite = '';
+let selectedPayMethod = 'wechat';
+let rentalTimer = null;
+let rentalStart = null;
+let bannerIdx = 0;
+
+// ===== NAV =====
+const TAB_PAGES = ['home','device-list','orders','profile'];
+const SUB_PAGES = ['device-detail','rental-active','return','order-detail','help','agreement','admin','admin-devices','admin-orders','admin-users','admin-finance'];
+
+function navigateTo(page, data) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  const el = document.getElementById('page-' + page);
+  if (el) { el.classList.add('show'); currentPage = page; }
+  const tabBar = document.getElementById('tab-bar');
+  if (SUB_PAGES.includes(page)) { tabBar.style.display = 'none'; }
+  else { tabBar.style.display = 'flex'; }
+  if (TAB_PAGES.includes(page)) {
+    document.querySelectorAll('.tab-item').forEach((t,i) => t.classList.toggle('on', TAB_PAGES[i] === page));
+  }
+  if (page === 'device-detail' && data) initDetailPage(data);
+  if (page === 'orders') renderOrders();
+  if (page === 'rental-active') startRentalTimer();
+  if (page === 'return') initReturnPage();
+  if (page === 'admin') initAdmin();
+  if (page === 'admin-devices') initAdminDevices();
+  if (page === 'admin-orders') initAdminOrders();
+  if (page === 'admin-users') initAdminUsers();
+  if (page === 'admin-finance') initAdminFinance('today');
+  if (page === 'profile') updateProfileUI();
+  if (page === 'order-detail' && data) setTimeout(() => initOrderDetail(data), 50);
+  window.scrollTo(0, 0);
+  if (rentalTimer && page !== 'rental-active') { clearInterval(rentalTimer); rentalTimer = null; }
+}
+
+function switchTabTo(page) {
+  navigateTo(page);
+}
+
+function goBack() {
+  const order = getActiveOrder();
+  if (order && currentPage === 'return') navigateTo('rental-active');
+  else if (SUB_PAGES.includes(currentPage)) {
+    navigateTo(currentPage.startsWith('admin-') ? 'admin' : 'home');
+  } else navigateTo('home');
+}
+
+// ===== TOAST =====
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.style.display = 'none', 2000);
+}
+
+// ===== GENERAL MODAL =====
+function showModal(type) {
+  const m = document.getElementById('modal');
+  const c = document.getElementById('modal-content');
+  if (type === 'agreement') {
+    const plan = PLANS.find(p => p.id === selectedPlan);
+    c.innerHTML = `<h3>租赁协议确认</h3><div class="modal-body">1. 租赁方确认已年满18周岁。\n\n2. 请遵守交通法规。\n\n3. 锂电池请勿暴晒、浸水、摔打。\n\n4. 正常磨损免赔，人为损坏照价赔偿。\n\n5. 逾期按1.5倍费率计费。\n\n6. 押金¥200归还后1-3个工作日退还。</div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();showPayModal()">确认租借</button></div>`;
+  } else if (type === 'extend') {
+    c.innerHTML = `<h3>延长租赁</h3><div class="extend-opts"><div class="extend-opt on" onclick="selectExtend(this)"><span class="t">1小时</span><span class="p">¥20</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">2小时</span><span class="p">¥40</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">整天</span><span class="p">¥100</span></div></div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();toast('已延长租赁时长')">确认延长</button></div>`;
+  }
+  m.style.display = 'flex';
+}
+function hideModal() { document.getElementById('modal').style.display = 'none'; }
+function selectExtend(el) { el.parentElement.querySelectorAll('.extend-opt').forEach(e => e.classList.remove('on')); el.classList.add('on'); }
+
+// ===== PAYMENT MODAL =====
+function showPayModal() {
+  const plan = PLANS.find(p => p.id === selectedPlan);
+  const rental = plan ? plan.price : 20;
+  const total = rental + DEPOSIT;
+  document.getElementById('pay-rental-fee').textContent = '¥' + rental;
+  document.getElementById('pay-total-amount').textContent = '¥' + total;
+  document.getElementById('pay-total-calc').textContent = '¥' + total;
+  selectedPayMethod = 'wechat';
+  document.getElementById('pm-wechat').classList.add('on');
+  document.getElementById('pm-alipay').classList.remove('on');
+  updateQrArea();
+  document.getElementById('pay-modal').style.display = 'flex';
+}
+function hidePayModal() { document.getElementById('pay-modal').style.display = 'none'; }
+
+function selectPayMethod(method) {
+  selectedPayMethod = method;
+  document.getElementById('pm-wechat').classList.toggle('on', method === 'wechat');
+  document.getElementById('pm-alipay').classList.toggle('on', method === 'alipay');
+  updateQrArea();
+}
+function updateQrArea() {
+  const isWechat = selectedPayMethod === 'wechat';
+  document.getElementById('pay-qr-area').innerHTML = `
+    <div class="qr-icon">${isWechat ? '💚' : '💙'}</div>
+    <div>请使用${isWechat ? '微信' : '支付宝'}扫码支付</div>
+    <div class="qr-tip">支付成功后自动解锁设备</div>`;
+}
+function handlePayConfirm() {
+  hidePayModal();
+  doConfirmRent();
+}
+
+// ===== HOME =====
+function initHome() {
+  renderBanner();
+  setInterval(renderBanner, 4000);
+  const devs = DEVICES.filter(d => d.status === 'available').slice(0, 4);
+  document.getElementById('home-devices').innerHTML = devs.map(d => `
+    <div class="dev-card" onclick="navigateTo('device-detail','${d.id}')">
+      <div class="dev-img">🧳</div>
+      <div class="dev-info"><div class="dev-top"><span class="dev-name">${d.name}</span><span class="tag ${STATUS_MAP[d.status].cls}">${STATUS_MAP[d.status].text}</span></div><span class="dev-model">${d.model} · ${d.weight}kg</span><div class="dev-bottom"><span>📍 ${d.location}</span><span>🔋 ${d.battery}%</span></div></div>
+    </div>`).join('') || '<div class="empty"><div class="e">🧳</div><div class="t">暂无可用设备</div></div>';
+  document.getElementById('home-sites').innerHTML = SITES.map(s => `<div class="site-item"><div class="site-name">🏪 ${s.name}</div><div class="site-addr">${s.address}</div></div>`).join('');
+}
+
+function renderBanner() {
+  bannerIdx = (bannerIdx + 1) % BANNERS.length;
+  const b = BANNERS[bannerIdx];
+  document.getElementById('banner').innerHTML = `<div class="banner-inner" style="background:${b.bg}"><div class="banner-text"><h3>${b.title}</h3><p>${b.desc}</p></div><span class="emoji">${b.emoji}</span></div><div class="dots">${BANNERS.map((_,i) => `<div class="dot${i === bannerIdx ? ' on' : ''}"></div>`).join('')}</div>`;
+}
+
+function handleScanRent() {
+  if (!isLoggedIn()) { showAuthModal(); return; }
+  toast('请扫描设备上的二维码');
+}
+
+// ===== DEVICE LIST =====
+function renderDeviceList(filter) {
+  filter = filter || '';
+  const devs = DEVICES.filter(d => !filter || d.name.includes(filter) || d.id.includes(filter) || d.model.includes(filter));
+  document.getElementById('device-list-content').innerHTML = devs.length ? devs.map(d => `
+    <div class="dev-card" onclick="navigateTo('device-detail','${d.id}')">
+      <div class="dev-img">🧳</div>
+      <div class="dev-info"><div class="dev-top"><span class="dev-name">${d.name}</span><span class="tag ${STATUS_MAP[d.status].cls}">${STATUS_MAP[d.status].text}</span></div><span class="dev-model">${d.model} · ${d.weight}kg</span><div class="dev-bottom"><span>📍 ${d.location}</span><span>🔋 ${d.battery}%</span></div></div>
+    </div>`).join('') : '<div class="empty"><div class="e">🧳</div><div class="t">未找到匹配设备</div></div>';
+}
+function filterDevices() { renderDeviceList(document.getElementById('dev-search').value); }
+
+// ===== DEVICE DETAIL =====
+function initDetailPage(devId) {
+  selectedDevice = DEVICES.find(d => d.id === devId);
+  if (!selectedDevice) { toast('设备不存在'); return; }
+  selectedPlan = 'hourly';
+  const d = selectedDevice;
+  document.getElementById('detail-name').textContent = d.name;
+  const st = document.getElementById('detail-status');
+  st.textContent = STATUS_MAP[d.status].text; st.className = 'tag ' + STATUS_MAP[d.status].cls;
+  document.getElementById('detail-info').innerHTML = `
+    <div class="info-item"><span class="l">型号</span><span class="v">${d.model}</span></div>
+    <div class="info-item"><span class="l">电量</span><span class="v" style="color:${d.battery<20?'var(--danger)':''}">🔋 ${d.battery}%</span></div>
+    <div class="info-item"><span class="l">重量</span><span class="v">${d.weight}kg</span></div>
+    <div class="info-item"><span class="l">位置</span><span class="v">📍 ${d.location}</span></div>`;
+  const bar = document.getElementById('detail-battery-bar');
+  bar.style.width = d.battery + '%';
+  bar.style.background = d.battery < 20 ? 'var(--danger)' : d.battery < 50 ? 'var(--warning)' : 'var(--success)';
+  document.getElementById('detail-rules').innerHTML = RULES.map(r => `<div class="rule">${r}</div>`).join('');
+  renderDetailPricing();
+  const bb = document.getElementById('detail-bottom');
+  if (d.status === 'available') {
+    bb.style.display = 'flex';
+    const plan = PLANS.find(p => p.id === selectedPlan);
+    bb.innerHTML = `<div class="total"><div class="l">合计</div><div class="p" id="detail-bottom-price">¥${plan.price}<span style="font-size:12px;color:var(--gray);font-weight:400"> + 押金¥${DEPOSIT}</span></div></div><button class="btn btn-primary" onclick="handleRent()">立即租借</button>`;
+  } else { bb.style.display = 'none'; }
+}
+function renderDetailPricing() {
+  const plan = PLANS.find(p => p.id === selectedPlan);
+  document.getElementById('detail-pricing').innerHTML = PLANS.map(p => `<div class="pricing-card${p.id === selectedPlan ? ' active' : ''}" onclick="selectPlan('${p.id}')"><span class="name">${p.name}</span><span class="price">¥${p.price}</span><span class="unit">${p.unit}</span></div>`).join('');
+  const priceEl = document.getElementById('detail-bottom-price');
+  if (priceEl && selectedDevice && selectedDevice.status === 'available') {
+    priceEl.innerHTML = `¥${plan.price}<span style="font-size:12px;color:var(--gray);font-weight:400"> + 押金¥${DEPOSIT}</span>`;
+  }
+}
+function selectPlan(id) { selectedPlan = id; renderDetailPricing(); }
+
+function handleRent() {
+  if (!selectedDevice) return;
+  if (!isLoggedIn()) { showAuthModal(); return; }
+  const active = getActiveOrder();
+  if (active) { toast('您有进行中的订单，请先归还'); navigateTo('rental-active'); return; }
+  showModal('agreement');
+}
+
+function doConfirmRent() {
+  const plan = PLANS.find(p => p.id === selectedPlan);
+  const orders = loadOrders();
+  const newOrder = {
+    id: 'ORD' + Date.now().toString().slice(-10),
+    deviceId: selectedDevice.id,
+    deviceName: selectedDevice.name,
+    status: 'active',
+    plan: selectedPlan,
+    planFee: plan.price,
+    deposit: DEPOSIT,
+    startAt: Date.now(),
+    endAt: null,
+    fee: plan.price
+  };
+  orders.unshift(newOrder);
+  saveOrders(orders);
+  selectedDevice.status = 'rented';
+  selectedDevice.location = '使用中';
+  toast('🎉 租借成功！设备已解锁');
+  navigateTo('rental-active');
+}
+
+// ===== RENTAL TIMER =====
+// Billing: ¥10 per 30min (=¥20/hr), daily cap ¥100
+function calcFee(elapsedMs) {
+  const elapsedMins = elapsedMs / 1000 / 60;
+  const slots = Math.ceil(elapsedMins / 30); // round up to 30min blocks
+  const fee = slots * 10; // ¥10 per slot
+  return Math.min(fee, 100); // cap at ¥100
+}
+
+function startRentalTimer() {
+  const order = getActiveOrder();
+  if (!order) { navigateTo('home'); toast('暂无进行中的租赁'); return; }
+  const dev = DEVICES.find(d => d.id === order.deviceId);
+  document.getElementById('ra-device').textContent = dev ? dev.name : '电动行李箱';
+  document.getElementById('ra-plan').textContent = PLANS.find(p => p.id === order.plan)?.name || '时租';
+  const bat = dev ? dev.battery : 80;
+  document.getElementById('ra-battery').textContent = bat + '%';
+  const barEl = document.getElementById('ra-battery-bar');
+  barEl.style.width = bat + '%';
+  barEl.style.background = bat < 20 ? 'var(--danger)' : bat < 50 ? 'var(--warning)' : 'var(--success)';
+  document.getElementById('ra-battery-tip').textContent = '预估续航：约' + Math.round(bat * 0.3) + '分钟';
+  rentalStart = order.startAt;
+  if (rentalTimer) clearInterval(rentalTimer);
+  function tick() {
+    const elapsed = Date.now() - rentalStart;
+    const totalSec = Math.floor(elapsed / 1000);
+    const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+    const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+    const s = String(totalSec % 60).padStart(2, '0');
+    document.getElementById('ra-timer').textContent = h + ':' + m + ':' + s;
+    const fee = calcFee(elapsed);
+    document.getElementById('ra-fee').textContent = '¥' + fee;
+    document.getElementById('ra-total').textContent = '¥' + fee;
+  }
+  tick();
+  rentalTimer = setInterval(tick, 1000);
+}
+
+// ===== RETURN =====
+function initReturnPage() {
+  selectedReturnSite = '';
+  document.getElementById('return-sites').innerHTML = SITES.map(s => `<div class="return-site" id="rs-${s.id}" onclick="selectReturnSite('${s.id}')"><div class="return-radio"></div><div><div style="font-size:14px;font-weight:500">${s.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${s.address}</div></div></div>`).join('');
+}
+function selectReturnSite(id) {
+  selectedReturnSite = id;
+  document.querySelectorAll('.return-site').forEach(e => e.classList.remove('on'));
+  document.getElementById('rs-' + id).classList.add('on');
+  document.querySelectorAll('.return-site .return-radio').forEach(e => e.innerHTML = '');
+  document.getElementById('rs-' + id).querySelector('.return-radio').innerHTML = '✓';
+}
+function handleReturn() {
+  if (!selectedReturnSite) { toast('请选择归还点'); return; }
+  const orders = loadOrders();
+  const idx = orders.findIndex(o => o.status === 'active');
+  if (idx === -1) { toast('没有进行中的订单'); return; }
+  orders[idx].status = 'completed';
+  orders[idx].endAt = Date.now();
+  const elapsed = Date.now() - orders[idx].startAt;
+  orders[idx].fee = calcFee(elapsed);
+  saveOrders(orders);
+  const dev = DEVICES.find(d => d.id === orders[idx].deviceId);
+  if (dev) { dev.status = 'available'; dev.location = SITES.find(s => s.id === selectedReturnSite)?.name || '归还点'; }
+  if (rentalTimer) { clearInterval(rentalTimer); rentalTimer = null; }
+  toast('✅ 归还成功！费用 ¥' + orders[idx].fee + '，押金将原路退还');
+  navigateTo('order-detail', JSON.stringify(orders[idx]));
+}
+
+// ===== ORDERS =====
+let orderFilter = 'all';
+function renderOrders(filter) {
+  if (filter) orderFilter = filter;
+  const orders = loadOrders();
+  const filtered = orderFilter === 'all' ? orders : orders.filter(o => {
+    if (orderFilter === 'active') return o.status === 'active' || o.status === 'pending';
+    if (orderFilter === 'completed') return o.status === 'completed' || o.status === 'cancelled' || o.status === 'returned';
+    return o.status === 'overdue';
+  });
+  const el = document.getElementById('orders-list');
+  el.innerHTML = filtered.length ? filtered.map(o => {
+    const st = ORDER_STATUS[o.status] || ORDER_STATUS.completed;
+    const start = new Date(o.startAt);
+    const timeStr = (start.getMonth()+1)+'/'+start.getDate()+' '+String(start.getHours()).padStart(2,'0')+':'+String(start.getMinutes()).padStart(2,'0');
+    return `<div class="card order-card" onclick="viewOrder('${o.id}')"><div class="order-hd"><span class="n">${o.deviceName}</span><span class="tag ${st.cls}">${st.text}</span></div><div class="order-row"><span class="l">订单号</span><span class="v">${o.id}</span></div><div class="order-row"><span class="l">租借时间</span><span class="v">${timeStr}</span></div><div class="order-row"><span class="l">费用</span><span class="v price">¥${o.fee||'计算中'}</span></div></div>`;
+  }).join('') : '<div class="empty" style="padding:40px 0;text-align:center"><div class="e">📋</div><div class="t">暂无订单</div></div>';
+}
+function filterOrders(f, el) {
+  document.querySelectorAll('#page-orders .tab-btn').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  renderOrders(f);
+}
+function viewOrder(id) {
+  const o = loadOrders().find(x => x.id === id);
+  if (o) navigateTo('order-detail', JSON.stringify(o));
+}
+
+// ===== ORDER DETAIL =====
+function initOrderDetail(data) {
+  let order;
+  try { order = typeof data === 'string' ? JSON.parse(data) : data; } catch(e) { order = {}; }
+  if (!order.id) { order = getActiveOrder() || {id:'-',deviceName:'-',status:'-',plan:'-',fee:0,startAt:Date.now()}; }
+  const st = ORDER_STATUS[order.status] || ORDER_STATUS.completed;
+  const start = new Date(order.startAt);
+  const timeStr = (start.getMonth()+1)+'/'+start.getDate()+' '+String(start.getHours()).padStart(2,'0')+':'+String(start.getMinutes()).padStart(2,'0');
+  const endStr = order.endAt ? (new Date(order.endAt).getMonth()+1)+'/'+new Date(order.endAt).getDate()+' '+String(new Date(order.endAt).getHours()).padStart(2,'0')+':'+String(new Date(order.endAt).getMinutes()).padStart(2,'0') : '-';
+  document.getElementById('order-detail-content').innerHTML = `
+    <div style="text-align:center;padding:16px 0"><span style="font-size:48px">🧳</span><div style="font-size:18px;font-weight:700;margin-top:8px">${order.deviceName}</div><span class="tag ${st.cls}" style="margin-top:8px;display:inline-block">${st.text}</span></div>
+    <div class="fee-row"><span>订单号</span><span>${order.id}</span></div>
+    <div class="fee-row"><span>设备编号</span><span>${order.deviceId||'-'}</span></div>
+    <div class="fee-row"><span>套餐</span><span>${PLANS.find(p=>p.id===order.plan)?.name||order.plan||'-'}</span></div>
+    <div class="fee-row"><span>押金</span><span>¥${order.deposit||DEPOSIT}</span></div>
+    <div class="fee-row"><span>开始时间</span><span>${timeStr}</span></div>
+    <div class="fee-row"><span>结束时间</span><span>${endStr}</span></div>
+    <div class="fee-row hl"><span>总费用</span><span class="price">¥${order.fee||0}</span></div>`;
+}
+
+// ===== ADMIN =====
+function initAdmin() {
+  const d = new Date();
+  document.getElementById('admin-date').textContent = d.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});
+  const orders = loadOrders();
+  const activeCount = orders.filter(o => o.status === 'active').length;
+  const todayOrders = orders.filter(o => new Date(o.startAt).toDateString() === d.toDateString()).length;
+  const todayIncome = orders.filter(o => o.status==='completed' && o.endAt && new Date(o.endAt).toDateString()===d.toDateString()).reduce((s,o)=>s+(o.fee||0),0);
+  const availDevices = DEVICES.filter(d => d.status === 'available').length;
+  const utilRate = Math.round((1 - availDevices/DEVICES.length)*100);
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="stat-card accent"><span class="n">${todayOrders||8}</span><span class="l">今日订单</span></div>
+    <div class="stat-card"><span class="n">${activeCount||3}</span><span class="l">进行中</span></div>
+    <div class="stat-card money"><span class="n">¥${todayIncome||480}</span><span class="l">今日收入</span></div>
+    <div class="stat-card"><span class="n">${utilRate||60}%</span><span class="l">利用率</span></div>`;
+  const counts = {available:0,rented:0,maintenance:0,offline:0};
+  DEVICES.forEach(d => counts[d.status] = (counts[d.status]||0)+1);
+  const total = DEVICES.length;
+  document.getElementById('admin-device-bars').innerHTML = [
+    {label:'可用',count:counts.available,color:'var(--success)'},
+    {label:'已租',count:counts.rented,color:'var(--warning)'},
+    {label:'维护',count:counts.maintenance,color:'var(--danger)'}
+  ].map(b => `<div class="bar-row"><span class="bar-label">${b.label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(b.count/total*100)}%;background:${b.color}"></div></div><span class="bar-num">${b.count}</span></div>`).join('');
+  document.getElementById('admin-recent-orders').innerHTML = orders.slice(0,5).map(o => {
+    const st = ORDER_STATUS[o.status] || ORDER_STATUS.completed;
+    return `<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)"><span style="flex:1;font-size:13px">${o.id}</span><span style="font-size:13px;font-weight:600;color:var(--danger);margin-right:12px">¥${o.fee||0}</span><span class="tag ${st.cls}">${st.text}</span></div>`;
+  }).join('') || '<div class="empty"><div class="t">暂无订单</div></div>';
+}
+
+function initAdminDevices() {
+  document.getElementById('admin-device-list').innerHTML = DEVICES.map(d => `
+    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:600">${d.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${d.id} · ${d.model}</div></div><div><span class="tag ${STATUS_MAP[d.status].cls}">${STATUS_MAP[d.status].text}</span><span style="font-size:12px;color:var(--gray);margin-left:8px">🔋${d.battery}%</span></div></div></div>`).join('');
+}
+
+let adminOrderFilter = 'all';
+function initAdminOrders(filter) {
+  if (filter) adminOrderFilter = filter;
+  const orders = loadOrders();
+  const filtered = adminOrderFilter === 'all' ? orders : orders.filter(o => {
+    if (adminOrderFilter === 'active') return o.status === 'active';
+    return o.status === 'completed' || o.status === 'cancelled';
+  });
+  document.getElementById('admin-order-list').innerHTML = filtered.map(o => {
+    const st = ORDER_STATUS[o.status] || ORDER_STATUS.completed;
+    const start = new Date(o.startAt);
+    return `<div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:600">${o.deviceName}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${o.id} · ${(start.getMonth()+1)+'/'+start.getDate()}</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--danger)">¥${o.fee||0}</div><span class="tag ${st.cls}" style="font-size:10px">${st.text}</span></div></div></div>`;
+  }).join('') || '<div class="empty"><div class="t">暂无订单</div></div>';
+}
+function adminOrderTab(f, el) {
+  document.querySelectorAll('#page-admin-orders .tab-btn').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  initAdminOrders(f);
+}
+
+function initAdminUsers() {
+  const stored = JSON.parse(localStorage.getItem('ywx_users') || '[]');
+  const mockUsers = stored.length ? stored.map(u => ({name:u.name,id:u.id,phone:u.phone,orders:loadOrders().filter(o=>true).length,spent:0,credit:95})) : [
+    {name:'用户示例',id:'YWX001',phone:'138****0000',orders:3,spent:180,credit:95}
+  ];
+  document.getElementById('admin-user-list').innerHTML = mockUsers.map(u => `
+    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px">😎</div><div style="flex:1"><div style="font-size:14px;font-weight:600">${u.name}<span style="font-size:11px;color:var(--gray);font-weight:400;margin-left:6px">${u.id}</span></div><div style="font-size:11px;color:var(--gray);margin-top:2px">${u.phone||''} · 信用${u.credit}</div></div></div></div>`).join('');
+}
+
+function initAdminFinance(period) {
+  const data = {today:{orders:3,income:240,refund:0},week:{orders:18,income:1440,refund:200},month:{orders:65,income:5200,refund:800}};
+  const d = data[period] || data.today;
+  document.getElementById('finance-content').innerHTML = `
+    <div class="stats-grid" style="padding:0;margin:0 0 16px">
+      <div class="stat-card"><span class="n">${d.orders}</span><span class="l">订单数</span></div>
+      <div class="stat-card money"><span class="n">¥${d.income}</span><span class="l">收入</span></div>
+    </div>
+    <div class="card" style="margin:0"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">💰 收入明细</span>
+      <div class="fee-row"><span>租赁收入</span><span>¥${d.income}</span></div>
+      <div class="fee-row"><span>退款支出</span><span style="color:var(--danger)">-¥${d.refund}</span></div>
+      <div class="fee-row hl"><span>净收入</span><span class="price">¥${d.income-d.refund}</span></div>
+    </div>`;
+}
+function financePeriod(p, el) {
+  document.querySelectorAll('#page-admin-finance .tab-btn').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  initAdminFinance(p);
+}
+
+// ===== INIT =====
+initHome();
+renderDeviceList();
+updateProfileUI();
+
+// Show auth modal on first visit if not logged in
+if (!isLoggedIn() && !localStorage.getItem('ywx_guest_seen')) {
+  setTimeout(() => showAuthModal(), 800);
+}
+localStorage.setItem('ywx_guest_seen', '1');
+
+// Check active order
+const activeOrder = getActiveOrder();
+if (activeOrder) {
+  setTimeout(() => toast('💡 您有一笔进行中的租赁'), 1500);
+}
+</script>
+
+</body></html>
