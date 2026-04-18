@@ -447,7 +447,7 @@ body { display: flex; justify-content: center; }
       <div style="display:flex;align-items:center"><span style="font-size:40px;margin-right:12px">🧳</span><div><div id="ra-device" style="font-size:16px;font-weight:600"></div><span class="tag tag-success">租赁中</span></div></div>
       <div class="rental-stats"><div class="stat-item"><span class="v timer" id="ra-timer">00:00:00</span><span class="l">已租时长</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v price" id="ra-fee">¥0</span><span class="l">当前费用</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v" id="ra-battery">80%</span><span class="l">剩余电量</span></div></div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约24分钟</span></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约6.4小时</span><div style="margin-top:10px;padding:8px 10px;background:#FFF3E0;border-radius:8px;font-size:12px;color:#E65100">⚡ 电量不足？可免费更换电池，联系工作人员或拨打 <a href="tel:18630721779" style="color:#E65100;font-weight:600">18630721779</a></div></div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">💰 费用明细</span>
       <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
       <div class="fee-row"><span>押金</span><span>¥500</span></div>
@@ -710,10 +710,10 @@ const PAYMENT_CONFIG = {
 
 // ===== DATA =====
 const DEVICES = [
-  {id:'BOX-001',name:'电动行李箱A1',model:'标准版',battery:92,weight:12,status:'available',location:'植物园东门',site:'site_01'},
-  {id:'BOX-002',name:'电动行李箱A2',model:'标准版',battery:78,weight:12,status:'available',location:'植物园东门',site:'site_01'},
-  {id:'BOX-003',name:'电动行李箱B1',model:'加强版',battery:65,weight:14,status:'available',location:'植物园西门',site:'site_02'},
-  {id:'BOX-004',name:'电动行李箱B2',model:'加强版',battery:88,weight:14,status:'available',location:'植物园北门',site:'site_03'},
+  {id:'BOX-001',name:'电动行李箱A1',model:'标准版',battery:98,weight:12,status:'available',location:'植物园东门',site:'site_01'},
+  {id:'BOX-002',name:'电动行李箱A2',model:'标准版',battery:97,weight:12,status:'available',location:'植物园东门',site:'site_01'},
+  {id:'BOX-003',name:'电动行李箱B1',model:'加强版',battery:96,weight:14,status:'available',location:'植物园西门',site:'site_02'},
+  {id:'BOX-004',name:'电动行李箱B2',model:'加强版',battery:99,weight:14,status:'available',location:'植物园北门',site:'site_03'},
   {id:'BOX-005',name:'电动行李箱C1',model:'轻量版',battery:55,weight:10,status:'maintenance',location:'仓库',site:null}
 ];
 const SITES = [
@@ -1173,7 +1173,7 @@ function startRentalTimer() {
   const barEl = document.getElementById('ra-battery-bar');
   barEl.style.width = bat + '%';
   barEl.style.background = bat < 20 ? 'var(--danger)' : bat < 50 ? 'var(--warning)' : 'var(--success)';
-  document.getElementById('ra-battery-tip').textContent = '预估续航：约' + Math.round(bat * 0.3) + '分钟';
+  document.getElementById('ra-battery-tip').textContent = '预估续航：约' + Math.round(bat / 100 * 8 * 10) / 10 + '小时';
   rentalStart = order.startAt;
   if (rentalTimer) clearInterval(rentalTimer);
   function tick() {
