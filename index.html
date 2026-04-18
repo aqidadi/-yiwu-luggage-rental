@@ -406,7 +406,7 @@ body { display: flex; justify-content: center; }
 
   <!-- DEVICE DETAIL PAGE -->
   <div class="page" id="page-device-detail">
-    <div class="detail-swiper" id="detail-swiper">🧳</div>
+    <div class="detail-swiper" id="detail-swiper">🧳<div class="back-btn" onclick="goBack()">‹ 返回</div></div>
     <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="detail-name" style="font-size:18px;font-weight:700"></span><span id="detail-status" class="tag"></span></div>
       <div class="info-grid" id="detail-info"></div>
       <div class="battery-bar"><div class="battery-fill" id="detail-battery-bar"></div></div>
@@ -423,7 +423,7 @@ body { display: flex; justify-content: center; }
 
   <!-- RENTAL ACTIVE PAGE -->
   <div class="page" id="page-rental-active">
-    <div class="nav-bar"><h1>🧳 租赁中</h1><p>实时计费中</p></div>
+    <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>🧳 租赁中</h1><p>实时计费中</p></div>
     <div class="rental-card">
       <div style="display:flex;align-items:center"><span style="font-size:40px;margin-right:12px">🧳</span><div><div id="ra-device" style="font-size:16px;font-weight:600"></div><span class="tag tag-success">租赁中</span></div></div>
       <div class="rental-stats"><div class="stat-item"><span class="v timer" id="ra-timer">00:00:00</span><span class="l">已租时长</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v price" id="ra-fee">¥0</span><span class="l">当前费用</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v" id="ra-battery">80%</span><span class="l">剩余电量</span></div></div>
@@ -447,7 +447,7 @@ body { display: flex; justify-content: center; }
 
   <!-- RETURN PAGE -->
   <div class="page" id="page-return">
-    <div class="nav-bar"><h1>📦 归还设备</h1><p>选择归还点并确认</p></div>
+    <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📦 归还设备</h1><p>选择归还点并确认</p></div>
     <div style="margin:16px;padding:12px 16px;background:#FFF3E0;border-radius:10px;font-size:13px;color:#E65100">📦 归还前请检查设备外观，拍照上传留证</div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📍 选择归还点</span><div id="return-sites"></div></div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📸 拍照留证</span>
@@ -475,7 +475,7 @@ body { display: flex; justify-content: center; }
 
   <!-- ORDER DETAIL PAGE -->
   <div class="page" id="page-order-detail">
-    <div class="nav-bar"><h1>📋 订单详情</h1></div>
+    <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📋 订单详情</h1></div>
     <div class="card" id="order-detail-content"></div>
   </div>
 
@@ -503,7 +503,7 @@ body { display: flex; justify-content: center; }
 
   <!-- HELP PAGE -->
   <div class="page" id="page-help">
-    <div class="nav-bar"><h1>📖 使用指南</h1></div>
+    <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📖 使用指南</h1></div>
     <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">🧳 如何租借</div><div class="rule">打开小程序，在首页点击"扫码租借"或从设备列表选择</div><div class="rule">选择套餐（时租/日封顶），确认押金后点击租借</div><div class="rule">阅读并同意租赁协议，完成支付后租借生效</div></div>
     <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">📦 如何归还</div><div class="rule">在"租赁中"页面点击"立即归还"</div><div class="rule">选择植物园最近的归还点，拍照留证后确认归还</div><div class="rule">系统自动结算费用，押金原路退还（1-3个工作日）</div></div>
     <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">⚠️ 安全须知</div><div class="rule">最高时速6km/h，请勿在机动车道骑行</div><div class="rule">锂电池请勿暴晒、浸水、摔打，远离火源</div><div class="rule">如遇设备故障，请立即联系客服</div><div class="rule">正常磨损免赔，人为损坏照价赔偿</div></div>
@@ -512,13 +512,13 @@ body { display: flex; justify-content: center; }
 
   <!-- AGREEMENT PAGE -->
   <div class="page" id="page-agreement">
-    <div class="nav-bar"><h1>📄 租赁协议</h1></div>
+    <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📄 租赁协议</h1></div>
     <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong>义乌行箱驿站租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥200在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
   </div>
 
   <!-- ADMIN PAGE -->
   <div class="page" id="page-admin">
-    <div class="admin-hd"><h2>🔧 管理后台</h2><p id="admin-date"></p></div>
+    <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>🔧 管理后台</h2><p id="admin-date"></p></div>
     <div class="stats-grid" id="admin-stats"></div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚡ 快捷操作</span>
       <div class="shortcut-grid">
@@ -536,19 +536,19 @@ body { display: flex; justify-content: center; }
 
   <!-- ADMIN SUB PAGES -->
   <div class="page" id="page-admin-devices">
-    <div class="admin-hd"><h2>🧳 设备管理</h2></div>
+    <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>🧳 设备管理</h2></div>
     <div style="padding:16px"><div style="display:flex;gap:10px;margin-bottom:16px"><input style="flex:1;height:36px;border:1px solid var(--border);border-radius:18px;padding:0 14px;font-size:13px;outline:none" placeholder="搜索设备..."><button class="btn btn-primary btn-sm">+ 添加</button></div><div id="admin-device-list"></div></div>
   </div>
   <div class="page" id="page-admin-orders">
-    <div class="admin-hd"><h2>📋 订单管理</h2></div>
+    <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>📋 订单管理</h2></div>
     <div style="padding:16px"><div class="tabs" style="margin-bottom:12px"><div class="tab-btn on" onclick="adminOrderTab('all',this)">全部</div><div class="tab-btn" onclick="adminOrderTab('active',this)">进行中</div><div class="tab-btn" onclick="adminOrderTab('completed',this)">已完成</div></div><div id="admin-order-list"></div></div>
   </div>
   <div class="page" id="page-admin-users">
-    <div class="admin-hd"><h2>👥 用户管理</h2></div>
+    <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>👥 用户管理</h2></div>
     <div style="padding:16px"><div id="admin-user-list"></div></div>
   </div>
   <div class="page" id="page-admin-finance">
-    <div class="admin-hd"><h2>💰 财务统计</h2></div>
+    <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>💰 财务统计</h2></div>
     <div style="padding:16px"><div class="tabs" style="margin-bottom:12px"><div class="tab-btn on" onclick="financePeriod('today',this)">今日</div><div class="tab-btn" onclick="financePeriod('week',this)">本周</div><div class="tab-btn" onclick="financePeriod('month',this)">本月</div></div><div id="finance-content"></div></div>
   </div>
 
