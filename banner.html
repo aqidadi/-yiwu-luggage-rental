@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悦行 — 易拉宝广告牌</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  .no-print {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    z-index: 10;
+  }
+
+  .no-print button {
+    background: #FF6B35;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+    transition: all 0.2s;
+  }
+  .no-print button:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(255,107,53,0.5); }
+
+  /* ── Banner Container ── */
+  .banner {
+    width: 800px;
+    min-height: 2000px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #FF8C42 0%, #FF6B35 18%, #F7441A 38%, #D4280A 58%, #9B1F3C 80%, #6B1347 100%);
+    box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+  }
+
+  /* Decorative background shapes */
+  .banner::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,220,100,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    bottom: 100px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,100,50,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* ── Top decorative strip ── */
+  .top-strip {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B35, #FF3366, #FF6B35, #FFA500, #FFD700);
+  }
+
+  /* ── Header ── */
+  .header {
+    position: relative;
+    padding: 50px 60px 30px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .logo-img {
+    width: 72px; height: 72px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+  }
+
+  .logo-img img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 16px;
+  }
+
+  .brand-name {
+    font-size: 88px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 12px;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.3), 0 0 60px rgba(255,200,100,0.3);
+    line-height: 1;
+  }
+
+  .brand-pinyin {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-bottom: 0;
+  }
+
+  /* ── Hero divider ── */
+  .divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), rgba(255,220,100,0.8), rgba(255,255,255,0.6), transparent);
+    margin: 0;
+  }
+
+  /* ── Product hero section ── */
+  .product-hero {
+    position: relative;
+    padding: 40px 60px 20px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .product-headline {
+    font-size: 46px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 6px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    position: relative;
+    display: inline-block;
+    line-height: 1.2;
+  }
+
+  .product-headline::before,
+  .product-headline::after {
+    content: '◆';
+    font-size: 18px;
+    color: #FFD700;
+    vertical-align: middle;
+    margin: 0 16px;
+    opacity: 0.9;
+  }
+
+  .benefit-tag {
+    margin-top: 18px;
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 40px;
+    padding: 10px 32px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 4px;
+  }
+
+  .benefit-tag span {
+    color: #FFD700;
+    font-weight: 700;
+  }
+
+  /* ── Luggage illustration area ── */
+  .luggage-visual {
+    position: relative;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  .luggage-main {
+    font-size: 140px;
+    filter: drop-shadow(0 10px 40px rgba(0,0,0,0.4));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .sparkle {
+    position: absolute;
+    color: #FFD700;
+    font-size: 28px;
+    opacity: 0.8;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  .sparkle:nth-child(2) { top: 30px; left: 120px; animation-delay: 0.3s; font-size: 22px; }
+  .sparkle:nth-child(3) { top: 50px; right: 140px; animation-delay: 0.7s; font-size: 18px; }
+  .sparkle:nth-child(4) { bottom: 30px; left: 180px; animation-delay: 1.1s; font-size: 16px; }
+  .sparkle:nth-child(5) { bottom: 50px; right: 160px; animation-delay: 0.5s; font-size: 24px; }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  /* ── Pricing Section ── */
+  .pricing-section {
+    margin: 0 50px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .pricing-label {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFD700;
+    letter-spacing: 6px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .pricing-label::before, .pricing-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FFD700);
+  }
+  .pricing-label::after {
+    background: linear-gradient(90deg, #FFD700, transparent);
+  }
+
+  .price-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .price-card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card.featured {
+    background: rgba(255,215,0,0.2);
+    border-color: rgba(255,215,0,0.5);
+  }
+
+  .price-card .badge {
+    position: absolute;
+    top: 0; right: 0;
+    background: #FFD700;
+    color: #8B4513;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 5px 14px;
+    border-radius: 0 20px 0 14px;
+    letter-spacing: 1px;
+  }
+
+  .price-card .plan-name {
+    font-size: 16px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .price-card .amount {
+    font-size: 62px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .price-card .amount .currency {
+    font-size: 28px;
+    vertical-align: super;
+    font-weight: 700;
+  }
+  .price-card .amount .unit {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .price-card .sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  .deposit-row {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .deposit-row .deposit-label {
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    letter-spacing: 2px;
+  }
+
+  .deposit-row .deposit-amount {
+    font-size: 28px;
+    font-weight: 900;
+    color: #FFD700;
+  }
+
+  .deposit-row .deposit-note {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+  }
+
+  /* ── Features Section ── */
+  .features-section {
+    margin: 40px 50px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .features-label {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFD700;
+    letter-spacing: 6px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .features-label::before, .features-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FFD700);
+  }
+  .features-label::after {
+    background: linear-gradient(90deg, #FFD700, transparent);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .feature-item {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .feature-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+  }
+
+  .feature-text .title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+  }
+
+  .feature-text .desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Slogan Banner ── */
+  .slogan-band {
+    margin: 40px 0 0;
+    background: rgba(0,0,0,0.25);
+    padding: 22px 60px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .slogan-band p {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 8px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .slogan-band p span {
+    color: #FFD700;
+  }
+
+  /* ── QR Section ── */
+  .qr-section {
+    padding: 44px 60px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .qr-text {
+    flex: 1;
+  }
+
+  .qr-text .step-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .qr-text .step-title span {
+    color: #FFD700;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-num {
+    width: 30px; height: 30px;
+    background: #FFD700;
+    color: #8B4513;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .step-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 1px;
+  }
+
+  .qr-box {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .qr-frame {
+    width: 200px; height: 200px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .qr-inner {
+    width: 100%; height: 100%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* QR grid pattern simulation */
+  .qr-pattern {
+    width: 140px; height: 140px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .qr-pattern .cell {
+    background: #1a1a1a;
+    border-radius: 1px;
+  }
+
+  .qr-placeholder-text {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* QR corner brackets */
+  .qr-frame::before, .qr-frame::after {
+    content: '';
+    position: absolute;
+    width: 20px; height: 20px;
+    border: 3px solid #FF6B35;
+  }
+  .qr-frame::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+  .qr-frame::after { bottom: 4px; right: 4px; border-left: none; border-top: none; }
+
+  .qr-label {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 4px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .qr-sublabel {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  /* ── Bottom section ── */
+  .bottom-section {
+    margin: 20px 50px 50px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .contact-card {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 22px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .contact-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-label {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+  }
+
+  .contact-phone {
+    font-size: 34px;
+    font-weight: 900;
+    color: #FFD700;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 15px rgba(255,215,0,0.3);
+  }
+
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .contact-phone-icon {
+    font-size: 42px;
+    filter: drop-shadow(0 3px 10px rgba(0,0,0,0.3));
+  }
+
+  .contact-hours {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+  }
+
+  .bottom-tagline {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 4px;
+    font-weight: 300;
+  }
+
+  /* ── Bottom strip ── */
+  .bottom-strip {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B35, #FF3366, #FF6B35, #FFA500, #FFD700);
+  }
+
+  /* ── Print styles ── */
+  @media print {
+    body { background: white; padding: 0; }
+    .no-print { display: none !important; }
+    .banner { box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button onclick="window.print()">🖨️ 打印广告牌</button>
+  <button onclick="document.querySelector('.banner').style.transform='scale(0.5)';document.querySelector('.banner').style.transformOrigin='top center'" style="background:#555">🔍 缩小预览</button>
+  <button onclick="document.querySelector('.banner').style.transform=''" style="background:#333">↩ 恢复大小</button>
+</div>
+
+<div class="banner">
+
+  <div class="top-strip"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-area">
+      <div class="logo-img">
+        <img src="logo.png" alt="悦行" onerror="this.parentElement.innerHTML='🧳'">
+      </div>
+      <div>
+        <div class="brand-name">悦行</div>
+        <div class="brand-pinyin">Yuè Xíng</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Product Hero -->
+  <div class="product-hero">
+    <div class="product-headline">电动行李箱租借</div>
+    <br>
+    <div class="benefit-tag">
+      <span>解放双手</span> · 轻松游园 · <span>快乐出发</span>
+    </div>
+  </div>
+
+  <!-- Luggage illustration -->
+  <div class="luggage-visual">
+    <span class="sparkle">✦</span>
+    <div class="luggage-main">🧳</div>
+    <span class="sparkle">✦</span>
+    <span class="sparkle">✦</span>
+    <span class="sparkle">✦</span>
+  </div>
+
+  <!-- Pricing -->
+  <div class="pricing-section">
+    <div class="pricing-label">透明收费</div>
+
+    <div class="price-cards">
+      <div class="price-card">
+        <div class="plan-name">按小时计费</div>
+        <div class="amount">
+          <span class="currency">¥</span>19<span class="unit">/小时</span>
+        </div>
+        <div class="sub">灵活租用</div>
+      </div>
+      <div class="price-card featured">
+        <div class="badge">最划算</div>
+        <div class="plan-name">全天封顶</div>
+        <div class="amount">
+          <span class="currency">¥</span>78<span class="unit">/天</span>
+        </div>
+        <div class="sub">畅玩不超支</div>
+      </div>
+    </div>
+
+    <div class="deposit-row">
+      <div>
+        <div class="deposit-label">押金</div>
+        <div class="deposit-note">归还设备立即退回</div>
+      </div>
+      <div class="deposit-amount">¥500</div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-section">
+    <div class="features-label">服务保障</div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">🔋</div>
+        <div class="feature-text">
+          <div class="title">免费换电池</div>
+          <div class="desc">没电了联系客服免费更换</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📱</div>
+        <div class="feature-text">
+          <div class="title">扫码即用</div>
+          <div class="desc">无需排队，手机扫码开租</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">
+          <div class="title">押金保障</div>
+          <div class="desc">归还设备，押金秒退</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🎒</div>
+        <div class="feature-text">
+          <div class="title">解放双手</div>
+          <div class="desc">轻松游园，全程无负担</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slogan band -->
+  <div class="slogan-band">
+    <p><span>出行更悦</span> ，游玩无忧</p>
+  </div>
+
+  <!-- QR Section -->
+  <div class="qr-section">
+    <div class="qr-text">
+      <div class="step-title">三步<span>开启</span><br>轻松旅程</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-desc">扫描右侧二维码</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-desc">输入手机号登录</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-desc">支付押金，立即使用</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qr-box">
+      <div class="qr-frame">
+        <div class="qr-inner">
+          <!-- QR placeholder with visual grid pattern -->
+          <svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+            <!-- Top-left position marker -->
+            <rect x="10" y="10" width="40" height="40" rx="4" fill="#1a1a1a"/>
+            <rect x="16" y="16" width="28" height="28" rx="2" fill="white"/>
+            <rect x="22" y="22" width="16" height="16" rx="1" fill="#1a1a1a"/>
+            <!-- Top-right position marker -->
+            <rect x="100" y="10" width="40" height="40" rx="4" fill="#1a1a1a"/>
+            <rect x="106" y="16" width="28" height="28" rx="2" fill="white"/>
+            <rect x="112" y="22" width="16" height="16" rx="1" fill="#1a1a1a"/>
+            <!-- Bottom-left position marker -->
+            <rect x="10" y="100" width="40" height="40" rx="4" fill="#1a1a1a"/>
+            <rect x="16" y="106" width="28" height="28" rx="2" fill="white"/>
+            <rect x="22" y="112" width="16" height="16" rx="1" fill="#1a1a1a"/>
+            <!-- Data modules (random dots to simulate QR) -->
+            <rect x="58" y="10" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="10" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="10" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="22" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="22" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="34" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="10" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="22" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="34" y="70" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="10" y="82" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="94" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="106" y="58" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="70" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="70" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="106" y="70" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="82" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="82" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="94" y="82" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="94" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="94" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="106" y="94" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="106" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="94" y="106" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="118" y="106" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="58" y="118" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="82" y="118" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="106" y="118" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="130" y="70" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="130" y="94" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="118" y="82" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="130" y="118" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="118" y="130" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="94" y="130" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <rect x="70" y="130" width="8" height="8" rx="1" fill="#1a1a1a"/>
+            <!-- Center brand dot -->
+            <rect x="68" y="68" width="14" height="14" rx="3" fill="#FF6B35"/>
+          </svg>
+          <div class="qr-placeholder-text" style="font-size:10px;color:#999;margin-top:2px;">请替换为实际二维码</div>
+        </div>
+      </div>
+      <div class="qr-label">扫码租借</div>
+      <div class="qr-sublabel">zuxiang.xyz</div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="bottom-section">
+    <div class="contact-card">
+      <div class="contact-left">
+        <div class="contact-label">📞 客服热线</div>
+        <div class="contact-phone">18630721779</div>
+      </div>
+      <div class="contact-right">
+        <div class="contact-phone-icon">☎️</div>
+        <div class="contact-hours">随时来电 · 快速响应</div>
+      </div>
+    </div>
+
+    <div class="bottom-tagline">电动随行 · 出行更悦 · 游玩无忧</div>
+  </div>
+
+  <div class="bottom-strip"></div>
+
+</div>
+
+</body>
+</html>
