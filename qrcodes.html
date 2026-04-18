@@ -58,7 +58,7 @@ devices.forEach(d => {
 
   setTimeout(() => {
     new QRCode(document.getElementById('qr-' + d.id), {
-      text: d.id,
+      text: 'https://effulgent-hotteok-9145d6.netlify.app/?device=' + d.id,
       width: 160,
       height: 160,
       colorDark: '#2D3436',

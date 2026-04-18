@@ -1327,7 +1327,24 @@ renderDeviceList();
 updateProfileUI();
 
 // Show auth modal on first visit if not logged in
-if (!isLoggedIn() && !localStorage.getItem('ywx_guest_seen')) {
+// Check URL for device param (from QR code scan via WeChat)
+const urlParams = new URLSearchParams(window.location.search);
+const deviceParam = urlParams.get('device');
+if (deviceParam) {
+  const dev = DEVICES.find(d => d.id.toUpperCase() === deviceParam.toUpperCase());
+  if (dev) {
+    setTimeout(() => {
+      if (!isLoggedIn()) {
+        showAuthModal();
+        setTimeout(() => navigateTo('device-detail', dev.id), 500);
+      } else {
+        navigateTo('device-detail', dev.id);
+      }
+    }, 500);
+  }
+}
+
+if (!isLoggedIn() && !localStorage.getItem('ywx_guest_seen') && !deviceParam) {
   setTimeout(() => showAuthModal(), 800);
 }
 localStorage.setItem('ywx_guest_seen', '1');
