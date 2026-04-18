@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>悦行 — 易拉宝</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    background: #ddd;
+    background: #ccc;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,305 +17,326 @@
   }
 
   .no-print {
-    margin-bottom: 24px;
-    display: flex;
-    gap: 12px;
+    margin-bottom: 20px;
   }
   .no-print button {
-    background: #FF6B35;
+    background: #333;
     color: #fff;
     border: none;
-    padding: 11px 28px;
-    border-radius: 24px;
+    padding: 10px 28px;
+    border-radius: 6px;
     font-size: 15px;
-    font-weight: 700;
     cursor: pointer;
     font-family: inherit;
   }
 
-  /* ─── Banner ─── */
+  /* ── 整体海报 ── */
   .banner {
-    width: 750px;
-    background: #E8F8FF;
+    width: 700px;
+    background: #fff;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
   }
 
-  /* wavy top bar */
-  .top-bar {
-    height: 18px;
-    background: repeating-linear-gradient(
-      90deg,
-      #FF6B35 0px, #FF6B35 30px,
-      #FFD700 30px, #FFD700 60px,
-      #4FC3F7 60px, #4FC3F7 90px,
-      #FF6B35 90px
+  /* ── 顶部彩条 ── */
+  .stripe {
+    height: 22px;
+    background: linear-gradient(90deg,
+      #FFD700 0%, #FFD700 25%,
+      #FF4500 25%, #FF4500 50%,
+      #00BFFF 50%, #00BFFF 75%,
+      #32CD32 75%, #32CD32 100%
     );
   }
 
-  /* ─── HEADLINE ─── */
-  .headline-block {
-    padding: 36px 48px 0;
-    text-align: center;
+  /* ── 品牌行 ── */
+  .brand-row {
+    background: #FF4500;
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-
-  .headline-line1 {
-    font-size: 92px;
+  .brand-row .name {
+    font-size: 32px;
     font-weight: 900;
     color: #FFD700;
-    line-height: 1;
-    letter-spacing: 4px;
-    -webkit-text-stroke: 4px #FF4500;
-    text-shadow: 6px 6px 0 #FF4500;
-    display: block;
+    letter-spacing: 8px;
+  }
+  .brand-row .tag {
+    font-size: 16px;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 2px;
+    font-weight: 900;
   }
 
-  .headline-line2 {
-    font-size: 92px;
+  /* ── 主标题 ── */
+  .main-title {
+    padding: 40px 32px 0;
+    line-height: 1.05;
+  }
+
+  .title-l1 {
+    display: block;
+    font-size: 112px;
+    font-weight: 900;
+    color: #FFD700;
+    -webkit-text-stroke: 5px #FF4500;
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .title-l2 {
+    display: block;
+    font-size: 112px;
     font-weight: 900;
     color: #FF4500;
-    line-height: 1.05;
+    -webkit-text-stroke: 4px #8B0000;
     letter-spacing: 4px;
-    -webkit-text-stroke: 3px #8B1A00;
-    text-shadow: 5px 5px 0 #8B1A00;
-    display: block;
+    line-height: 1.05;
   }
 
-  /* ─── SUB TAG ─── */
-  .sub-tag {
-    margin: 18px auto 0;
+  /* ── 副标题标签 ── */
+  .product-label {
+    margin: 20px 32px 0;
     display: inline-block;
     background: #FF4500;
     color: #fff;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 900;
-    padding: 10px 40px;
-    border-radius: 50px;
+    padding: 10px 36px;
+    border-radius: 8px;
     letter-spacing: 4px;
-    box-shadow: 4px 4px 0 #8B1A00;
   }
 
-  /* ─── PRODUCT IMAGE ─── */
-  .product-area {
-    margin: 20px auto 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+  /* ── 产品图区 ── */
+  .product-zone {
+    margin: 0 0;
     height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #fff8f0 0%, #fff 100%);
+    overflow: hidden;
     position: relative;
   }
 
-  .product-emoji {
-    font-size: 220px;
-    line-height: 1;
-    filter: drop-shadow(8px 16px 20px rgba(0,0,0,0.25));
-    user-select: none;
-  }
-
-  /* decorative circles */
-  .circle1 {
+  .product-zone .bg-circle {
     position: absolute;
-    width: 200px; height: 200px;
-    background: rgba(255,215,0,0.2);
+    width: 320px; height: 320px;
+    background: rgba(255, 200, 50, 0.12);
     border-radius: 50%;
-    top: 20px; left: 60px;
-  }
-  .circle2 {
-    position: absolute;
-    width: 150px; height: 150px;
-    background: rgba(79,195,247,0.25);
-    border-radius: 50%;
-    top: 60px; right: 80px;
+    top: -30px;
   }
 
-  /* ─── PRICE BLOCK ─── */
-  .price-block {
-    margin: 10px 40px 0;
-    background: #fff;
-    border-radius: 24px;
-    border: 4px solid #FF4500;
-    padding: 28px 40px;
-    box-shadow: 6px 6px 0 #FF4500;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-
-  .price-item {
-    text-align: center;
-  }
-
-  .price-item .only {
-    font-size: 20px;
-    color: #555;
-    font-weight: 700;
-    letter-spacing: 2px;
-  }
-
-  .price-item .amount {
-    font-size: 82px;
-    font-weight: 900;
-    color: #FF4500;
-    line-height: 1;
-    letter-spacing: -2px;
-  }
-
-  .price-item .amount .symbol {
-    font-size: 40px;
-    vertical-align: super;
-  }
-
-  .price-item .unit {
-    font-size: 24px;
-    color: #333;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-
-  .price-divider {
-    width: 3px;
-    height: 100px;
-    background: #eee;
-    border-radius: 3px;
-  }
-
-  .price-item .cap-label {
-    font-size: 16px;
-    background: #FFD700;
-    color: #8B4513;
-    padding: 3px 14px;
-    border-radius: 20px;
-    font-weight: 900;
-    margin-top: 4px;
-    display: inline-block;
-    letter-spacing: 1px;
-  }
-
-  /* ─── FEATURES ─── */
-  .features {
-    margin: 22px 40px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .feat {
-    background: #fff;
+  /* placeholder box for product photo */
+  .photo-placeholder {
+    width: 280px;
+    height: 260px;
+    border: 3px dashed #ffb347;
     border-radius: 16px;
-    border-left: 5px solid #FF6B35;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
-  }
-
-  .feat .icon { font-size: 28px; }
-  .feat .text { font-size: 17px; font-weight: 700; color: #2D3436; letter-spacing: 1px; }
-  .feat .sub  { font-size: 12px; color: #888; margin-top: 2px; }
-
-  /* ─── QR SECTION ─── */
-  .qr-section {
-    margin: 24px 40px 0;
-    display: flex;
-    gap: 20px;
-    align-items: stretch;
-  }
-
-  .qr-card {
-    flex: 1;
-    background: #fff;
-    border-radius: 20px;
-    border: 3px solid #4FC3F7;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background: #fffaf4;
     gap: 10px;
-    box-shadow: 4px 4px 0 #4FC3F7;
+    z-index: 1;
+  }
+  .photo-placeholder .ph-icon { font-size: 80px; }
+  .photo-placeholder .ph-text { font-size: 14px; color: #bbb; letter-spacing: 1px; }
+
+  /* if product.jpg exists, show it */
+  .product-img {
+    width: 300px;
+    height: 280px;
+    object-fit: contain;
+    z-index: 1;
   }
 
-  .qr-card.wechat {
-    border-color: #07C160;
-    box-shadow: 4px 4px 0 #07C160;
+  /* ── 价格块 ── */
+  .price-section {
+    margin: 0 32px;
+    border: 5px solid #FF4500;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .qr-card .qr-title {
-    font-size: 20px;
+  .price-header {
+    background: #FF4500;
+    color: #FFD700;
+    text-align: center;
+    font-size: 22px;
     font-weight: 900;
-    color: #2D3436;
+    letter-spacing: 6px;
+    padding: 8px;
+  }
+
+  .price-row {
+    display: flex;
+    background: #fff;
+  }
+
+  .price-cell {
+    flex: 1;
+    padding: 24px 16px;
+    text-align: center;
+    border-right: 3px solid #FF4500;
+  }
+  .price-cell:last-child { border-right: none; }
+
+  .price-cell .only {
+    font-size: 18px;
+    color: #888;
+    font-weight: 900;
     letter-spacing: 2px;
+    margin-bottom: 4px;
   }
 
-  .qr-card img {
-    width: 170px;
-    height: 170px;
+  .price-cell .num {
+    font-size: 96px;
+    font-weight: 900;
+    color: #FF4500;
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+
+  .price-cell .num sup {
+    font-size: 40px;
+    vertical-align: super;
+    letter-spacing: 0;
+  }
+
+  .price-cell .per {
+    font-size: 22px;
+    font-weight: 900;
+    color: #333;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .price-cell .badge {
+    display: inline-block;
+    background: #FFD700;
+    color: #8B0000;
+    font-size: 13px;
+    font-weight: 900;
+    padding: 3px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  /* ── 特色一行 ── */
+  .features-row {
+    margin: 18px 32px 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .feat-chip {
+    flex: 1;
+    background: #fff8f0;
+    border: 2px solid #FF4500;
     border-radius: 10px;
-    object-fit: cover;
-    border: 2px solid #eee;
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .feat-chip .f-icon { font-size: 26px; }
+  .feat-chip .f-text { font-size: 14px; font-weight: 900; color: #333; letter-spacing: 1px; margin-top: 4px; }
+
+  /* ── 押金行 ── */
+  .deposit-bar {
+    margin: 14px 32px 0;
+    background: #fff8e1;
+    border: 2px dashed #FFC107;
+    border-radius: 10px;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .deposit-bar .d-label { font-size: 18px; font-weight: 900; color: #555; letter-spacing: 2px; }
+  .deposit-bar .d-note  { font-size: 13px; color: #aaa; letter-spacing: 1px; margin-top: 2px; }
+  .deposit-bar .d-num   { font-size: 28px; font-weight: 900; color: #FF6B35; }
+
+  /* ── 二维码区 ── */
+  .qr-row {
+    margin: 18px 32px 0;
+    display: flex;
+    gap: 14px;
   }
 
-  .qr-card .qr-tip {
-    font-size: 14px;
+  .qr-box {
+    flex: 1;
+    border: 3px solid #333;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: #fafafa;
+  }
+
+  .qr-box.green { border-color: #07C160; }
+
+  .qr-box img {
+    width: 90px; height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #eee;
+  }
+
+  .qr-box .qr-info .qr-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: #222;
+    letter-spacing: 1px;
+  }
+
+  .qr-box .qr-info .qr-sub {
+    font-size: 13px;
     color: #888;
     letter-spacing: 1px;
-    text-align: center;
+    margin-top: 4px;
   }
 
-  /* ─── DEPOSIT ROW ─── */
-  .deposit-row {
-    margin: 16px 40px 0;
-    background: #FFF8E1;
-    border: 2px dashed #FFC107;
-    border-radius: 14px;
-    padding: 14px 28px;
+  /* ── 底部电话 ── */
+  .phone-bar {
+    margin: 16px 32px 0;
+    background: #222;
+    border-radius: 10px;
+    padding: 16px 28px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-  }
-  .deposit-row .label { font-size: 18px; color: #666; font-weight: 700; letter-spacing: 2px; }
-  .deposit-row .amount { font-size: 26px; font-weight: 900; color: #FF6B35; }
-  .deposit-row .note { font-size: 13px; color: #aaa; letter-spacing: 1px; }
-
-  /* ─── CONTACT BAR ─── */
-  .contact-bar {
-    margin: 18px 40px 0;
-    background: #FF4500;
-    border-radius: 16px;
-    padding: 18px 32px;
-    display: flex;
     align-items: center;
-    justify-content: space-between;
   }
-  .contact-bar .label { font-size: 18px; color: rgba(255,255,255,0.85); letter-spacing: 2px; font-weight: 700; }
-  .contact-bar .phone { font-size: 36px; color: #FFD700; font-weight: 900; letter-spacing: 3px; }
+  .phone-bar .p-label { font-size: 16px; color: #aaa; letter-spacing: 2px; }
+  .phone-bar .p-num   { font-size: 34px; font-weight: 900; color: #FFD700; letter-spacing: 3px; }
 
-  /* ─── BOTTOM TAG ─── */
-  .bottom-slogan {
+  .footer-text {
     text-align: center;
-    padding: 20px 40px 10px;
-    font-size: 20px;
-    color: #888;
-    letter-spacing: 6px;
-    font-weight: 500;
+    padding: 16px 32px 12px;
+    font-size: 16px;
+    color: #bbb;
+    letter-spacing: 5px;
+    font-weight: 900;
   }
 
-  .bottom-bar {
-    height: 18px;
-    background: repeating-linear-gradient(
-      90deg,
-      #FF6B35 0px, #FF6B35 30px,
-      #FFD700 30px, #FFD700 60px,
-      #4FC3F7 60px, #4FC3F7 90px,
-      #FF6B35 90px
+  .bottom-stripe {
+    height: 16px;
+    background: linear-gradient(90deg,
+      #FFD700 0%, #FFD700 25%,
+      #FF4500 25%, #FF4500 50%,
+      #00BFFF 50%, #00BFFF 75%,
+      #32CD32 75%, #32CD32 100%
     );
-    margin-top: 14px;
   }
 
   @media print {
-    body { background: white; padding: 0; }
+    body { background: #fff; padding: 0; }
     .no-print { display: none !important; }
     .banner { box-shadow: none; width: 100%; }
   }
@@ -323,112 +345,116 @@
 <body>
 
 <div class="no-print">
-  <button onclick="window.print()">🖨️ 打印广告牌</button>
+  <button onclick="window.print()">🖨️ 打印</button>
 </div>
 
 <div class="banner">
 
-  <div class="top-bar"></div>
+  <div class="stripe"></div>
 
-  <!-- 冲击力标题 -->
-  <div class="headline-block">
-    <span class="headline-line1">拎着箱子</span>
-    <span class="headline-line2">何必走路？</span>
-    <div style="text-align:center;margin-top:16px;">
-      <span class="sub-tag">智能电动行李箱租借</span>
-    </div>
+  <div class="brand-row">
+    <span class="name">悦 行</span>
+    <span class="tag">电动行李箱租借</span>
   </div>
 
-  <!-- 产品图 -->
-  <div class="product-area">
-    <div class="circle1"></div>
-    <div class="circle2"></div>
-    <div class="product-emoji">🧳</div>
+  <!-- 主标题 -->
+  <div class="main-title">
+    <span class="title-l1">拎着箱子</span>
+    <span class="title-l2">何必走路？</span>
+  </div>
+
+  <div style="padding: 0 32px;">
+    <div class="product-label">智能电动行李箱</div>
+  </div>
+
+  <!-- 产品图 — 放一张真实产品图效果最好 -->
+  <div class="product-zone">
+    <div class="bg-circle"></div>
+    <img src="product.jpg" class="product-img" alt=""
+         onerror="this.style.display='none';document.getElementById('ph').style.display='flex'">
+    <div class="photo-placeholder" id="ph" style="display:none">
+      <div class="ph-icon">🧳</div>
+      <div class="ph-text">此处替换为产品实物图</div>
+      <div class="ph-text">product.jpg</div>
+    </div>
   </div>
 
   <!-- 价格 -->
-  <div class="price-block">
-    <div class="price-item">
-      <div class="only">只需</div>
-      <div class="amount"><span class="symbol">¥</span>19</div>
-      <div class="unit">/ 小时</div>
+  <div class="price-section">
+    <div class="price-header">透明收费 · 随租随还</div>
+    <div class="price-row">
+      <div class="price-cell">
+        <div class="only">只需</div>
+        <div class="num"><sup>¥</sup>19</div>
+        <div class="per">/ 小时</div>
+      </div>
+      <div class="price-cell">
+        <div class="only">全天封顶</div>
+        <div class="num"><sup>¥</sup>78</div>
+        <div class="per">/ 天</div>
+        <div class="badge">⭐ 最划算</div>
+      </div>
     </div>
-    <div class="price-divider"></div>
-    <div class="price-item">
-      <div class="only">全天封顶</div>
-      <div class="amount"><span class="symbol">¥</span>78</div>
-      <div class="unit">/ 天</div>
-      <div class="cap-label">最划算</div>
+  </div>
+
+  <!-- 特色 -->
+  <div class="features-row">
+    <div class="feat-chip">
+      <div class="f-icon">🔋</div>
+      <div class="f-text">免费换电</div>
+    </div>
+    <div class="feat-chip">
+      <div class="f-icon">📱</div>
+      <div class="f-text">扫码即租</div>
+    </div>
+    <div class="feat-chip">
+      <div class="f-icon">🔒</div>
+      <div class="f-text">押金秒退</div>
+    </div>
+    <div class="feat-chip">
+      <div class="f-icon">🎒</div>
+      <div class="f-text">解放双手</div>
     </div>
   </div>
 
   <!-- 押金 -->
-  <div class="deposit-row">
+  <div class="deposit-bar">
     <div>
-      <div class="label">押金 ¥500</div>
-      <div class="note">归还设备，立即退回</div>
+      <div class="d-label">押金 ¥500</div>
+      <div class="d-note">归还设备立即退回</div>
     </div>
-    <div style="font-size:28px;">🔒</div>
+    <div class="d-num">🔐 有保障</div>
   </div>
 
-  <!-- 特色 -->
-  <div class="features">
-    <div class="feat">
-      <div class="icon">🔋</div>
-      <div>
-        <div class="text">免费换电池</div>
-        <div class="sub">没电联系客服更换</div>
+  <!-- 二维码 -->
+  <div class="qr-row">
+    <div class="qr-box">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=https://zuxiang.xyz&margin=4" alt="租借码">
+      <div class="qr-info">
+        <div class="qr-title">📱 扫码租借</div>
+        <div class="qr-sub">zuxiang.xyz</div>
+        <div class="qr-sub">手机扫码 · 立即使用</div>
       </div>
     </div>
-    <div class="feat">
-      <div class="icon">📱</div>
-      <div>
-        <div class="text">扫码即租</div>
-        <div class="sub">无需排队，即租即走</div>
+    <div class="qr-box green">
+      <img src="wechat.jpg" alt="微信">
+      <div class="qr-info">
+        <div class="qr-title">💬 加微信咨询</div>
+        <div class="qr-sub">扫码添加好友</div>
+        <div class="qr-sub">有问题随时联系</div>
       </div>
-    </div>
-    <div class="feat">
-      <div class="icon">🎒</div>
-      <div>
-        <div class="text">解放双手</div>
-        <div class="sub">骑着走，不用扛</div>
-      </div>
-    </div>
-    <div class="feat">
-      <div class="icon">📍</div>
-      <div>
-        <div class="text">就近归还</div>
-        <div class="sub">东门西门北门均可</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 二维码区 -->
-  <div class="qr-section">
-    <div class="qr-card">
-      <div class="qr-title">📱 扫码租借</div>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://zuxiang.xyz&color=000000&bgcolor=ffffff&margin=6"
-           alt="租借二维码"
-           onerror="this.src='';this.alt='zuxiang.xyz'">
-      <div class="qr-tip">zuxiang.xyz</div>
-    </div>
-    <div class="qr-card wechat">
-      <div class="qr-title">💬 加微信咨询</div>
-      <img src="wechat.jpg" alt="微信二维码"
-           onerror="this.style.background='#f0f0f0';this.alt='微信二维码'">
-      <div class="qr-tip">扫码添加好友</div>
     </div>
   </div>
 
   <!-- 电话 -->
-  <div class="contact-bar">
-    <div class="label">📞 客服热线</div>
-    <div class="phone">18630721779</div>
+  <div class="phone-bar">
+    <div class="p-label">📞 客服热线</div>
+    <div class="p-num">18630721779</div>
   </div>
 
-  <div class="bottom-slogan">悦行 · 出行更悦，游玩无忧</div>
+  <div class="footer-text">出行更悦 · 游玩无忧</div>
 
-  <div class="bottom-bar"></div>
+  <div class="bottom-stripe"></div>
 
 </div>
 
