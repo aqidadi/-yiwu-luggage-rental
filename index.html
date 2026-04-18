@@ -323,6 +323,25 @@ body { display: flex; justify-content: center; }
 
 .fee-row.hl { font-weight: 600; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 14px; }
 
+/* ===== SCANNER ===== */
+.scanner-mask { position: fixed; inset: 0; background: #000; z-index: 600; display: flex; flex-direction: column; }
+.scanner-header { padding: 52px 20px 16px; display: flex; align-items: center; gap: 12px; }
+.scanner-header .back { font-size: 24px; color: #fff; cursor: pointer; }
+.scanner-header h2 { font-size: 18px; color: #fff; font-weight: 600; }
+.scanner-viewport { position: relative; flex: 1; overflow: hidden; }
+.scanner-viewport video { width: 100%; height: 100%; object-fit: cover; }
+.scanner-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.scanner-box { width: 220px; height: 220px; position: relative; }
+.scanner-box::before, .scanner-box::after { content: ''; position: absolute; width: 40px; height: 40px; border-color: var(--primary); border-style: solid; }
+.scanner-box::before { top: 0; left: 0; border-width: 4px 0 0 4px; border-radius: 4px 0 0 0; }
+.scanner-box::after { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-radius: 0 0 4px 0; }
+.scanner-corner-tr { position: absolute; top: 0; right: 0; width: 40px; height: 40px; border-top: 4px solid var(--primary); border-right: 4px solid var(--primary); border-radius: 0 4px 0 0; }
+.scanner-corner-bl { position: absolute; bottom: 0; left: 0; width: 40px; height: 40px; border-bottom: 4px solid var(--primary); border-left: 4px solid var(--primary); border-radius: 0 0 0 4px; }
+.scanner-line { position: absolute; left: 4px; right: 4px; height: 2px; background: var(--primary); box-shadow: 0 0 8px var(--primary); animation: scan 2s linear infinite; }
+@keyframes scan { 0%{top:4px} 100%{top:212px} }
+.scanner-tip { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 24px; text-align: center; }
+.scanner-footer { padding: 24px 20px 40px; text-align: center; color: rgba(255,255,255,0.6); font-size: 13px; }
+
 /* ===== LOGIN/REGISTER MODAL ===== */
 .auth-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; justify-content: center; z-index: 500; }
 .auth-modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px 40px; width: 100%; max-width: 414px; }
@@ -550,6 +569,29 @@ body { display: flex; justify-content: center; }
   <div class="page" id="page-admin-finance">
     <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>💰 财务统计</h2></div>
     <div style="padding:16px"><div class="tabs" style="margin-bottom:12px"><div class="tab-btn on" onclick="financePeriod('today',this)">今日</div><div class="tab-btn" onclick="financePeriod('week',this)">本周</div><div class="tab-btn" onclick="financePeriod('month',this)">本月</div></div><div id="finance-content"></div></div>
+  </div>
+
+  <!-- SCANNER -->
+  <div class="scanner-mask" id="scanner-modal" style="display:none;">
+    <div class="scanner-header">
+      <span class="back" onclick="closeScanner()">✕</span>
+      <h2>扫码租借</h2>
+    </div>
+    <div class="scanner-viewport">
+      <video id="scanner-video" autoplay playsinline muted></video>
+      <canvas id="scanner-canvas" style="display:none;"></canvas>
+      <div class="scanner-overlay">
+        <div>
+          <div class="scanner-box">
+            <div class="scanner-corner-tr"></div>
+            <div class="scanner-corner-bl"></div>
+            <div class="scanner-line"></div>
+          </div>
+          <div class="scanner-tip">将设备二维码对准框内</div>
+        </div>
+      </div>
+    </div>
+    <div class="scanner-footer">义乌行箱驿站 · 扫码自动识别设备</div>
   </div>
 
   <!-- GENERAL MODAL -->
@@ -942,7 +984,64 @@ function renderBanner() {
 
 function handleScanRent() {
   if (!isLoggedIn()) { showAuthModal(); return; }
-  navigateTo('device-list');
+  openScanner();
+}
+
+// ===== SCANNER =====
+let scannerStream = null;
+let scannerTimer = null;
+
+function openScanner() {
+  document.getElementById('scanner-modal').style.display = 'flex';
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}})
+    .then(stream => {
+      scannerStream = stream;
+      const video = document.getElementById('scanner-video');
+      video.srcObject = stream;
+      video.play();
+      scannerTimer = setInterval(scanFrame, 300);
+    })
+    .catch(err => {
+      closeScanner();
+      toast('无法访问摄像头，请检查权限');
+      navigateTo('device-list');
+    });
+}
+
+function closeScanner() {
+  document.getElementById('scanner-modal').style.display = 'none';
+  if (scannerStream) { scannerStream.getTracks().forEach(t => t.stop()); scannerStream = null; }
+  if (scannerTimer) { clearInterval(scannerTimer); scannerTimer = null; }
+}
+
+function scanFrame() {
+  const video = document.getElementById('scanner-video');
+  if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
+  const canvas = document.getElementById('scanner-canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const code = window.jsQR && jsQR(imageData.data, imageData.width, imageData.height);
+  if (code && code.data) {
+    const data = code.data.trim();
+    closeScanner();
+    // 支持 BOX-001 格式 或完整URL中包含设备ID
+    const match = data.match(/BOX-\d+/i);
+    if (match) {
+      const dev = DEVICES.find(d => d.id.toUpperCase() === match[0].toUpperCase());
+      if (dev) {
+        toast('✅ 识别成功：' + dev.name);
+        navigateTo('device-detail', dev.id);
+      } else {
+        toast('设备不存在：' + match[0]);
+      }
+    } else {
+      toast('无效的设备码');
+      navigateTo('device-list');
+    }
+  }
 }
 
 // ===== DEVICE LIST =====
@@ -1240,4 +1339,5 @@ if (activeOrder) {
 }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </body></html>
