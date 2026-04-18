@@ -649,38 +649,13 @@ body { display: flex; justify-content: center; }
       <div class="logo"><img src="logo.png" style="width:72px;height:72px;border-radius:16px;object-fit:cover;"></div>
       <div class="brand">悦行</div>
       <div class="slogan">出行更悦，游玩无忧</div>
-      <div class="auth-tabs">
-        <div class="auth-tab on" id="auth-tab-login" onclick="switchAuthTab('login')">登录</div>
-        <div class="auth-tab" id="auth-tab-register" onclick="switchAuthTab('register')">注册</div>
-      </div>
+      <div style="margin-bottom:16px;font-size:13px;color:var(--gray);text-align:center">输入手机号即可开始租借</div>
       <div id="auth-login-form">
         <div class="auth-input-group">
           <label>手机号</label>
-          <input class="auth-input" id="login-phone" type="tel" maxlength="11" placeholder="请输入手机号">
+          <input class="auth-input" id="login-phone" type="tel" maxlength="11" placeholder="请输入您的手机号">
         </div>
-        <div class="auth-input-group">
-          <label>密码</label>
-          <input class="auth-input" id="login-password" type="password" placeholder="请输入密码">
-        </div>
-        <button class="auth-submit" onclick="handleLogin()">登录</button>
-      </div>
-      <div id="auth-register-form" style="display:none">
-        <div class="auth-input-group">
-          <label>手机号</label>
-          <input class="auth-input" id="reg-phone" type="tel" maxlength="11" placeholder="请输入手机号">
-        </div>
-        <div class="auth-input-group">
-          <label>验证码</label>
-          <div class="auth-input-row">
-            <input class="auth-input" id="reg-sms" type="number" maxlength="6" placeholder="输入6位验证码">
-            <button class="btn-sms" id="sms-btn" onclick="sendSMS()">获取验证码</button>
-          </div>
-        </div>
-        <div class="auth-input-group">
-          <label>设置密码</label>
-          <input class="auth-input" id="reg-password" type="password" placeholder="至少6位密码">
-        </div>
-        <button class="auth-submit" onclick="handleRegister()">注册并登录</button>
+        <button class="auth-submit" onclick="handleQuickLogin()">确认并继续</button>
       </div>
       <div class="auth-skip" onclick="skipAuth()">暂不登录，<span>游客浏览</span></div>
     </div>
@@ -792,9 +767,26 @@ function sendSMS() {
   }, 1000);
 }
 
+function handleQuickLogin() {
+  const phone = document.getElementById('login-phone').value.trim();
+  if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
+  const users = loadUsers();
+  let user = users.find(u => u.phone === phone);
+  if (!user) {
+    user = {phone, id: 'YWX' + Date.now().toString().slice(-6), name: '用户' + phone.slice(-4)};
+    users.push(user);
+    saveUsers(users);
+  }
+  saveUser({phone, id: user.id, name: user.name});
+  hideAuthModal();
+  updateProfileUI();
+  toast('欢迎，' + user.name);
+}
+
 function handleLogin() {
   const phone = document.getElementById('login-phone').value.trim();
-  const pwd = document.getElementById('login-password').value.trim();
+  const pwd = document.getElementById('login-password') ? document.getElementById('login-password').value.trim() : '';
+
   if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
   if (!pwd) { toast('请输入密码'); return; }
   // Check stored users
