@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>义乌行箱驿站 - 设备二维码</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; padding: 20px; }
+  h1 { text-align: center; font-size: 18px; margin-bottom: 20px; color: #333; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); page-break-inside: avoid; }
+  .card .brand { font-size: 13px; color: #FF6B35; font-weight: 600; margin-bottom: 8px; }
+  .card .qr { display: flex; justify-content: center; margin: 12px 0; }
+  .card .device-name { font-size: 16px; font-weight: 700; color: #2D3436; margin-top: 10px; }
+  .card .device-model { font-size: 12px; color: #636e72; margin-top: 4px; }
+  .card .device-id { font-size: 11px; color: #b2bec3; margin-top: 4px; letter-spacing: 1px; }
+  .card .location { font-size: 12px; color: #636e72; margin-top: 6px; }
+  .card .tip { font-size: 11px; color: #b2bec3; margin-top: 10px; border-top: 1px dashed #eee; padding-top: 8px; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .no-print { display: none; }
+    .grid { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<h1>🧳 义乌行箱驿站 — 设备二维码</h1>
+<div class="no-print" style="text-align:center;margin-bottom:16px">
+  <button onclick="window.print()" style="background:#FF6B35;color:#fff;border:none;padding:10px 28px;border-radius:20px;font-size:14px;cursor:pointer;font-weight:600">🖨️ 打印二维码</button>
+</div>
+
+<div class="grid" id="qr-grid"></div>
+
+<script>
+const devices = [
+  {id:'BOX-001', name:'电动行李箱A1', model:'标准版 · 12kg', location:'植物园东门'},
+  {id:'BOX-002', name:'电动行李箱A2', model:'标准版 · 12kg', location:'植物园东门'},
+  {id:'BOX-003', name:'电动行李箱B1', model:'加强版 · 14kg', location:'植物园西门'},
+  {id:'BOX-004', name:'电动行李箱B2', model:'加强版 · 14kg', location:'植物园北门'},
+];
+
+const grid = document.getElementById('qr-grid');
+
+devices.forEach(d => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="brand">义乌行箱驿站</div>
+    <div class="qr" id="qr-${d.id}"></div>
+    <div class="device-name">${d.name}</div>
+    <div class="device-model">${d.model}</div>
+    <div class="device-id">${d.id}</div>
+    <div class="location">📍 ${d.location}</div>
+    <div class="tip">扫码打开小程序即可租借</div>
+  `;
+  grid.appendChild(card);
+
+  setTimeout(() => {
+    new QRCode(document.getElementById('qr-' + d.id), {
+      text: d.id,
+      width: 160,
+      height: 160,
+      colorDark: '#2D3436',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }, 100);
+});
+</script>
+</body>
+</html>
