@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>海克斯大乱斗助手</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #05080f;
+  --bg2: #0d1117;
+  --bg3: #111827;
+  --panel: #0f1623;
+  --border: #1e2d47;
+  --gold: #C89B3C;
+  --gold2: #F0D07A;
+  --teal: #0BC4C2;
+  --teal2: #52e8e6;
+  --red: #e84057;
+  --blue: #5b7fda;
+  --text: #ccd3da;
+  --text2: #7a8fa6;
+  --s: #ff6b35;
+  --a: #C89B3C;
+  --b: #5b7fda;
+  --c: #4a5568;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:14px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans SC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BG texture ── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(11,196,194,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(200,155,60,0.06) 0%, transparent 50%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── Header ── */
+.header {
+  position: sticky; top:0; z-index:100;
+  background: rgba(5,8,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+}
+.header-inner {
+  max-width:900px; margin:0 auto;
+  display:flex; align-items:center; gap:10px;
+  height:52px;
+}
+.logo-hex {
+  width:36px; height:36px;
+  background: linear-gradient(135deg, var(--gold), var(--teal));
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700; font-size:14px; color:#000;
+  flex-shrink:0;
+}
+.header-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:18px; font-weight:700;
+  background: linear-gradient(90deg, var(--gold2), var(--teal2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  letter-spacing:1px;
+}
+.header-sub {
+  font-size:11px; color:var(--text2); margin-left:auto;
+  white-space:nowrap;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display:flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position:sticky; top:52px; z-index:99;
+}
+.tab {
+  flex:1; padding:12px 4px;
+  text-align:center; font-size:12px; font-weight:500;
+  color:var(--text2); cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .2s; letter-spacing:.5px;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.tab .ti { font-size:16px; }
+.tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab:hover:not(.active) { color:var(--text); }
+
+/* ── Content ── */
+.content { max-width:900px; margin:0 auto; padding:0 12px 80px; position:relative; z-index:1; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ── Search & Filter ── */
+.search-row {
+  padding:14px 0 10px;
+  display:flex; gap:8px;
+}
+.search-box {
+  flex:1; height:38px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:8px; padding:0 14px 0 36px;
+  color:var(--text); font-size:13px; outline:none;
+  transition:.2s;
+}
+.search-box:focus { border-color:var(--teal); }
+.search-wrap { position:relative; flex:1; }
+.search-icon {
+  position:absolute; left:11px; top:50%; transform:translateY(-50%);
+  color:var(--text2); font-size:14px; pointer-events:none;
+}
+.filter-row {
+  display:flex; gap:6px; flex-wrap:wrap; padding-bottom:12px;
+}
+.filter-btn {
+  padding:4px 12px; border-radius:20px; font-size:11px; font-weight:500;
+  background:var(--bg3); border:1px solid var(--border);
+  color:var(--text2); cursor:pointer; transition:.2s; white-space:nowrap;
+}
+.filter-btn.active { background:rgba(200,155,60,0.15); border-color:var(--gold); color:var(--gold); }
+
+/* ── Champion Grid ── */
+.champ-grid {
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:8px; padding-bottom:16px;
+}
+@media(min-width:480px){ .champ-grid { grid-template-columns: repeat(6,1fr); } }
+@media(min-width:600px){ .champ-grid { grid-template-columns: repeat(8,1fr); } }
+
+.champ-card {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  cursor:pointer; padding:6px 4px; border-radius:10px;
+  border:1px solid transparent; transition:.2s;
+}
+.champ-card:hover { background:rgba(11,196,194,0.06); border-color:rgba(11,196,194,0.3); }
+.champ-card.selected { background:rgba(200,155,60,0.12); border-color:var(--gold); }
+
+.champ-hex-wrap {
+  width:52px; height:52px; position:relative;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  transition:.2s;
+}
+.champ-card:hover .champ-hex-wrap { filter: drop-shadow(0 0 8px rgba(11,196,194,0.5)); }
+.champ-card.selected .champ-hex-wrap { filter: drop-shadow(0 0 10px rgba(200,155,60,0.6)); }
+
+.hex-bg {
+  width:52px; height:52px;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  position:absolute; inset:0;
+}
+.champ-img {
+  width:52px; height:52px;
+  clip-path: polygon(50% 2%,98% 26%,98% 74%,50% 98%,2% 74%,2% 26%);
+  object-fit:cover; object-position:top center;
+  position:absolute; inset:0;
+}
+.champ-fallback {
+  width:52px; height:52px;
+  clip-path: polygon(50% 2%,98% 26%,98% 74%,50% 98%,2% 74%,2% 26%);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+  position:absolute; inset:0;
+}
+.wr-dot {
+  position:absolute; bottom:-2px; right:-2px;
+  width:14px; height:14px; border-radius:50%;
+  border:1px solid var(--bg2);
+  font-size:7px; display:flex; align-items:center; justify-content:center;
+  font-weight:700;
+}
+.champ-name-small {
+  font-size:10px; color:var(--text2); text-align:center;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  width:100%; line-height:1.2;
+}
+.champ-card.selected .champ-name-small { color:var(--gold); }
+
+/* ── Analysis Panel ── */
+.analysis-panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  animation: slideUp .3s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+.panel-header {
+  padding:16px;
+  background: linear-gradient(135deg, rgba(200,155,60,0.12), rgba(11,196,194,0.08));
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:14px;
+}
+.panel-hero-hex { width:64px; height:64px; position:relative; flex-shrink:0; }
+.panel-hero-hex .hex-bg {
+  width:64px; height:64px;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.panel-hero-hex .champ-img, .panel-hero-hex .champ-fallback {
+  width:64px; height:64px;
+  clip-path: polygon(50% 2%,98% 26%,98% 74%,50% 98%,2% 74%,2% 26%);
+}
+.panel-hero-hex .champ-fallback { font-size:18px; }
+.panel-info { flex:1; }
+.panel-name {
+  font-size:20px; font-weight:700;
+  font-family:'Rajdhani',sans-serif; letter-spacing:1px;
+  color:var(--gold2);
+}
+.panel-name-cn { font-size:12px; color:var(--text2); margin-top:1px; }
+.badge-row { display:flex; gap:5px; margin-top:7px; flex-wrap:wrap; }
+.badge {
+  padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700;
+  letter-spacing:.5px;
+}
+.badge-role { background:rgba(91,127,218,0.2); color:var(--blue); border:1px solid rgba(91,127,218,0.3); }
+.badge-dmg-magic { background:rgba(138,43,226,0.2); color:#d580ff; border:1px solid rgba(138,43,226,0.3); }
+.badge-dmg-phys { background:rgba(232,64,87,0.2); color:#ff7a8a; border:1px solid rgba(232,64,87,0.3); }
+.badge-dmg-mix { background:rgba(200,155,60,0.2); color:var(--gold); border:1px solid rgba(200,155,60,0.3); }
+.badge-wr { padding:2px 10px; border-radius:4px; font-size:11px; font-weight:700; }
+.badge-wr.hot { background:rgba(11,196,194,0.2); color:var(--teal2); border:1px solid rgba(11,196,194,0.3); }
+.badge-wr.avg { background:rgba(91,127,218,0.2); color:var(--blue); border:1px solid rgba(91,127,218,0.3); }
+.badge-wr.low { background:rgba(232,64,87,0.15); color:var(--red); border:1px solid rgba(232,64,87,0.25); }
+
+.diff-stars { display:flex; gap:2px; align-items:center; }
+.star { font-size:11px; }
+.star.on { color:var(--gold); }
+.star.off { color:var(--border); }
+
+.panel-body { padding:14px 16px; }
+
+.section-label {
+  font-size:10px; font-weight:700; letter-spacing:2px;
+  color:var(--teal); margin-bottom:8px; text-transform:uppercase;
+  display:flex; align-items:center; gap:6px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.sw-box { background:var(--bg3); border-radius:10px; padding:10px 12px; border:1px solid var(--border); }
+.sw-title { font-size:10px; font-weight:700; letter-spacing:1px; margin-bottom:6px; }
+.sw-title.s { color:#4ade80; }
+.sw-title.w { color:var(--red); }
+.sw-item {
+  display:flex; align-items:flex-start; gap:5px;
+  font-size:11px; color:var(--text2); line-height:1.4; margin-bottom:3px;
+}
+.sw-item::before { content:'•'; flex-shrink:0; margin-top:1px; }
+.sw-item.s::before { color:#4ade80; }
+.sw-item.w::before { color:var(--red); }
+
+.tips-list { margin-bottom:14px; }
+.tip-item {
+  background:var(--bg3); border-radius:8px; padding:9px 12px;
+  font-size:12px; color:var(--text); line-height:1.5;
+  border-left:3px solid var(--gold);
+  margin-bottom:6px;
+}
+
+.counter-row { display:flex; gap:6px; flex-wrap:wrap; }
+.counter-chip {
+  padding:3px 10px; border-radius:20px; font-size:11px;
+  background:rgba(232,64,87,0.12); color:#ff9aa7;
+  border:1px solid rgba(232,64,87,0.25);
+}
+
+/* ── Matchup Tab ── */
+.matchup-selectors {
+  display:grid; grid-template-columns:1fr auto 1fr; gap:10px;
+  align-items:start; padding:14px 0;
+}
+.vs-label {
+  display:flex; align-items:center; justify-content:center;
+  padding-top:28px;
+  font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700;
+  color:var(--red);
+}
+.selector-label { font-size:11px; color:var(--text2); margin-bottom:6px; letter-spacing:1px; }
+.champ-select {
+  width:100%; height:38px;
+  background:var(--bg3); border:1px solid var(--border);
+  border-radius:8px; padding:0 10px;
+  color:var(--text); font-size:12px; outline:none;
+  font-family:'Noto Sans SC',sans-serif;
+}
+.champ-select:focus { border-color:var(--teal); }
+
+.matchup-result {
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:14px; overflow:hidden;
+  animation: slideUp .3s ease;
+}
+.matchup-header {
+  padding:14px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.matchup-vs-row {
+  display:flex; align-items:center; gap:10px;
+}
+.matchup-champ { text-align:center; }
+.matchup-champ-img {
+  width:48px; height:48px;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  object-fit:cover; object-position:top center;
+  margin-bottom:4px;
+}
+.matchup-champ-name { font-size:10px; color:var(--text2); }
+.matchup-rating {
+  text-align:center; flex:1;
+}
+.rating-badge {
+  display:inline-block;
+  padding:6px 16px; border-radius:8px;
+  font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:700;
+  letter-spacing:1px; margin-bottom:4px;
+}
+.rating-favor { background:rgba(74,222,128,0.15); color:#4ade80; border:1px solid rgba(74,222,128,0.3); }
+.rating-even  { background:rgba(200,155,60,0.15); color:var(--gold); border:1px solid rgba(200,155,60,0.3); }
+.rating-hard  { background:rgba(232,64,87,0.15); color:var(--red); border:1px solid rgba(232,64,87,0.3); }
+.rating-sub { font-size:10px; color:var(--text2); }
+.matchup-body { padding:14px 16px; }
+.matchup-tip {
+  background:var(--bg3); border-radius:8px; padding:9px 12px;
+  font-size:12px; line-height:1.5; margin-bottom:6px;
+  border-left:3px solid var(--teal);
+  color:var(--text);
+}
+
+/* ── Augment Tab ── */
+.aug-context {
+  padding:12px 0 4px;
+  font-size:12px; color:var(--text2);
+}
+.aug-context span { color:var(--gold); font-weight:500; }
+.aug-select-row {
+  padding:8px 0 14px;
+  display:flex; gap:8px; align-items:center;
+}
+.aug-select-row .champ-select { max-width:200px; }
+
+.aug-grid {
+  display:flex; flex-direction:column; gap:10px;
+}
+.aug-card {
+  background:var(--panel); border-radius:12px;
+  border:1px solid var(--border); overflow:hidden;
+  display:flex; align-items:stretch;
+  transition:.2s;
+}
+.aug-card:hover { border-color:rgba(200,155,60,0.4); }
+.aug-tier-bar {
+  width:5px; flex-shrink:0;
+}
+.aug-tier-bar.S { background: linear-gradient(180deg,#ff6b35,#ff4500); }
+.aug-tier-bar.A { background: linear-gradient(180deg,var(--gold),#a07020); }
+.aug-tier-bar.B { background: linear-gradient(180deg,var(--blue),#3a5ab0); }
+.aug-inner { padding:12px 14px; flex:1; }
+.aug-top { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.aug-tier-badge {
+  width:24px; height:24px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+  flex-shrink:0;
+}
+.aug-tier-badge.S { background:rgba(255,107,53,0.2); color:#ff6b35; border:1px solid rgba(255,107,53,0.4); }
+.aug-tier-badge.A { background:rgba(200,155,60,0.2); color:var(--gold); border:1px solid rgba(200,155,60,0.4); }
+.aug-tier-badge.B { background:rgba(91,127,218,0.2); color:var(--blue); border:1px solid rgba(91,127,218,0.4); }
+.aug-name { font-size:14px; font-weight:700; color:var(--text); }
+.aug-hex-icon {
+  margin-left:auto;
+  width:28px; height:28px; flex-shrink:0;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px;
+}
+.aug-reason { font-size:12px; color:var(--text2); line-height:1.5; }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align:center; padding:40px 20px;
+  color:var(--text2); font-size:13px;
+}
+.empty-icon { font-size:36px; margin-bottom:10px; opacity:.5; }
+
+/* ── Placeholder ── */
+.select-prompt {
+  background:var(--panel); border:1px dashed var(--border);
+  border-radius:14px; padding:28px 20px; text-align:center;
+  color:var(--text2); font-size:12px; margin-bottom:8px;
+}
+.select-prompt .pi { font-size:28px; margin-bottom:8px; opacity:.6; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-hex">H</div>
+    <div>
+      <div class="header-title">海克斯大乱斗助手</div>
+    </div>
+    <div class="header-sub">ARAM · 分析工具</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('analysis')">
+    <span class="ti">🧬</span>英雄分析
+  </div>
+  <div class="tab" onclick="switchTab('matchup')">
+    <span class="ti">⚔️</span>对战分析
+  </div>
+  <div class="tab" onclick="switchTab('augment')">
+    <span class="ti">💎</span>海克斯
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── Tab 1: Champion Analysis ── -->
+  <div class="tab-panel active" id="tab-analysis">
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-box" id="search-input" placeholder="搜索英雄..." oninput="filterChamps()">
+      </div>
+    </div>
+    <div class="filter-row" id="filter-row">
+      <div class="filter-btn active" onclick="setFilter('all',this)">全部</div>
+      <div class="filter-btn" onclick="setFilter('法师',this)">法师</div>
+      <div class="filter-btn" onclick="setFilter('射手',this)">射手</div>
+      <div class="filter-btn" onclick="setFilter('辅助',this)">辅助</div>
+      <div class="filter-btn" onclick="setFilter('战士',this)">战士</div>
+      <div class="filter-btn" onclick="setFilter('刺客',this)">刺客</div>
+    </div>
+    <div class="champ-grid" id="champ-grid"></div>
+    <div id="analysis-output">
+      <div class="select-prompt">
+        <div class="pi">🧳</div>
+        <div>点击上方英雄头像查看详细分析</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 2: Matchup ── -->
+  <div class="tab-panel" id="tab-matchup">
+    <div class="matchup-selectors">
+      <div>
+        <div class="selector-label">我方英雄</div>
+        <select class="champ-select" id="my-champ" onchange="calcMatchup()">
+          <option value="">选择英雄</option>
+        </select>
+      </div>
+      <div class="vs-label">VS</div>
+      <div>
+        <div class="selector-label">敌方英雄</div>
+        <select class="champ-select" id="enemy-champ" onchange="calcMatchup()">
+          <option value="">选择英雄</option>
+        </select>
+      </div>
+    </div>
+    <div id="matchup-output">
+      <div class="select-prompt">
+        <div class="pi">⚔️</div>
+        <div>选择双方英雄后查看对线分析</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab 3: Augments ── -->
+  <div class="tab-panel" id="tab-augment">
+    <div class="aug-select-row">
+      <span style="font-size:12px;color:var(--text2)">选择英雄：</span>
+      <select class="champ-select" id="aug-champ-select" onchange="renderAugments()">
+        <option value="">选择英雄</option>
+      </select>
+    </div>
+    <div id="augment-output">
+      <div class="select-prompt">
+        <div class="pi">💎</div>
+        <div>选择英雄后查看推荐海克斯强化</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CHAMPION DATA
+═══════════════════════════════════════ */
+const CHAMPS = [
+  {
+    id:'Lux', name:'Lux', name_cn:'璐璐', role:'法师',
+    diff:1, dmg:'魔法', wr:53.2,
+    colors:['#9b59b6','#3498db'],
+    strengths:['超远距离消耗','W盾保护自己和队友','R冷却短可频繁清线'],
+    weaknesses:['位移技能少，容易被突进','E技能需要预判','无法独立对抗强突进英雄'],
+    tips:['尽量站后排用E骚扰','W主动放在队友身上保命','R冷却好了就打，不用等完美机会','注意站位避免被对面控制'],
+    counters:['Zed','Katarina','Yasuo','Blitzcrank'],
+    augments:[
+      {name:'光之印记', tier:'S', reason:'增强技能伤害，E击中即触发，每次消耗伤害直线提升', icon:'✨'},
+      {name:'宇宙洞察', tier:'A', reason:'冷却缩减让R和E更频繁，大乱斗中续航更强', icon:'🌌'},
+      {name:'蓝色魔法书', tier:'A', reason:'免费技能释放配合E持续骚扰，消耗优势明显', icon:'📘'},
+    ]
+  },
+  {
+    id:'Jinx', name:'Jinx', name_cn:'金克丝', role:'射手',
+    diff:1, dmg:'物理', wr:52.8,
+    colors:['#e91e63','#9c27b0'],
+    strengths:['被动加速让追击/逃跑都很强','R全局大招可跨地图支援','火箭模式AOE清线极强'],
+    weaknesses:['无位移技能，靠被动加速','前期较弱需要保护','被控制基本等于死'],
+    tips:['清线用火箭，骚扰和对抗用机枪','尽量站在最后排，让前面队友吃技能','R看到对面血量低了就放，别等','W地雷放在自己背后防追杀'],
+    counters:['Blitzcrank','Thresh','Yasuo','Zed'],
+    augments:[
+      {name:'致命节奏', tier:'S', reason:'攻速叠加配合火箭模式AOE，团战清场能力恐怖', icon:'⚡'},
+      {name:'贪婪猎手', tier:'A', reason:'大乱斗持续战斗，每次击杀回血续航', icon:'🏹'},
+      {name:'飓风', tier:'A', reason:'火箭模式+飓风多段弹射，清线推塔效率翻倍', icon:'🌪️'},
+    ]
+  },
+  {
+    id:'Ashe', name:'Ashe', name_cn:'艾希', role:'射手',
+    diff:1, dmg:'物理', wr:52.4,
+    colors:['#87ceeb','#4169e1'],
+    strengths:['全图R箭控制对面核心','被动减速让敌人无法逃跑','W侦查视野控图能力强'],
+    weaknesses:['无位移技能，只能靠W减速','前期伤害平庸','被突进了基本等死'],
+    tips:['R优先打敌方控制链最弱的目标或者正在逃跑的人','W持续减速让敌方无法靠近','尽量保持最大射程攻击','血量低了就先撤，不要强拼'],
+    counters:['Zed','Katarina','Blitzcrank','Morgana'],
+    augments:[
+      {name:'冰晶矢', tier:'S', reason:'减速强化让对方根本无法靠近，搭配R控制链完美', icon:'❄️'},
+      {name:'无尽之刃', tier:'A', reason:'暴击爆发配合W持续减速，单体输出大幅提升', icon:'⚔️'},
+      {name:'致命节奏', tier:'A', reason:'持续平A减速叠加，团战中对方寸步难行', icon:'⚡'},
+    ]
+  },
+  {
+    id:'Veigar', name:'Veigar', name_cn:'维迦', role:'法师',
+    diff:1, dmg:'魔法', wr:55.1,
+    colors:['#4a0080','#800080'],
+    strengths:['后期AP无限叠加，伤害恐怖','E邪恶监牢控制范围大','Q可叠加AP，越打越强'],
+    weaknesses:['前期伤害偏弱','移动速度慢，容易被突进','E技能有延迟，需要预判'],
+    tips:['Q优先消耗敌人顺便叠加AP','E放在对面必经之路上，逼迫他们不能移动','R打血量低的敌人一击必杀','大乱斗多打，叠加越来越快'],
+    counters:['Yasuo','Zed','Ahri','Katarina'],
+    augments:[
+      {name:'宇宙洞察', tier:'S', reason:'冷缩让QWER频率更高，叠加AP效率翻倍', icon:'🌌'},
+      {name:'法力汲取', tier:'S', reason:'每次击杀叠加AP，大乱斗杀人如麻AP暴涨', icon:'💜'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿配合后期超高AP，打穿对面法抗', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Ziggs', name:'Ziggs', name_cn:'吉格斯', role:'法师',
+    diff:2, dmg:'魔法', wr:54.3,
+    colors:['#f39c12','#e74c3c'],
+    strengths:['推塔能力全游戏最强','弹跳炸弹骚扰范围大','W炸弹可阻断敌方突进路线'],
+    weaknesses:['技能全是直线或AOE，容易被预判','机动性差','缺乏硬控'],
+    tips:['Q连续弹跳骚扰，反复消耗','W炸弹放在地面上做减速陷阱','E炸弹群有延迟要预判走位','推塔能力全游戏最强，对面没人推主动推塔'],
+    counters:['Zed','Yasuo','Katarina','Blitzcrank'],
+    augments:[
+      {name:'冥火之触', tier:'S', reason:'爆炸范围增大，团战AOE伤害极其恐怖', icon:'💥'},
+      {name:'宇宙洞察', tier:'A', reason:'冷缩让炸弹更频繁，持续骚扰对面', icon:'🌌'},
+      {name:'法师之冠', tier:'A', reason:'AP提升配合多段技能，全面强化伤害', icon:'👑'},
+    ]
+  },
+  {
+    id:'MissFortune', name:'MissFortune', name_cn:'赏金猎人', role:'射手',
+    diff:1, dmg:'物理', wr:52.2,
+    colors:['#c0392b','#e74c3c'],
+    strengths:['R弹雨团战控场覆盖全屏','被动换人攻击爆发伤害高','E减速配合队友控制链'],
+    weaknesses:['无位移技能','被突进直接团灭','R有引导时间，容易被打断'],
+    tips:['R放在对面人最密集的地方','被突进要立刻跑，不要硬拼','E先减速配合队友控制链','被动经常换个目标打以触发额外伤害'],
+    counters:['Zed','Katarina','Yasuo','Blitzcrank'],
+    augments:[
+      {name:'血雨腥风', tier:'S', reason:'R弹雨期间增加减速，对方根本无法移出弹雨范围', icon:'🌧️'},
+      {name:'致命节奏', tier:'A', reason:'攻速提升加快被动触发频率，持续爆发', icon:'⚡'},
+      {name:'收割者', tier:'A', reason:'击杀后重置被动，连续收割效果极佳', icon:'⚔️'},
+    ]
+  },
+  {
+    id:'Caitlyn', name:'Caitlyn', name_cn:'凯特琳', role:'射手',
+    diff:2, dmg:'物理', wr:51.3,
+    colors:['#2980b9','#1abc9c'],
+    strengths:['射程全射手最长','陷阱+网的控制链配合','R可以锁定击杀逃跑目标'],
+    weaknesses:['技能CD较长','陷阱放置需要预判','单体爆发不如同类'],
+    tips:['Q技能穿透，站在线上和小兵同侧让Q穿透命中','W陷阱放在常走路线上，被踩免费放大号','E先放陷阱再E，两段控制链','R低血量敌人逃跑时放，能穿盾'],
+    counters:['Blitzcrank','Yasuo','Zed','Katarina'],
+    augments:[
+      {name:'末日弹', tier:'S', reason:'R暴击率提升，锁定时机成熟必杀', icon:'🎯'},
+      {name:'无尽之刃', tier:'A', reason:'暴击配合超长射程，站场输出无人能敌', icon:'⚔️'},
+      {name:'精准打击', tier:'A', reason:'W陷阱触发后固定伤害暴击，控制即爆发', icon:'🏹'},
+    ]
+  },
+  {
+    id:'Ezreal', name:'Ezreal', name_cn:'伊泽瑞尔', role:'射手',
+    diff:3, dmg:'混合', wr:48.1,
+    colors:['#3498db','#f1c40f'],
+    strengths:['E位移让他在射手中最难被杀','R全图伤害可支援或补刀','前中后期均衡'],
+    weaknesses:['技能全是指向，需要命中','大乱斗E冷却缩短后才好','伤害不如纯ADC高'],
+    tips:['Q配合AD输出，不要只用技能','E不要浪费，留给关键时刻逃跑','R大乱斗时随时放不要留着','叠满蓝色印记伤害大幅提升'],
+    counters:['Veigar','Karthus','Brand','Xerath'],
+    augments:[
+      {name:'蓝色印记强化', tier:'S', reason:'Q命中叠加印记更快，大幅提升后续伤害', icon:'💙'},
+      {name:'宇宙洞察', tier:'A', reason:'全技能冷缩，E逃跑和输出频率更高', icon:'🌌'},
+      {name:'法力灌注', tier:'B', reason:'法力充沛保证全程输出，不会被法力卡住', icon:'💧'},
+    ]
+  },
+  {
+    id:'Yasuo', name:'Yasuo', name_cn:'亚索', role:'战士',
+    diff:3, dmg:'物理', wr:49.2,
+    colors:['#ecf0f1','#2c3e50'],
+    strengths:['W风墙封锁所有弹道技能','被动护盾保命','大量控制技能配合Q三段EQ连招极强'],
+    weaknesses:['需要较高操作水平','队友有挑飞技能配合才能发挥R','大乱斗中被群控直接GG'],
+    tips:['W风墙放在对面技能飞来的方向','队友有挑飞技能马上E过去接R','Q三段后打人','尽量不要正面硬撑，穿插攻击'],
+    counters:['Veigar','Morgana','Annie','Lux'],
+    augments:[
+      {name:'致命节奏', tier:'S', reason:'攻速叠加配合Q三段输出，激活速度更快', icon:'⚡'},
+      {name:'无尽之刃', tier:'A', reason:'暴击流核心，配合被动双倍暴击效果炸裂', icon:'⚔️'},
+      {name:'征服者强化', tier:'A', reason:'持续战斗叠加征服者，大乱斗打架耗死对方', icon:'🔥'},
+    ]
+  },
+  {
+    id:'Yone', name:'Yone', name_cn:'永恩', role:'战士',
+    diff:3, dmg:'混合', wr:50.1,
+    colors:['#2c3e50','#8e44ad'],
+    strengths:['R全屏突进拉回，团战成型','E无敌冲进敌阵','双刀攻击，魔法和物理伤害兼备'],
+    weaknesses:['前期较弱，需要发育','R时机要好，否则拉回来直接被打死','技能链需要一定练习'],
+    tips:['E冲进去打了就跑，别贪','R在对方打出控制链后跟着冲进去','Q三段后推人配合风墙','大乱斗多抓分散的敌人单杀'],
+    counters:['Veigar','Lux','Morgana','Karthus'],
+    augments:[
+      {name:'致命节奏', tier:'S', reason:'攻速让双刀攻击更频繁，魔法伤害叠加快', icon:'⚡'},
+      {name:'死亡之舞', tier:'A', reason:'延迟受伤配合E无敌时间，冲进去不容易死', icon:'💀'},
+      {name:'征服者强化', tier:'A', reason:'持续缠斗积累征服者层数，后期爆发恐怖', icon:'🔥'},
+    ]
+  },
+  {
+    id:'Sona', name:'Sona', name_cn:'娑娜', role:'辅助',
+    diff:1, dmg:'魔法', wr:56.2,
+    colors:['#9b59b6','#3498db'],
+    strengths:['持续治疗+保护全队','R大范围团控且不可阻挡','被动积累爆发伤害'],
+    weaknesses:['身体脆，被突进即死','技能消耗法力较多','没有位移，容易被抓'],
+    tips:['R在对方聚集时放，控制越多人越好','E加速帮助队友逃跑','Q输出同时W治疗交替使用保持法力','被突进立刻R或者E跑路'],
+    counters:['Zed','Katarina','Blitzcrank','Yasuo'],
+    augments:[
+      {name:'光明使者', tier:'S', reason:'治疗量大幅提升，团战中全队永远满血', icon:'✨'},
+      {name:'圣光护盾', tier:'A', reason:'W护盾强化，为队友提供更强的保命能力', icon:'🛡️'},
+      {name:'和声之歌', tier:'A', reason:'被动强化，每次换技能爆发伤害提升', icon:'🎵'},
+    ]
+  },
+  {
+    id:'Soraka', name:'Soraka', name_cn:'索拉卡', role:'辅助',
+    diff:1, dmg:'魔法', wr:57.3,
+    colors:['#f8bbd0','#ce93d8'],
+    strengths:['全局R救人，大乱斗极强','W无限治疗队友','E沉默阻断对方输出'],
+    weaknesses:['自身伤害几乎没有','过于依赖保命，被针对必死','Q自我治疗条件苛刻'],
+    tips:['R在队友快死的时候放，而不是等死了','E放在正在施法的敌人身上打断他','Q命中恢复自身血量，尽量多命中','大乱斗里治疗量极其恐怖，稳住就能赢'],
+    counters:['Karthus','Veigar','Brand','Xerath'],
+    augments:[
+      {name:'天降圣恩', tier:'S', reason:'治疗爆发配合R全局救援，全队续命能力无解', icon:'⭐'},
+      {name:'柔化之触', tier:'A', reason:'W治疗附加减速，保护队友同时控制追击者', icon:'💖'},
+      {name:'净化之心', tier:'A', reason:'E沉默增强，阻断关键技能施法', icon:'🌸'},
+    ]
+  },
+  {
+    id:'Thresh', name:'Thresh', name_cn:'锤石', role:'辅助',
+    diff:2, dmg:'混合', wr:51.0,
+    colors:['#27ae60','#2ecc71'],
+    strengths:['Q钩子控制改变战局','E推人或抓人两用','灵魂被动提升全面成长'],
+    weaknesses:['Q钩子需要预判，不容易命中','W灯笼需要队友走过来','机动性差'],
+    tips:['Q钩子瞄准正在施法或移动规律明显的目标','W放在队友逃跑路上，让他们点灯笼','E在对方靠近时推开，或者推队友逃跑','灵魂尽量多捡'],
+    counters:['Morgana','Ashe','Jinx','Lux'],
+    augments:[
+      {name:'魔魂之钩', tier:'S', reason:'Q钩子命中额外伤害，一钩必死', icon:'🪝'},
+      {name:'地狱之闸', tier:'A', reason:'E推力增强，推人推得更远控制效果更好', icon:'🚪'},
+      {name:'灵魂收割', tier:'A', reason:'灵魂叠加更快，成长速度翻倍', icon:'👻'},
+    ]
+  },
+  {
+    id:'Blitzcrank', name:'Blitzcrank', name_cn:'布里茨', role:'辅助',
+    diff:2, dmg:'物理', wr:52.1,
+    colors:['#f39c12','#e67e22'],
+    strengths:['Q钩子拉人改变战局','R沉默让对方无法逃跑','过载冲刺配合钩子连招'],
+    weaknesses:['Q必须命中，否则没有输出','机动性强但身体脆','全依赖Q技能能否命中'],
+    tips:['Q瞄准对面走位规律，预判路线','Q命中马上E击飞接R沉默','R放在对方人多时全场沉默','不要莽，找机会钩一个然后集火'],
+    counters:['Morgana','Yasuo','Lux','Ashe'],
+    augments:[
+      {name:'高压电流', tier:'S', reason:'Q命中触发额外电击伤害，一钩就是爆发', icon:'⚡'},
+      {name:'过载强化', tier:'A', reason:'E击飞伤害提升，钩子连招更致命', icon:'🔋'},
+      {name:'蒸汽驱动', tier:'B', reason:'被动护盾增强，冲进去不容易被秒', icon:'⚙️'},
+    ]
+  },
+  {
+    id:'Morgana', name:'Morgana', name_cn:'莫甘娜', role:'辅助',
+    diff:1, dmg:'魔法', wr:53.4,
+    colors:['#9b59b6','#8e44ad'],
+    strengths:['E黑盾免疫所有控制效果','Q捆绑超长时间控制','R大范围减速+控制'],
+    weaknesses:['Q需要命中，难以对抗机动性强的英雄','被压制时W回血太慢','本身伤害不算太高'],
+    tips:['E优先给最容易被控制的队友','Q在对方直线移动时瞄准放','R激活后别走，让电磁场持续在身边','W放在小兵身上持续回血'],
+    counters:['Zed','Katarina','Yasuo','Yone'],
+    augments:[
+      {name:'黑暗束缚', tier:'S', reason:'Q绑定时间延长，被绑的人必死无疑', icon:'🖤'},
+      {name:'守护天使', tier:'A', reason:'E黑盾保护队友，配合天使被动双重保命', icon:'😇'},
+      {name:'暗黑法术', tier:'A', reason:'W回血增强，持续骚扰同时恢复自身', icon:'🌑'},
+    ]
+  },
+  {
+    id:'Ahri', name:'Ahri', name_cn:'阿狸', role:'法师',
+    diff:2, dmg:'魔法', wr:50.3,
+    colors:['#e91e63','#ff9800'],
+    strengths:['R三段冲刺，机动性极强','Q回旋魔球伤害高','W魅惑控制对方关键目标'],
+    weaknesses:['技能需要较高预判','相对脆，被爆发打死快','W魅惑距离短'],
+    tips:['Q飞出去魔球命中，飞回来再次命中','W魅惑打重要目标，打完跑','R用来追杀或逃跑都很灵活','大乱斗里灵活穿插，不要在人群里停留'],
+    counters:['Veigar','Syndra','Orianna','Lux'],
+    augments:[
+      {name:'魅惑之心', tier:'S', reason:'W魅惑时间延长，被控时间内轻松打死', icon:'🦊'},
+      {name:'以太之速', tier:'A', reason:'R冷缩让位移更频繁，战场上灵活无比', icon:'💨'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿配合Q高伤害，打穿对面法抗', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Zed', name:'Zed', name_cn:'劫', role:'刺客',
+    diff:3, dmg:'物理', wr:47.2,
+    colors:['#2c3e50','#e74c3c'],
+    strengths:['R死亡印记打后排核心，单杀能力强','影子机制让他很难被预判','前期骚扰能力强'],
+    weaknesses:['大乱斗中目标太多很难单杀','被克制了（W黑盾）完全没用','后期爆发不如法师稳定'],
+    tips:['找准对面血量最低的后排一套带走','R之后必须打人，否则印记没有伤害','W影子先扔，看情况决定要不要切过去','大乱斗里专找孤立的目标'],
+    counters:['Morgana','Lux','Orianna','Seraphine'],
+    augments:[
+      {name:'夜刃之影', tier:'S', reason:'R印记爆发增强，一套带走对面关键目标', icon:'🌑'},
+      {name:'致命节奏', tier:'A', reason:'R进去后攻速叠加，印记触发前打出更多伤害', icon:'⚡'},
+      {name:'幽灵行者', tier:'A', reason:'穿越障碍配合影子，出逃和突进更自由', icon:'👤'},
+    ]
+  },
+  {
+    id:'Katarina', name:'Katarina', name_cn:'卡特琳娜', role:'刺客',
+    diff:3, dmg:'混合', wr:50.4,
+    colors:['#c0392b','#8e44ad'],
+    strengths:['连续击杀重置CD，滚雪球能力无敌','大乱斗人多时伤害恐怖','E瞬移机动性强'],
+    weaknesses:['被打断即死（R被中断白给）','需要击杀才能重置，开局弱','被硬控一次基本GG'],
+    tips:['R放在远离控制技能的地方','先扔W匕首，E接到匕首旁再R','等队友控制了再冲进去','一旦有击杀立刻重置CD再下一个'],
+    counters:['Morgana','Lux','Veigar','Orianna'],
+    augments:[
+      {name:'收割者', tier:'S', reason:'击杀CD重置配合主动额外重置，连杀停不下来', icon:'⚔️'},
+      {name:'暗影匕首', tier:'S', reason:'W匕首强化，旋转时匕首伤害暴增', icon:'🗡️'},
+      {name:'虚空法杖', tier:'A', reason:'混合伤害配合法穿，打穿对面法抗', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Annie', name:'Annie', name_cn:'安妮', role:'法师',
+    diff:1, dmg:'魔法', wr:54.0,
+    colors:['#e74c3c','#f39c12'],
+    strengths:['R泰波熊召唤超强团控','Q叠加被动，W点燃眩晕','前期爆发力强'],
+    weaknesses:['移动速度慢，无位移技能','技能范围偏小需要靠近','后期随着游戏进行逐渐弱'],
+    tips:['4层被动（发光时）Q或W触发眩晕','R打在对面人最多的地方','W圆圈技能尽量打多个人','叠被动期间不要乱放技能'],
+    counters:['Yasuo','Zed','Ahri','Katarina'],
+    augments:[
+      {name:'泰波熊狂怒', tier:'S', reason:'R召唤的泰波熊伤害暴增，团控同时爆发', icon:'🐻'},
+      {name:'宇宙洞察', tier:'A', reason:'全技能冷缩，泰波熊更频繁，控制更多', icon:'🌌'},
+      {name:'虚空法杖', tier:'A', reason:'AP+魔穿，小体型释放巨额伤害', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Viktor', name:'Viktor', name_cn:'维克托', role:'法师',
+    diff:2, dmg:'魔法', wr:52.0,
+    colors:['#95a5a6','#3498db'],
+    strengths:['持续进化技能越来越强','R混沌风暴超强团控AOE','激光和死亡射线穿透伤害高'],
+    weaknesses:['需要时间进化完成','E死亡射线需要预判路线','被突进了无法自保'],
+    tips:['优先把QWE都进化完再换装备','E死亡射线拖拽方向对着敌方走位预判','R放在逃跑路线上追着人打','大乱斗里进化满了基本无敌'],
+    counters:['Zed','Katarina','Yasuo','Blitzcrank'],
+    augments:[
+      {name:'超进化', tier:'S', reason:'进化速度加快，早早满级技能发挥最强实力', icon:'⚙️'},
+      {name:'宇宙洞察', tier:'A', reason:'全技能冷缩，死亡射线和混沌风暴更频繁', icon:'🌌'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿让满进化伤害更加恐怖', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Seraphine', name:'Seraphine', name_cn:'娑菲', role:'辅助',
+    diff:1, dmg:'魔法', wr:55.4,
+    colors:['#e91e63','#ce93d8'],
+    strengths:['全队治疗+护盾+加速','R超远范围链接控制','被动双倍释放技能'],
+    weaknesses:['被突进无法保护自己','过于依赖团队','单体爆发不足'],
+    tips:['R打在越多人链接越好','E护盾保队友后接W治疗','被动叠满了双倍放，效果翻倍','站在团战外围用技能支援'],
+    counters:['Zed','Katarina','Blitzcrank','Yasuo'],
+    augments:[
+      {name:'共鸣之音', tier:'S', reason:'被动双倍频率更高，技能全面强化', icon:'🎤'},
+      {name:'天使庇护', tier:'A', reason:'E护盾增强，全队血条永远满满', icon:'🌟'},
+      {name:'旋律共振', tier:'A', reason:'R连锁效果更多，团控范围更大', icon:'🎵'},
+    ]
+  },
+  {
+    id:'Jhin', name:'Jhin', name_cn:'烬', role:'射手',
+    diff:2, dmg:'物理', wr:52.5,
+    colors:['#8e44ad','#c0392b'],
+    strengths:['第四颗子弹暴击极高伤害','W陷阱+根植控制链','R全局狙击超长射程'],
+    weaknesses:['装弹机制，空弹状态危险','移动速度固定，被追上必死','R引导容易被打断'],
+    tips:['留着第4颗子弹打血量低的目标','W陷阱先放，上来踩中再W根植接R','R找视野外逃跑的目标打','尽量站后排，保存子弹别乱打'],
+    counters:['Zed','Katarina','Blitzcrank','Yasuo'],
+    augments:[
+      {name:'致命节奏', tier:'S', reason:'前3颗攻速提升，第4颗子弹爆发更高', icon:'⚡'},
+      {name:'无尽之刃', tier:'A', reason:'暴击配合第4颗子弹，暴击伤害恐怖', icon:'⚔️'},
+      {name:'集中火力', tier:'A', reason:'R狙击精准度提升，全局收割更稳', icon:'🎯'},
+    ]
+  },
+  {
+    id:'Sivir', name:'Sivir', name_cn:'希维尔', role:'射手',
+    diff:1, dmg:'物理', wr:54.2,
+    colors:['#f39c12','#e67e22'],
+    strengths:['R全队加速，团战冲锋/逃跑都很强','W回旋飞镖清线极强','E法术盾弹反技能'],
+    weaknesses:['单体爆发不高','射程偏短','E法术盾需要手动激活，有时机要求'],
+    tips:['W回旋飞镖清线效率极高','R在追击或逃跑时放','E看到对面蓄力了立刻开','大乱斗节奏快，清线推塔是强项'],
+    counters:['Veigar','Karthus','Brand','Xerath'],
+    augments:[
+      {name:'飓风', tier:'S', reason:'W飓风弹射+W回旋，AOE清线能力无敌', icon:'🌪️'},
+      {name:'致命节奏', tier:'A', reason:'攻速攻速叠加清线更快，推塔更强', icon:'⚡'},
+      {name:'奔跑加速', tier:'A', reason:'R效果增强，全队加速更持久', icon:'💨'},
+    ]
+  },
+  {
+    id:'Brand', name:'Brand', name_cn:'布兰德', role:'法师',
+    diff:2, dmg:'魔法', wr:54.1,
+    colors:['#e74c3c','#f39c12'],
+    strengths:['被动燃烧连续AOE伤害','R大火球在人多时弹射伤害恐怖','E晕眩配合Q极强控制链'],
+    weaknesses:['需要叠燃烧才能最大化伤害','技能命中率要求高','移动速度慢，容易被追到'],
+    tips:['先放W点燃再E晕眩，再Q强化晕眩','R打在人最多的时候，弹射次数越多越好','被动叠满后任何技能都会爆炸', '大乱斗里被动AOE伤害非常恐怖'],
+    counters:['Yasuo','Sivir','Ezreal','Soraka'],
+    augments:[
+      {name:'冥火之触', tier:'S', reason:'被动燃烧AOE增强，全场人都在燃烧', icon:'🔥'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿让燃烧伤害穿透对方法抗', icon:'🔮'},
+      {name:'法师之冠', tier:'A', reason:'AP提升全面强化连锁燃烧伤害', icon:'👑'},
+    ]
+  },
+  {
+    id:'Xerath', name:'Xerath', name_cn:'泽拉斯', role:'法师',
+    diff:2, dmg:'魔法', wr:53.2,
+    colors:['#3498db','#9b59b6'],
+    strengths:['射程极长，全场最安全的站位','R无限子弹团战结束补血刀','W引爆全场最强范围技能'],
+    weaknesses:['技能全是延迟，容易被躲开','零机动性，站定施法'],
+    tips:['W放在对面必经之路上','E晕眩后接Q打满伤害','R在对面血量残了一个一个打','利用超长射程，站在能安全施法的地方'],
+    counters:['Zed','Katarina','Blitzcrank','Yasuo'],
+    augments:[
+      {name:'宇宙洞察', tier:'S', reason:'全技能冷缩，R子弹更多，W更频繁', icon:'🌌'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿配合超高AP，远距离打穿对方', icon:'🔮'},
+      {name:'法师之冠', tier:'A', reason:'AP全面提升，超远距离伤害更暴力', icon:'👑'},
+    ]
+  },
+  {
+    id:'Syndra', name:'Syndra', name_cn:'辛德拉', role:'法师',
+    diff:2, dmg:'魔法', wr:51.2,
+    colors:['#8e44ad','#2c3e50'],
+    strengths:['R散落虚空单体爆发极高','Q圆球持续召唤积累弹药','E击飞打断对方施法'],
+    weaknesses:['R之前需要积累足够的球','移动速度慢','需要灵活操控多个球'],
+    tips:['多放Q积累球，R才有足够的弹药','E用来打断对面重要技能','R在对面血量能一套带走时放','大乱斗里E击飞配合队友很强'],
+    counters:['Zed','Katarina','Yasuo','Blitzcrank'],
+    augments:[
+      {name:'黑暗主权', tier:'S', reason:'R散落虚空弹数增多，单体爆发恐怖提升', icon:'🔮'},
+      {name:'虚空法杖', tier:'A', reason:'AP+魔穿，R爆发打穿任何目标', icon:'🔮'},
+      {name:'宇宙洞察', tier:'A', reason:'技能冷缩，Q更频繁积累球的速度更快', icon:'🌌'},
+    ]
+  },
+  {
+    id:'Orianna', name:'Orianna', name_cn:'奥利安娜', role:'法师',
+    diff:2, dmg:'魔法', wr:52.1,
+    colors:['#ecf0f1','#f39c12'],
+    strengths:['R发条礼盒团控极强','球的移动配合技能连招','护盾保护自己或队友'],
+    weaknesses:['技能全围绕球，操作复杂','球需要精准控制','R需要把球放到对面人群中才好'],
+    tips:['R之前把球放到对面人最多处','E护盾给自己或者最需要的队友','Q骚扰同时移动球位置','W加速自己逃跑或追击'],
+    counters:['Zed','Katarina','Blitzcrank','Ahri'],
+    augments:[
+      {name:'发条精准', tier:'S', reason:'R范围增大，命中更多目标，团控效果恐怖', icon:'⚙️'},
+      {name:'和谐共鸣', tier:'A', reason:'E护盾增强，配合队友形成保命链', icon:'🤝'},
+      {name:'虚空法杖', tier:'A', reason:'AP魔穿配合超强团控，打穿对方', icon:'🔮'},
+    ]
+  },
+  {
+    id:'VelKoz', name:'VelKoz', name_cn:'维尔科兹', role:'法师',
+    diff:2, dmg:'魔法', wr:53.5,
+    colors:['#9b59b6','#e74c3c'],
+    strengths:['被动分解机制持续真实伤害','R全场最强持续引导伤害','技能全是直线穿透，一次打多人'],
+    weaknesses:['R引导期间无法移动','技能全是直线，容易被预判躲开','零位移技能'],
+    tips:['三段技能各打一种，触发被动真实伤害','R对着人最密集的地方引导','E减速配合Q穿透，命中更多人','大乱斗站最后排，射程够长可以安全输出'],
+    counters:['Yasuo','Zed','Katarina','Blitzcrank'],
+    augments:[
+      {name:'分解之力', tier:'S', reason:'被动触发更快，真实伤害穿透任何防御', icon:'🦑'},
+      {name:'虚空法杖', tier:'A', reason:'魔穿加速被动叠加，更快触发真实伤害', icon:'🔮'},
+      {name:'宇宙洞察', tier:'A', reason:'全技能冷缩，更频繁触发分解机制', icon:'🌌'},
+    ]
+  },
+  {
+    id:'Karthus', name:'Karthus', name_cn:'卡萨丁', role:'法师',
+    diff:1, dmg:'魔法', wr:56.1,
+    colors:['#8e44ad','#2c3e50'],
+    strengths:['R全图伤害，大乱斗多人同时打','死后继续输出7秒','Q持续AOE消耗战'],
+    weaknesses:['移动速度极慢','被突进就死','死后7秒依赖队友给他时间'],
+    tips:['R在大乱斗结束时放，收割残血最有效','死了不要着急，继续放QWE','Q优先打人少的位置减少闪避','W减速放在对面逃跑必经之路'],
+    counters:['Sivir','Ezreal','Yasuo','Morgana'],
+    augments:[
+      {name:'安魂曲', tier:'S', reason:'R全图伤害提升，多人同时打几乎必杀', icon:'💀'},
+      {name:'亡灵之持', tier:'S', reason:'死亡后7秒技能效果增强，死了打出更多伤害', icon:'👁️'},
+      {name:'虚空法杖', tier:'A', reason:'AP魔穿配合R全图输出，打穿对面', icon:'🔮'},
+    ]
+  },
+  {
+    id:'Teemo', name:'Teemo', name_cn:'提莫', role:'法师',
+    diff:2, dmg:'魔法', wr:53.0,
+    colors:['#27ae60','#f39c12'],
+    strengths:['蘑菇陷阱控制全场视野','隐身偷袭打出致命一击','持续中毒消耗伤害'],
+    weaknesses:['被突进了无法自保','蘑菇需要时间布置','被针对了容易被逃跑无视'],
+    tips:['蘑菇布置在草丛和常走的路上','Q致盲打物理攻击英雄，让他废一段时间','用隐身偷袭打出第一波伤害','大乱斗在角落布置蘑菇，被踩持续掉血'],
+    counters:['Sivir','Katarina','Yasuo','Zed'],
+    augments:[
+      {name:'毒菇强化', tier:'S', reason:'蘑菇伤害提升且变大，全场中毒无法逃脱', icon:'🍄'},
+      {name:'致命毒素', tier:'A', reason:'中毒时间延长，被踩之后持续掉血时间更久', icon:'☠️'},
+      {name:'虚空法杖', tier:'A', reason:'AP配合中毒真实伤害，打穿任何防御', icon:'🔮'},
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════
+   MATCHUP DATA
+═══════════════════════════════════════ */
+const MATCHUPS = {
+  // [myChamp][enemyChamp] = {rating:'favor'|'even'|'hard', tips:[]}
+  'Lux': {
+    'Zed':    {rating:'hard', tips:['W风墙前尽量保持距离','R在Zed R进来之前放，怕交换死，可以先E减速','被R一套时，你的处决印记如果已满，也可以同归于尽','减少Q骚扰频率，避免被盯上突进']},
+    'Yasuo':  {rating:'hard', tips:['W风墙会封锁你的所有技能！','优先放E，等Yasuo闪进来再E减速','配合队友控制，自己不要硬碰','站在小兵后面，避免被Q穿透']},
+    'Jinx':   {rating:'favor', tips:['持续E消耗Jinx血量','R冷却好了就打，Jinx没有位移无法逃','W提前给自己，防止Jinx的W陷阱','Jinx没有突进，你可以安全骚扰']},
+    'Soraka': {rating:'favor', tips:['尽量持续E骚扰，让Soraka无法轻松治疗','R在Soraka Q骚扰时放','不要被Q骚扰太多，注意补血','她的治疗很烦，需要高爆发快速解决']},
+    'Veigar': {rating:'even', tips:['互相骚扰，都是E控制链','注意他的E牢笼，别站在边缘','R互拼时注意血量，他的R打血量百分比','Veigar后期AP无限叠加，早期优势转化成胜利']},
+  },
+  'Jinx': {
+    'Zed':    {rating:'hard', tips:['W陷阱放在身后防追杀','被R进来后，立刻W减速，拉开距离','队友帮你保护，一定要站队友后面','血量低就撤，不要贪念输出']},
+    'Blitzcrank': {rating:'hard', tips:['始终和Blitzcrank保持距离','不要站在小兵前面，避免被钩','Q命中后立刻R大招收割','队友帮你挡钩子']},
+    'Sona':   {rating:'favor', tips:['Sona非常脆，一套可以打死','R可以收割逃跑的Sona','火箭模式AOE骚扰Sona','注意她的W护盾，打穿它就赢了']},
+    'Thresh': {rating:'even', tips:['避免被Q钩到，时刻注意Thresh位置','W陷阱可以阻止Thresh E的方向','被钩了不要慌，快速反应R收割','Jinx的R反应快可以配合队友输出']},
+  },
+  'Veigar': {
+    'Yasuo':  {rating:'hard', tips:['Yasuo风墙封掉你大部分技能','Q直着打，找缝隙命中','E牢笼放在Yasuo来的方向','队友帮控制，配合你爆发']},
+    'Katarina': {rating:'even', tips:['E牢笼放在Katarina可能落点','Katarina R被打断就废了，Q或W打断','都很怕被控制，互相配合队友','后期你AP比她高，后劲更足']},
+    'Soraka': {rating:'favor', tips:['Soraka治疗被你高AP压制','R直接秒Soraka，她血量百分比打死','E牢笼锁死Soraka，她跑不了','持续Q骚扰，让她无法安心治疗']},
+    'Ezreal': {rating:'favor', tips:['E牢笼锁住E位移后的Ezreal','Ezreal皮厚了才能抗你R，早期优势','持续Q骚扰积累AP','R打血量低的Ezreal一击即杀']},
+  },
+  'Yasuo': {
+    'Morgana': {rating:'hard', tips:['Morgana黑盾免疫所有控制！大打折扣','W风墙封锁Morgana的Q捆绑','R需要其他队友挑飞，不能靠自己','Q骚扰同时注意Morgana的E黑盾CD']},
+    'Lux':    {rating:'favor', tips:['W风墙封锁Lux所有弹道技能','Q三段后追近打，Lux无法逃','注意Lux的E减速','Lux脆，近身一套就带走']},
+    'Sona':   {rating:'favor', tips:['Sona超脆，近身一套必杀','W风墙封锁Sona大部分技能','R配合队友挑飞Sona','不要给Sona持续奶队友的机会']},
+    'Veigar': {rating:'favor', tips:['W风墙封锁Veigar大部分技能','近身一套，Veigar脆','注意Veigar的E牢笼，边缘切勿贪近','早期打压他，不让他叠AP']},
+  },
+  'Zed': {
+    'Morgana': {rating:'hard', tips:['Morgana黑盾完全免疫你的R印记！','等黑盾CD了再R','单杀其他没黑盾的目标','与其硬刚Morgana，绕过去打后排']},
+    'Lux':    {rating:'favor', tips:['Lux没有位移，容易被一套带走','W影子切进去，打完R逃走','在Lux E减速前先位移到位','快进快出，不要在原地输出']},
+    'Veigar': {rating:'favor', tips:['先手切进去，不给Veigar放E牢笼机会','Veigar脆，R一套可以带走','注意他的R，血量低别被反杀','带走Veigar后团战优势极大']},
+    'Soraka': {rating:'favor', tips:['Soraka超脆，Zed最爱的目标','R切过去秒掉Soraka，团战优势立刻来','注意她的E打断你R后的输出','带走后卫治疗，队友就能赢团']},
+  },
+  'Sona': {
+    'Zed':    {rating:'hard', tips:['Zed是Sona最大克星，远离他','R在Zed进来前放，团控救自己','E加速逃跑，不要在Zed可以切到的地方','让队友保护你，专心输出和治疗']},
+    'Yasuo':  {rating:'hard', tips:['Yasuo风墙封锁你的大部分技能','R在Yasuo不在旁边时放','E加速让队友冲上去打Yasuo','Yasuo突进你就跑，别贪']},
+    'Jinx':   {rating:'favor', tips:['Jinx移动慢，你的R控制她很稳','持续W治疗队友消耗Jinx','R在Jinx蓄R的时候放，打断她','Jinx打不了你，你奶队友让他们打']},
+    'Soraka': {rating:'even', tips:['两边都是治疗对抗，比谁先爆发','你的R控制打断Soraka治疗时机','持续让队友输出，比比谁先耗尽对方血量','R配合队友的爆发一波带走Soraka']},
+  },
+};
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let selectedChamp = null;
+let currentFilter = 'all';
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+function init() {
+  renderChampGrid();
+  populateSelects();
+}
+
+function getImgUrl(id) {
+  return `https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/${id}.png`;
+}
+
+function getRoleColor(role) {
+  const map = {'法师':'#8b5cf6','射手':'#06b6d4','辅助':'#10b981','战士':'#f59e0b','刺客':'#ef4444','特殊':'#64748b'};
+  return map[role] || '#64748b';
+}
+
+function getWrClass(wr) {
+  if (wr >= 54) return 'hot';
+  if (wr >= 51) return 'avg';
+  return 'low';
+}
+
+function hexFallbackStyle(champ) {
+  return `background:linear-gradient(135deg,${champ.colors[0]},${champ.colors[1]})`;
+}
+
+/* ═══════════════════════════════════════
+   TAB
+═══════════════════════════════════════ */
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', ['analysis','matchup','augment'][i] === tab);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+}
+
+/* ═══════════════════════════════════════
+   CHAMPION GRID
+═══════════════════════════════════════ */
+function renderChampGrid() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const grid = document.getElementById('champ-grid');
+  grid.innerHTML = '';
+
+  const filtered = CHAMPS.filter(c => {
+    const matchFilter = currentFilter === 'all' || c.role === currentFilter;
+    const matchSearch = !query || c.name_cn.includes(query) || c.name.toLowerCase().includes(query);
+    return matchFilter && matchSearch;
+  });
+
+  filtered.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'champ-card' + (selectedChamp?.id === c.id ? ' selected' : '');
+    div.onclick = () => selectChamp(c.id);
+
+    const wrColor = c.wr >= 54 ? '#0BC4C2' : c.wr >= 51 ? '#5b7fda' : '#e84057';
+    div.innerHTML = `
+      <div class="champ-hex-wrap">
+        <div class="hex-bg" style="background:linear-gradient(135deg,${c.colors[0]},${c.colors[1]})"></div>
+        <img class="champ-img" src="${getImgUrl(c.id)}" alt="${c.name_cn}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="champ-fallback" style="${hexFallbackStyle(c)};display:none">
+          ${c.name_cn.slice(0,2)}
+        </div>
+        <div class="wr-dot" style="background:${wrColor};color:#fff">${c.wr}%</div>
+      </div>
+      <div class="champ-name-small">${c.name_cn}</div>
+    `;
+    grid.appendChild(div);
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text2);font-size:12px">没有找到匹配英雄</div>';
+  }
+}
+
+function filterChamps() { renderChampGrid(); }
+function setFilter(role, el) {
+  currentFilter = role;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderChampGrid();
+}
+
+/* ═══════════════════════════════════════
+   SELECT CHAMPION
+═══════════════════════════════════════ */
+function selectChamp(id) {
+  selectedChamp = CHAMPS.find(c => c.id === id);
+  renderChampGrid();
+  renderAnalysis();
+  // sync selects
+  document.getElementById('my-champ').value = id;
+  document.getElementById('aug-champ-select').value = id;
+  calcMatchup();
+  renderAugments();
+}
+
+function renderAnalysis() {
+  const c = selectedChamp;
+  if (!c) return;
+
+  const dmgClass = c.dmg === '魔法' ? 'badge-dmg-magic' : c.dmg === '物理' ? 'badge-dmg-phys' : 'badge-dmg-mix';
+  const stars = [1,2,3].map(i => `<span class="star ${i<=c.diff?'on':'off'}">★</span>`).join('');
+  const wrCls = getWrClass(c.wr);
+
+  const strengths = c.strengths.map(s => `<div class="sw-item s">${s}</div>`).join('');
+  const weaknesses = c.weaknesses.map(w => `<div class="sw-item w">${w}</div>`).join('');
+  const tips = c.tips.map(t => `<div class="tip-item">${t}</div>`).join('');
+  const counters = c.counters.map(n => {
+    const found = CHAMPS.find(x => x.id === n);
+    return `<span class="counter-chip">${found ? found.name_cn : n}</span>`;
+  }).join('');
+
+  document.getElementById('analysis-output').innerHTML = `
+    <div class="analysis-panel">
+      <div class="panel-header">
+        <div class="panel-hero-hex">
+          <div class="hex-bg" style="background:linear-gradient(135deg,${c.colors[0]},${c.colors[1]})"></div>
+          <img class="champ-img" src="${getImgUrl(c.id)}" alt="${c.name_cn}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="champ-fallback" style="${hexFallbackStyle(c)};display:none;font-size:18px">
+            ${c.name_cn.slice(0,2)}
+          </div>
+        </div>
+        <div class="panel-info">
+          <div class="panel-name">${c.name}</div>
+          <div class="panel-name-cn">${c.name_cn}</div>
+          <div class="badge-row">
+            <span class="badge badge-role">${c.role}</span>
+            <span class="badge ${dmgClass}">${c.dmg}伤害</span>
+            <span class="badge badge-wr ${wrCls}">大乱斗 ${c.wr}%</span>
+            <span class="diff-stars">${stars}</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="section-label">优劣势</div>
+        <div class="sw-grid">
+          <div class="sw-box"><div class="sw-title s">✅ 优势</div>${strengths}</div>
+          <div class="sw-box"><div class="sw-title w">❌ 劣势</div>${weaknesses}</div>
+        </div>
+
+        <div class="section-label">大乱斗攻略</div>
+        <div class="tips-list">${tips}</div>
+
+        <div class="section-label">克制英雄</div>
+        <div class="counter-row">${counters}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
+   MATCHUP
+═══════════════════════════════════════ */
+function populateSelects() {
+  const opts = CHAMPS.map(c => `<option value="${c.id}">${c.name_cn} (${c.name})</option>`).join('');
+  ['my-champ','enemy-champ','aug-champ-select'].forEach(id => {
+    document.getElementById(id).innerHTML += opts;
+  });
+}
+
+function calcMatchup() {
+  const myId = document.getElementById('my-champ').value;
+  const enId = document.getElementById('enemy-champ').value;
+  if (!myId || !enId || myId === enId) {
+    document.getElementById('matchup-output').innerHTML = `<div class="select-prompt"><div class="pi">⚔️</div><div>请选择不同的两个英雄</div></div>`;
+    return;
+  }
+
+  const my = CHAMPS.find(c => c.id === myId);
+  const en = CHAMPS.find(c => c.id === enId);
+
+  // Look up matchup data
+  let data = MATCHUPS[myId]?.[enId] || MATCHUPS[enId]?.[myId];
+  let flipped = false;
+  if (!data && MATCHUPS[enId]?.[myId]) { data = MATCHUPS[enId][myId]; flipped = true; }
+
+  if (!data) {
+    // Generic matchup based on roles
+    data = generateGenericMatchup(my, en);
+  }
+
+  const ratingText = data.rating === 'favor' ? '优势对线' : data.rating === 'even' ? '均势对线' : '劣势对线';
+  const ratingCls = data.rating === 'favor' ? 'rating-favor' : data.rating === 'even' ? 'rating-even' : 'rating-hard';
+  const tipsHtml = data.tips.map(t => `<div class="matchup-tip">${t}</div>`).join('');
+
+  document.getElementById('matchup-output').innerHTML = `
+    <div class="matchup-result">
+      <div class="matchup-header">
+        <div class="matchup-vs-row">
+          <div class="matchup-champ">
+            <img class="matchup-champ-img" src="${getImgUrl(my.id)}" alt="${my.name_cn}"
+                 onerror="this.style.background='linear-gradient(135deg,${my.colors[0]},${my.colors[1]});display:block'">
+            <div class="matchup-champ-name">${my.name_cn}</div>
+          </div>
+          <div class="matchup-rating">
+            <div class="rating-badge ${ratingCls}">${ratingText}</div>
+            <div class="rating-sub">${my.name_cn} vs ${en.name_cn}</div>
+          </div>
+          <div class="matchup-champ">
+            <img class="matchup-champ-img" src="${getImgUrl(en.id)}" alt="${en.name_cn}"
+                 onerror="this.style.background='linear-gradient(135deg,${en.colors[0]},${en.colors[1]});display:block'">
+            <div class="matchup-champ-name">${en.name_cn}</div>
+          </div>
+        </div>
+      </div>
+      <div class="matchup-body">
+        <div class="section-label">对线要点</div>
+        ${tipsHtml}
+      </div>
+    </div>
+  `;
+}
+
+function generateGenericMatchup(my, en) {
+  // Simple heuristic
+  const assassins = ['刺客'];
+  const squishies = ['法师','射手','辅助'];
+
+  if (assassins.includes(en.role) && squishies.includes(my.role)) {
+    return {rating:'hard', tips:[
+      `${en.name_cn}是刺客，注意他的突进节奏，不要冒进`,
+      '贴近队友，不要在前排单独承受突进',
+      '开大/控制优先保命，不要和刺客硬拼单杀',
+      '血量不满就撤退，不要在被刺客盯上时贪念输出',
+    ]};
+  }
+  if (squishies.includes(en.role) && assassins.includes(my.role)) {
+    return {rating:'favor', tips:[
+      `${en.name_cn}较脆，把握突进时机一套带走`,
+      '等队友控制或对方CD用完后出手',
+      '快速解决目标后撤退，不要在人群里硬耗',
+      '对方血量不满时出手，一套带走更稳',
+    ]};
+  }
+  return {rating:'even', tips:[
+    '均势对线，发挥各自技能优势',
+    '注意走位，避免被对方技能命中',
+    '配合队友打出控制链，不要单独行动',
+    '大乱斗中注意观察对方技能CD',
+  ]};
+}
+
+/* ═══════════════════════════════════════
+   AUGMENTS
+═══════════════════════════════════════ */
+function renderAugments() {
+  const id = document.getElementById('aug-champ-select').value;
+  if (!id) {
+    document.getElementById('augment-output').innerHTML = `<div class="select-prompt"><div class="pi">💎</div><div>选择英雄后查看推荐海克斯强化</div></div>`;
+    return;
+  }
+  const c = CHAMPS.find(x => x.id === id);
+  const augs = c.augments;
+
+  document.getElementById('augment-output').innerHTML = `
+    <div class="aug-context">当前英雄：<span>${c.name_cn}</span> 的推荐海克斯强化</div>
+    <div style="height:12px"></div>
+    <div class="aug-grid">
+      ${augs.map(a => `
+        <div class="aug-card">
+          <div class="aug-tier-bar ${a.tier}"></div>
+          <div class="aug-inner">
+            <div class="aug-top">
+              <div class="aug-tier-badge ${a.tier}">${a.tier}</div>
+              <div class="aug-name">${a.name}</div>
+              <div class="aug-hex-icon" style="background:linear-gradient(135deg,${c.colors[0]}33,${c.colors[1]}33)">${a.icon}</div>
+            </div>
+            <div class="aug-reason">${a.reason}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+init();
+</script>
+</body>
+</html>
