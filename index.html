@@ -1,409 +1,311 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@keyframes goldShimmer{0%{background-position:100% 0}50%{background-position:0 0}100%{background-position:100% 0}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scan{0%{top:4px}100%{top:212px}}
+@keyframes inkPulse{0%,100%{opacity:.6}50%{opacity:1}}
 
-* { margin: 0px; padding: 0px; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-:root { --primary: #FF6B35; --primary-light: #FFF0E8; --dark: #2D3436; --gray: #636e72; --light: #f5f6fa; --border: #eee; --danger: #e74c3c; --success: #2ecc71; --warning: #f39c12; --radius: 12px; }
-
-html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif; background: var(--light); color: var(--dark); font-size: 14px; }
-
-body { display: flex; justify-content: center; }
-
-#app { width: 100%; max-width: 414px; min-height: 100vh; background: rgb(255, 255, 255); position: relative; overflow-x: hidden; box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 40px; }
-
-.nav-bar { background: linear-gradient(135deg,var(--primary),#e85d26); padding: 52px 20px 20px; color: rgb(255, 255, 255); }
-
-.nav-bar h1 { font-size: 22px; font-weight: 700; }
-
-.nav-bar p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
-
-.search-bar { margin: -14px 16px 12px; position: relative; z-index: 5; }
-
-.search-bar input { width: 100%; height: 40px; border: none; border-radius: 20px; padding: 0px 16px 0px 40px; background: rgb(255, 255, 255); font-size: 13px; box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px; outline: none; }
-
-.search-bar .ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; }
-
-.card { background: rgb(255, 255, 255); margin: 10px 16px; border-radius: var(--radius); padding: 16px; box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 6px; }
-
-.section-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-
-.section-hd .t { font-size: 15px; font-weight: 600; }
-
-.section-hd .m { font-size: 12px; color: var(--gray); }
-
-.banner { height: 140px; margin: 10px 16px; border-radius: var(--radius); overflow: hidden; position: relative; }
-
-.banner-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0px 24px; color: rgb(255, 255, 255); }
-
-.banner-text h3 { font-size: 20px; font-weight: 700; }
-
-.banner-text p { font-size: 12px; opacity: 0.9; margin-top: 4px; }
-
-.banner .emoji { font-size: 56px; }
-
-.banner .dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
-
-.banner .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); }
-
-.banner .dot.on { background: rgb(255, 255, 255); width: 16px; border-radius: 3px; }
-
-.quick { display: flex; justify-content: space-around; }
-
-.q-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-
-.q-ico { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-
-.q-txt { font-size: 11px; color: var(--gray); }
-
-.pricing-row { display: flex; gap: 10px; margin-top: 8px; }
-
-.pricing-card { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; background: var(--light); border-radius: 8px; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
-
-.pricing-card.active { border-color: var(--primary); background: var(--primary-light); }
-
-.pricing-card .name { font-size: 12px; color: var(--gray); }
-
-.pricing-card .price { font-size: 22px; font-weight: 700; color: var(--danger); margin: 4px 0px; }
-
-.pricing-card .unit { font-size: 11px; color: var(--gray); }
-
-.dev-card { display: flex; padding: 12px 0px; border-bottom: 1px solid var(--border); cursor: pointer; }
-
-.dev-card:last-child { border: none; }
-
-.dev-img { width: 72px; height: 72px; border-radius: 8px; background: var(--light); margin-right: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
-
-.dev-info { flex: 1 1 0%; display: flex; flex-direction: column; justify-content: space-between; }
-
-.dev-top { display: flex; justify-content: space-between; align-items: center; }
-
-.dev-name { font-size: 14px; font-weight: 600; }
-
-.dev-model { font-size: 12px; color: var(--gray); }
-
-.dev-bottom { display: flex; justify-content: space-between; }
-
-.tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
-
-.tag-success { background: rgb(232, 248, 239); color: var(--success); }
-
-.tag-warning { background: rgb(255, 243, 224); color: var(--warning); }
-
-.tag-danger { background: rgb(253, 232, 232); color: var(--danger); }
-
-.tag-info { background: rgb(240, 240, 240); color: var(--gray); }
-
-.site-item { padding: 10px 0px; border-bottom: 1px solid var(--border); }
-
-.site-item:last-child { border: none; }
-
-.site-name { font-size: 14px; font-weight: 500; }
-
-.site-addr { font-size: 12px; color: var(--gray); margin-top: 2px; }
-
-.tab-bar { position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 414px; display: flex; background: rgb(255, 255, 255); border-top: 1px solid var(--border); z-index: 100; padding: 6px 0 env(safe-area-inset-bottom); }
-
-.tab-item { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0px; cursor: pointer; transition: 0.2s; }
-
-.tab-item .ti { font-size: 20px; }
-
-.tab-item .tt { font-size: 10px; color: var(--gray); }
-
-.tab-item.on .tt { color: var(--primary); font-weight: 600; }
-
-.page { display: none; min-height: 100vh; padding-bottom: 70px; }
-
-.page.show { display: block; animation: 0.25s ease 0s 1 normal none running fadeIn; }
-
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0px); }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --primary:#C89B3C;--primary-light:rgba(200,155,60,.12);--primary-glow:rgba(200,155,60,.3);
+  --bg:#0a0e1a;--bg2:#0f1525;--card-bg:rgba(13,19,38,.9);
+  --dark:#e8d9b5;--gray:#8892b0;--light:rgba(255,255,255,.05);
+  --border:rgba(200,155,60,.2);--danger:#ff6b6b;--success:#2ecc71;
+  --warning:#f0a500;--purple:#7B5EA7;--radius:12px;
 }
-
-.detail-swiper { height: 220px; background: linear-gradient(135deg, rgb(255, 107, 53), rgb(232, 93, 38)); display: flex; align-items: center; justify-content: center; font-size: 80px; color: rgba(255, 255, 255, 0.3); }
-
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-
-.info-item { display: flex; flex-direction: column; }
-
-.info-item .l { font-size: 11px; color: var(--gray); }
-
-.info-item .v { font-size: 13px; margin-top: 2px; }
-
-.battery-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 10px; overflow: hidden; }
-
-.battery-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
-
-.rules-list { margin-top: 6px; }
-
-.rule { padding: 4px 0px; font-size: 12px; color: var(--gray); line-height: 1.6; }
-
-.rule::before { content: "•"; color: var(--primary); margin-right: 8px; }
-
-.bottom-bar { position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 414px; display: flex; align-items: center; padding-top: 12px; padding-right: 16px; padding-left: 16px; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.06) 0px -2px 10px; z-index: 100; gap: 10px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
-
-.bottom-bar .total { flex: 1 1 0%; }
-
-.bottom-bar .total .l { font-size: 12px; color: var(--gray); }
-
-.bottom-bar .total .p { font-size: 20px; font-weight: 700; color: var(--danger); }
-
-.btn { height: 40px; border: none; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.15s; }
-
-.btn-primary { background: var(--primary); color: rgb(255, 255, 255); flex-shrink: 0; padding: 0px 24px; }
-
-.btn-primary:active { transform: scale(0.96); opacity: 0.85; }
-
-.btn-secondary { background: var(--light); color: var(--dark); flex-shrink: 0; padding: 0px 16px; }
-
-.btn-secondary:active { background: rgb(238, 238, 238); }
-
-.btn-block { width: 100%; }
-
-.btn-sm { height: 32px; font-size: 12px; padding: 0px 14px; }
-
-.rental-card { background: linear-gradient(135deg,var(--primary),#e85d26); margin: 16px; border-radius: var(--radius); padding: 20px; color: rgb(255, 255, 255); }
-
-.rental-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.2); margin-top: 16px; }
-
-.stat-item { display: flex; flex-direction: column; align-items: center; }
-
-.stat-item .v { font-size: 24px; font-weight: 700; }
-
-.stat-item .l { font-size: 11px; opacity: 0.8; margin-top: 2px; }
-
-.stat-divider { width: 1px; height: 40px; background: rgba(255, 255, 255, 0.3); }
-
-.timer { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 2px; }
-
-.tabs { display: flex; background: rgb(255, 255, 255); border-bottom: 1px solid var(--border); }
-
-.tab-btn { flex: 1 1 0%; text-align: center; padding: 14px 0px; font-size: 13px; color: var(--gray); cursor: pointer; position: relative; transition: 0.2s; }
-
-.tab-btn.on { color: var(--primary); font-weight: 600; }
-
-.tab-btn.on::after { content: ""; position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%); width: 24px; height: 3px; background: var(--primary); border-radius: 2px; }
-
-.order-card { cursor: pointer; }
-
-.order-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-
-.order-hd .n { font-size: 14px; font-weight: 600; }
-
-.order-row { display: flex; justify-content: space-between; padding: 4px 0px; font-size: 12px; }
-
-.order-row .l { color: var(--gray); }
-
-.order-row .v { font-weight: 500; }
-
-.price { color: var(--danger) !important; font-weight: 600 !important; }
-
-.profile-hd { background: linear-gradient(135deg,var(--primary),#e85d26); padding: 52px 20px 32px; color: rgb(255, 255, 255); }
-
-.user-row { display: flex; align-items: center; gap: 12px; }
-
-.avatar { width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; font-size: 28px; border: 2px solid rgba(255, 255, 255, 0.4); }
-
-.user-info .name { font-size: 18px; font-weight: 700; }
-
-.user-info .id { font-size: 12px; opacity: 0.7; margin-top: 2px; }
-
-.credit-card { display: flex; align-items: center; justify-content: space-between; margin-top: -16px; position: relative; z-index: 5; }
-
-.credit-num { font-size: 36px; font-weight: 700; color: var(--primary); }
-
-.credit-lv { font-size: 12px; color: var(--primary); background: var(--primary-light); padding: 2px 10px; border-radius: 6px; margin-left: 8px; }
-
-.asset-row { display: flex; gap: 0px; }
-
-.asset-item { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; }
-
-.asset-item .v { font-size: 20px; font-weight: 700; }
-
-.asset-item .l { font-size: 11px; color: var(--gray); margin-top: 2px; }
-
-.asset-div { width: 1px; background: var(--border); margin: 12px 0px; }
-
-.menu-item { display: flex; align-items: center; padding: 14px 0px; border-bottom: 1px solid var(--border); cursor: pointer; }
-
-.menu-item:last-child { border: none; }
-
-.menu-item .mi { font-size: 18px; margin-right: 12px; }
-
-.menu-item .mt { flex: 1 1 0%; font-size: 14px; }
-
-.menu-item .ma { color: var(--gray); font-size: 16px; }
-
-.return-site { display: flex; align-items: center; padding: 14px; border: 2px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
-
-.return-site.on { border-color: var(--primary); background: var(--primary-light); }
-
-.return-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgb(204, 204, 204); margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgb(255, 255, 255); }
-
-.return-site.on .return-radio { border-color: var(--primary); background: var(--primary); }
-
-.photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-
-.photo-item { width: 90px; height: 90px; border-radius: 8px; background: var(--light); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
-
-.photo-item.add { border: 2px dashed rgb(204, 204, 204); font-size: 32px; color: rgb(204, 204, 204); }
-
-.modal-mask { position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-
-.modal { background: rgb(255, 255, 255); border-radius: 16px; padding: 24px; width: 100%; max-width: 340px; max-height: 80vh; overflow-y: auto; }
-
-.modal h3 { font-size: 16px; font-weight: 600; text-align: center; margin-bottom: 16px; }
-
-.modal-body { font-size: 13px; line-height: 1.8; color: var(--gray); margin-bottom: 16px; white-space: pre-wrap; }
-
-.modal-footer { display: flex; gap: 10px; }
-
-.admin-hd { background: linear-gradient(135deg,var(--dark),#1a1a2e); padding: 52px 20px 24px; color: rgb(255, 255, 255); }
-
-.admin-hd h2 { font-size: 20px; font-weight: 700; }
-
-.admin-hd p { font-size: 12px; opacity: 0.6; margin-top: 2px; }
-
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0px 16px; margin-top: -12px; position: relative; z-index: 5; }
-
-.stat-card { background: rgb(255, 255, 255); border-radius: var(--radius); padding: 14px; box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 8px; }
-
-.stat-card .n { font-size: 24px; font-weight: 700; display: block; }
-
-.stat-card .l { font-size: 11px; color: var(--gray); margin-top: 2px; display: block; }
-
-.stat-card.accent { border-left: 4px solid var(--primary); }
-
-.stat-card.money { border-left: 4px solid var(--danger); }
-
-.shortcut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
-
-.shortcut { display: flex; flex-direction: column; align-items: center; padding: 12px 0px; cursor: pointer; border-radius: 8px; transition: 0.2s; }
-
-.shortcut:active { background: var(--light); }
-
-.shortcut .si { font-size: 24px; margin-bottom: 4px; }
-
-.shortcut .st { font-size: 11px; color: var(--gray); }
-
-.bar-chart { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-
-.bar-row { display: flex; align-items: center; gap: 10px; }
-
-.bar-label { width: 40px; font-size: 12px; color: var(--gray); }
-
-.bar-track { flex: 1 1 0%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-
-.bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
-
-.bar-num { width: 30px; font-size: 12px; font-weight: 600; text-align: right; }
-
-.back-btn { position: absolute; top: 54px; left: 16px; font-size: 18px; cursor: pointer; z-index: 10; padding: 6px 10px; background: rgba(255, 255, 255, 0.2); border-radius: 20px; color: rgb(255, 255, 255); }
-
-.empty { padding: 40px 0px; text-align: center; }
-
-.empty .e { font-size: 48px; margin-bottom: 8px; }
-
-.empty .t { color: var(--gray); font-size: 13px; }
-
-.page-content { padding-bottom: 80px; }
-
-.page-content.no-tab { padding-bottom: 20px; }
-
-.extend-opts { display: flex; gap: 10px; margin-bottom: 16px; }
-
-.extend-opt { flex: 1 1 0%; display: flex; flex-direction: column; align-items: center; padding: 14px 0px; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: 0.2s; }
-
-.extend-opt.on { border-color: var(--primary); background: var(--primary-light); }
-
-.extend-opt .t { font-size: 13px; }
-
-.extend-opt .p { font-size: 14px; font-weight: 600; color: var(--danger); margin-top: 4px; }
-
-.fee-row { display: flex; justify-content: space-between; padding: 10px 0px; font-size: 13px; }
-
-.fee-row.hl { font-weight: 600; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 14px; }
-
-/* ===== SCANNER ===== */
-.scanner-mask { position: fixed; inset: 0; background: #000; z-index: 600; display: flex; flex-direction: column; }
-.scanner-header { padding: 52px 20px 16px; display: flex; align-items: center; gap: 12px; }
-.scanner-header .back { font-size: 24px; color: #fff; cursor: pointer; }
-.scanner-header h2 { font-size: 18px; color: #fff; font-weight: 600; }
-.scanner-viewport { position: relative; flex: 1; overflow: hidden; }
-.scanner-viewport video { width: 100%; height: 100%; object-fit: cover; }
-.scanner-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-.scanner-box { width: 220px; height: 220px; position: relative; }
-.scanner-box::before, .scanner-box::after { content: ''; position: absolute; width: 40px; height: 40px; border-color: var(--primary); border-style: solid; }
-.scanner-box::before { top: 0; left: 0; border-width: 4px 0 0 4px; border-radius: 4px 0 0 0; }
-.scanner-box::after { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-radius: 0 0 4px 0; }
-.scanner-corner-tr { position: absolute; top: 0; right: 0; width: 40px; height: 40px; border-top: 4px solid var(--primary); border-right: 4px solid var(--primary); border-radius: 0 4px 0 0; }
-.scanner-corner-bl { position: absolute; bottom: 0; left: 0; width: 40px; height: 40px; border-bottom: 4px solid var(--primary); border-left: 4px solid var(--primary); border-radius: 0 0 0 4px; }
-.scanner-line { position: absolute; left: 4px; right: 4px; height: 2px; background: var(--primary); box-shadow: 0 0 8px var(--primary); animation: scan 2s linear infinite; }
-@keyframes scan { 0%{top:4px} 100%{top:212px} }
-.scanner-tip { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 24px; text-align: center; }
-.scanner-footer { padding: 24px 20px 40px; text-align: center; color: rgba(255,255,255,0.6); font-size: 13px; }
-
-/* ===== LOGIN/REGISTER MODAL ===== */
-.auth-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; justify-content: center; z-index: 9999; }
-.auth-modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px calc(50px + env(safe-area-inset-bottom)); width: 100%; max-width: 414px; max-height: 90vh; overflow-y: auto; }
-.auth-modal .logo { text-align: center; margin-bottom: 8px; font-size: 36px; }
-.auth-modal .brand { text-align: center; font-size: 18px; font-weight: 700; color: var(--dark); }
-.auth-modal .slogan { text-align: center; font-size: 12px; color: var(--gray); margin-bottom: 20px; }
-.auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-.auth-tab { flex: 1; text-align: center; padding: 10px 0; font-size: 15px; color: var(--gray); cursor: pointer; position: relative; }
-.auth-tab.on { color: var(--primary); font-weight: 600; }
-.auth-tab.on::after { content:''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 32px; height: 3px; background: var(--primary); border-radius: 2px; }
-.auth-input-group { margin-bottom: 14px; }
-.auth-input-group label { font-size: 12px; color: var(--gray); display: block; margin-bottom: 5px; }
-.auth-input-row { display: flex; gap: 8px; }
-.auth-input { width: 100%; height: 44px; border: 1px solid var(--border); border-radius: 10px; padding: 0 14px; font-size: 14px; outline: none; transition: 0.2s; }
-.auth-input:focus { border-color: var(--primary); }
-.btn-sms { height: 44px; white-space: nowrap; border-radius: 10px; font-size: 13px; padding: 0 14px; border: 1px solid var(--primary); background: var(--primary-light); color: var(--primary); cursor: pointer; flex-shrink: 0; }
-.btn-sms:disabled { opacity: 0.5; cursor: not-allowed; }
-.auth-submit { width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 25px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0.1); touch-action: manipulation; }
-.auth-submit:active { opacity: 0.85; }
-.auth-skip { text-align: center; margin-top: 14px; font-size: 13px; color: var(--gray); cursor: pointer; }
-.auth-skip span { color: var(--primary); }
-
-/* ===== PAYMENT MODAL ===== */
-.pay-modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
-.pay-modal { background: #fff; border-radius: 16px; width: 100%; max-width: 340px; overflow: hidden; }
-.pay-modal-hd { background: linear-gradient(135deg, var(--primary), #e85d26); padding: 20px; color: #fff; text-align: center; }
-.pay-modal-hd .amount { font-size: 32px; font-weight: 700; }
-.pay-modal-hd .amount-label { font-size: 12px; opacity: 0.85; margin-top: 4px; }
-.pay-modal-body { padding: 20px; }
-.pay-amount-detail { background: var(--light); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
-.pay-amount-row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
-.pay-amount-row .label { color: var(--gray); }
-.pay-methods { display: flex; gap: 10px; margin-bottom: 16px; }
-.pay-method { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 14px 0; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: 0.2s; }
-.pay-method.on { border-color: var(--primary); background: var(--primary-light); }
-.pay-method .pm-icon { font-size: 28px; margin-bottom: 4px; }
-.pay-method .pm-name { font-size: 12px; font-weight: 600; }
-.pay-qr { background: #f0f0f0; border-radius: 10px; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 14px; color: var(--gray); font-size: 13px; gap: 6px; }
-.pay-qr .qr-icon { font-size: 36px; }
-.pay-qr .qr-tip { font-size: 11px; }
-.pay-confirm { width: 100%; height: 44px; background: var(--primary); color: #fff; border: none; border-radius: 22px; font-size: 15px; font-weight: 600; cursor: pointer; }
-.pay-confirm:active { opacity: 0.85; }
-.pay-note { text-align: center; font-size: 11px; color: var(--gray); margin-top: 10px; }
-.pay-modal-footer { padding: 0 20px 20px; }
+html,body{height:100%;font-family:'Noto Sans SC','PingFang SC','Hiragino Sans GB',sans-serif;background:#060a12;color:var(--dark);font-size:14px}
+body{display:flex;justify-content:center}
+#app{width:100%;max-width:414px;min-height:100vh;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 0 1px rgba(200,155,60,.08)}
+#app::before{content:'';position:fixed;inset:0;max-width:414px;background:radial-gradient(ellipse at 20% 30%,rgba(123,94,167,.1) 0%,transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(200,155,60,.06) 0%,transparent 45%),radial-gradient(ellipse at 50% 90%,rgba(45,27,105,.08) 0%,transparent 50%);pointer-events:none;z-index:0}
+.page{position:relative;z-index:1}
+
+/* NAV */
+.nav-bar{background:linear-gradient(180deg,rgba(6,10,20,.99),rgba(10,14,26,.96));padding:52px 20px 20px;color:var(--dark);border-bottom:1px solid rgba(200,155,60,.2);position:relative;overflow:hidden}
+.nav-bar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,155,60,.5),transparent)}
+.nav-bar h1{font-size:22px;font-weight:700;font-family:'Ma Shan Zheng',serif;color:#e8c76a;text-shadow:0 0 20px rgba(200,155,60,.5);letter-spacing:2px}
+.nav-bar p{font-size:12px;color:var(--gray);margin-top:3px;letter-spacing:1px}
+
+/* SEARCH */
+.search-bar{margin:-14px 16px 12px;position:relative;z-index:5}
+.search-bar input{width:100%;height:40px;border:1px solid var(--border);border-radius:20px;padding:0 16px 0 40px;background:rgba(13,19,38,.9);font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.4);outline:none;color:var(--dark);backdrop-filter:blur(8px)}
+.search-bar input::placeholder{color:var(--gray)}
+.search-bar .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px}
+
+/* CARDS */
+.card{background:var(--card-bg);margin:10px 16px;border-radius:var(--radius);padding:16px;box-shadow:0 4px 20px rgba(0,0,0,.4),0 0 0 1px rgba(200,155,60,.1);border:1px solid var(--border);backdrop-filter:blur(10px);position:relative;z-index:1}
+.section-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-hd .t{font-size:15px;font-weight:600;color:#e8c76a}
+.section-hd .m{font-size:12px;color:var(--gray)}
+
+/* BANNER */
+.banner{height:140px;margin:10px 16px;border-radius:var(--radius);overflow:hidden;position:relative;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.banner-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 24px;color:#fff}
+.banner-text h3{font-size:20px;font-weight:700;font-family:'Ma Shan Zheng',serif;color:#e8c76a;letter-spacing:2px}
+.banner-text p{font-size:12px;opacity:.85;margin-top:4px;color:#c8d0e0}
+.banner .emoji{font-size:52px;filter:drop-shadow(0 0 12px rgba(200,155,60,.5))}
+.banner .dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.banner .dot{width:6px;height:6px;border-radius:50%;background:rgba(200,155,60,.25)}
+.banner .dot.on{background:#C89B3C;width:16px;border-radius:3px}
+
+/* QUICK */
+.quick{display:flex;justify-content:space-around}
+.q-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.q-ico{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(200,155,60,.2)}
+.q-txt{font-size:11px;color:var(--gray)}
+
+/* PRICING */
+.pricing-row{display:flex;gap:10px;margin-top:8px}
+.pricing-card{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 0;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid rgba(200,155,60,.15);cursor:pointer;transition:.2s}
+.pricing-card.active{border-color:var(--primary);background:rgba(200,155,60,.1);box-shadow:0 0 16px rgba(200,155,60,.2)}
+.pricing-card .name{font-size:12px;color:var(--gray)}
+.pricing-card .price{font-size:22px;font-weight:700;color:var(--danger);margin:4px 0}
+.pricing-card .unit{font-size:11px;color:var(--gray)}
+
+/* DEVICE CARD */
+.dev-card{display:flex;padding:12px 0;border-bottom:1px solid rgba(200,155,60,.1);cursor:pointer;transition:.2s}
+.dev-card:active{background:rgba(200,155,60,.05);border-radius:8px}
+.dev-card:last-child{border:none}
+.dev-img{width:72px;height:72px;border-radius:8px;background:rgba(200,155,60,.08);margin-right:12px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:1px solid rgba(200,155,60,.15)}
+.dev-info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.dev-top{display:flex;justify-content:space-between;align-items:center}
+.dev-name{font-size:14px;font-weight:600;color:var(--dark)}
+.dev-model{font-size:12px;color:var(--gray)}
+.dev-bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--gray)}
+
+/* TAGS */
+.tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.tag-success{background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.25)}
+.tag-warning{background:rgba(240,165,0,.15);color:var(--warning);border:1px solid rgba(240,165,0,.25)}
+.tag-danger{background:rgba(255,107,107,.15);color:var(--danger);border:1px solid rgba(255,107,107,.25)}
+.tag-info{background:rgba(136,146,176,.15);color:var(--gray);border:1px solid rgba(136,146,176,.2)}
+
+/* SITE */
+.site-item{padding:10px 0;border-bottom:1px solid rgba(200,155,60,.1)}
+.site-item:last-child{border:none}
+.site-name{font-size:14px;font-weight:500;color:var(--dark)}
+.site-addr{font-size:12px;color:var(--gray);margin-top:2px}
+
+/* TAB BAR */
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:414px;display:flex;background:rgba(6,10,20,.96);border-top:1px solid rgba(200,155,60,.2);z-index:100;padding:6px 0 env(safe-area-inset-bottom);backdrop-filter:blur(20px)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;cursor:pointer;transition:.2s}
+.tab-item .ti{font-size:20px}
+.tab-item .tt{font-size:10px;color:var(--gray)}
+.tab-item.on .tt{color:var(--primary);font-weight:600}
+.tab-item.on .ti{filter:drop-shadow(0 0 6px rgba(200,155,60,.7))}
+
+/* PAGES */
+.page{display:none;min-height:100vh;padding-bottom:70px}
+.page.show{display:block;animation:fadeIn .25s ease}
+
+/* DETAIL */
+.detail-swiper{height:220px;background:linear-gradient(135deg,rgba(45,27,105,.7),rgba(10,14,26,1));display:flex;align-items:center;justify-content:center;font-size:80px;border-bottom:1px solid var(--border)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.info-item{display:flex;flex-direction:column}
+.info-item .l{font-size:11px;color:var(--gray)}
+.info-item .v{font-size:13px;margin-top:2px;color:var(--dark)}
+.battery-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:10px;overflow:hidden}
+.battery-fill{height:100%;border-radius:3px;transition:width .3s}
+.rules-list{margin-top:6px}
+.rule{padding:4px 0;font-size:12px;color:var(--gray);line-height:1.6}
+.rule::before{content:"◆";color:var(--primary);margin-right:8px;font-size:8px}
+
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:414px;display:flex;align-items:center;padding-top:12px;padding-right:16px;padding-left:16px;background:rgba(6,10,20,.96);box-shadow:0 -4px 20px rgba(0,0,0,.5),0 -1px 0 rgba(200,155,60,.15);z-index:100;gap:10px;padding-bottom:calc(12px + env(safe-area-inset-bottom));backdrop-filter:blur(20px)}
+.bottom-bar .total{flex:1}
+.bottom-bar .total .l{font-size:12px;color:var(--gray)}
+.bottom-bar .total .p{font-size:20px;font-weight:700;color:var(--danger)}
+
+/* BUTTONS */
+.btn{height:40px;border:none;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s}
+.btn-primary{background:linear-gradient(135deg,#8a6520,#C89B3C,#e8c76a,#C89B3C,#8a6520);background-size:300% 100%;color:#1a1000;font-weight:700;flex-shrink:0;padding:0 24px;box-shadow:0 2px 14px rgba(200,155,60,.35);animation:goldShimmer 3s ease infinite}
+.btn-primary:active{transform:scale(.96);opacity:.85}
+.btn-secondary{background:rgba(200,155,60,.1);color:var(--primary);border:1px solid rgba(200,155,60,.3);flex-shrink:0;padding:0 16px}
+.btn-secondary:active{background:rgba(200,155,60,.15)}
+.btn-block{width:100%}
+.btn-sm{height:32px;font-size:12px;padding:0 14px}
+
+/* RENTAL CARD */
+.rental-card{background:linear-gradient(135deg,rgba(45,27,105,.55),rgba(10,14,26,.95));margin:16px;border-radius:var(--radius);padding:20px;color:var(--dark);border:1px solid rgba(200,155,60,.25);box-shadow:0 4px 24px rgba(0,0,0,.5),inset 0 0 40px rgba(123,94,167,.05)}
+.rental-stats{display:flex;justify-content:space-around;padding-top:16px;border-top:1px solid rgba(200,155,60,.2);margin-top:16px}
+.stat-item{display:flex;flex-direction:column;align-items:center}
+.stat-item .v{font-size:24px;font-weight:700;color:var(--dark)}
+.stat-item .l{font-size:11px;color:var(--gray);margin-top:2px}
+.stat-divider{width:1px;height:40px;background:rgba(200,155,60,.2)}
+.timer{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:2px;color:#e8c76a}
+
+/* TABS */
+.tabs{display:flex;background:rgba(6,10,20,.5);border-bottom:1px solid var(--border)}
+.tab-btn{flex:1;text-align:center;padding:14px 0;font-size:13px;color:var(--gray);cursor:pointer;position:relative;transition:.2s}
+.tab-btn.on{color:var(--primary);font-weight:600}
+.tab-btn.on::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--primary);border-radius:2px;box-shadow:0 0 8px var(--primary-glow)}
+
+/* ORDER */
+.order-card{cursor:pointer}
+.order-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.order-hd .n{font-size:14px;font-weight:600;color:var(--dark)}
+.order-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px}
+.order-row .l{color:var(--gray)}
+.order-row .v{font-weight:500;color:var(--dark)}
+.price{color:var(--danger)!important;font-weight:600!important}
+
+/* PROFILE */
+.profile-hd{background:linear-gradient(180deg,rgba(6,10,20,.99),rgba(10,14,26,.96));padding:52px 20px 32px;color:var(--dark);border-bottom:1px solid var(--border);position:relative}
+.user-row{display:flex;align-items:center;gap:12px}
+.avatar{width:56px;height:56px;border-radius:50%;background:rgba(200,155,60,.1);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(200,155,60,.4);box-shadow:0 0 16px rgba(200,155,60,.2)}
+.user-info .name{font-size:18px;font-weight:700;color:#e8c76a}
+.user-info .id{font-size:12px;color:var(--gray);margin-top:2px}
+.credit-card{display:flex;align-items:center;justify-content:space-between;margin-top:-16px;position:relative;z-index:5}
+.credit-num{font-size:36px;font-weight:700;color:var(--primary)}
+.credit-lv{font-size:12px;color:var(--primary);background:rgba(200,155,60,.1);padding:2px 10px;border-radius:6px;margin-left:8px;border:1px solid rgba(200,155,60,.25)}
+.asset-row{display:flex;gap:0}
+.asset-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 0}
+.asset-item .v{font-size:20px;font-weight:700;color:var(--dark)}
+.asset-item .l{font-size:11px;color:var(--gray);margin-top:2px}
+.asset-div{width:1px;background:var(--border);margin:12px 0}
+.menu-item{display:flex;align-items:center;padding:14px 0;border-bottom:1px solid rgba(200,155,60,.1);cursor:pointer;transition:.15s}
+.menu-item:last-child{border:none}
+.menu-item:active{background:rgba(200,155,60,.05);border-radius:8px}
+.menu-item .mi{font-size:18px;margin-right:12px}
+.menu-item .mt{flex:1;font-size:14px;color:var(--dark)}
+.menu-item .ma{color:var(--gray);font-size:16px}
+
+/* RETURN */
+.return-site{display:flex;align-items:center;padding:14px;border:1px solid rgba(200,155,60,.15);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}
+.return-site.on{border-color:var(--primary);background:rgba(200,155,60,.08);box-shadow:0 0 12px rgba(200,155,60,.15)}
+.return-radio{width:20px;height:20px;border-radius:50%;border:2px solid rgba(136,146,176,.4);margin-right:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#1a1000}
+.return-site.on .return-radio{border-color:var(--primary);background:var(--primary)}
+.photo-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.photo-item{width:90px;height:90px;border-radius:8px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;border:1px solid rgba(200,155,60,.15)}
+.photo-item.add{border:2px dashed rgba(200,155,60,.3);font-size:32px;color:rgba(200,155,60,.4)}
+
+/* MODAL */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px;backdrop-filter:blur(4px)}
+.modal{background:rgba(8,12,24,.98);border-radius:16px;padding:24px;width:100%;max-width:340px;max-height:80vh;overflow-y:auto;border:1px solid rgba(200,155,60,.25);box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.modal h3{font-size:16px;font-weight:600;text-align:center;margin-bottom:16px;color:#e8c76a}
+.modal-body{font-size:13px;line-height:1.8;color:var(--gray);margin-bottom:16px;white-space:pre-wrap}
+.modal-footer{display:flex;gap:10px}
+
+/* ADMIN */
+.admin-hd{background:linear-gradient(180deg,rgba(6,10,20,1),rgba(10,14,26,.98));padding:52px 20px 24px;color:var(--dark);border-bottom:1px solid var(--border)}
+.admin-hd h2{font-size:20px;font-weight:700;color:#e8c76a}
+.admin-hd p{font-size:12px;color:var(--gray);margin-top:2px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-top:-12px;position:relative;z-index:5}
+.stat-card{background:var(--card-bg);border-radius:var(--radius);padding:14px;box-shadow:0 4px 16px rgba(0,0,0,.4);border:1px solid var(--border)}
+.stat-card .n{font-size:24px;font-weight:700;display:block;color:var(--dark)}
+.stat-card .l{font-size:11px;color:var(--gray);margin-top:2px;display:block}
+.stat-card.accent{border-left:3px solid var(--primary)}
+.stat-card.money{border-left:3px solid var(--danger)}
+.shortcut-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.shortcut{display:flex;flex-direction:column;align-items:center;padding:12px 0;cursor:pointer;border-radius:8px;transition:.2s}
+.shortcut:active{background:rgba(200,155,60,.08)}
+.shortcut .si{font-size:24px;margin-bottom:4px}
+.shortcut .st{font-size:11px;color:var(--gray)}
+.bar-chart{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{width:40px;font-size:12px;color:var(--gray)}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .3s}
+.bar-num{width:30px;font-size:12px;font-weight:600;text-align:right;color:var(--dark)}
+
+/* BACK BTN */
+.back-btn{position:absolute;top:54px;left:16px;font-size:18px;cursor:pointer;z-index:10;padding:6px 10px;background:rgba(200,155,60,.1);border-radius:20px;color:var(--primary);border:1px solid rgba(200,155,60,.25)}
+
+/* EMPTY */
+.empty{padding:40px 0;text-align:center}
+.empty .e{font-size:48px;margin-bottom:8px}
+.empty .t{color:var(--gray);font-size:13px}
+.page-content{padding-bottom:80px}
+.page-content.no-tab{padding-bottom:20px}
+
+/* EXTEND */
+.extend-opts{display:flex;gap:10px;margin-bottom:16px}
+.extend-opt{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 0;border:1px solid rgba(200,155,60,.15);border-radius:10px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}
+.extend-opt.on{border-color:var(--primary);background:rgba(200,155,60,.08)}
+.extend-opt .t{font-size:13px;color:var(--dark)}
+.extend-opt .p{font-size:14px;font-weight:600;color:var(--danger);margin-top:4px}
+.fee-row{display:flex;justify-content:space-between;padding:10px 0;font-size:13px;color:var(--dark)}
+.fee-row.hl{font-weight:600;border-top:1px solid var(--border);margin-top:4px;padding-top:14px}
+
+/* SCANNER */
+.scanner-mask{position:fixed;inset:0;background:#000;z-index:600;display:flex;flex-direction:column}
+.scanner-header{padding:52px 20px 16px;display:flex;align-items:center;gap:12px}
+.scanner-header .back{font-size:24px;color:#fff;cursor:pointer}
+.scanner-header h2{font-size:18px;color:#e8c76a;font-weight:600;font-family:'Ma Shan Zheng',serif}
+.scanner-viewport{position:relative;flex:1;overflow:hidden}
+.scanner-viewport video{width:100%;height:100%;object-fit:cover}
+.scanner-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.scanner-box{width:220px;height:220px;position:relative}
+.scanner-box::before,.scanner-box::after{content:'';position:absolute;width:40px;height:40px;border-color:var(--primary);border-style:solid}
+.scanner-box::before{top:0;left:0;border-width:4px 0 0 4px;border-radius:4px 0 0 0}
+.scanner-box::after{bottom:0;right:0;border-width:0 4px 4px 0;border-radius:0 0 4px 0}
+.scanner-corner-tr{position:absolute;top:0;right:0;width:40px;height:40px;border-top:4px solid var(--primary);border-right:4px solid var(--primary);border-radius:0 4px 0 0}
+.scanner-corner-bl{position:absolute;bottom:0;left:0;width:40px;height:40px;border-bottom:4px solid var(--primary);border-left:4px solid var(--primary);border-radius:0 0 0 4px}
+.scanner-line{position:absolute;left:4px;right:4px;height:2px;background:linear-gradient(90deg,transparent,#e8c76a,transparent);box-shadow:0 0 8px rgba(200,155,60,.8);animation:scan 2s linear infinite}
+.scanner-tip{color:rgba(232,199,106,.8);font-size:13px;margin-top:24px;text-align:center}
+.scanner-footer{padding:24px 20px 40px;text-align:center;color:rgba(200,155,60,.6);font-size:13px}
+
+/* AUTH MODAL */
+.auth-modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:flex-end;justify-content:center;z-index:9999;backdrop-filter:blur(6px)}
+.auth-modal{background:linear-gradient(180deg,rgba(10,14,26,.99),rgba(6,10,20,1));border-radius:20px 20px 0 0;padding:24px 20px calc(50px + env(safe-area-inset-bottom));width:100%;max-width:414px;max-height:90vh;overflow-y:auto;border-top:1px solid rgba(200,155,60,.3);box-shadow:0 -20px 60px rgba(0,0,0,.9)}
+.auth-modal .logo{text-align:center;margin-bottom:8px}
+.auth-modal .brand{text-align:center;font-size:22px;font-weight:700;color:#e8c76a;font-family:'Ma Shan Zheng',serif;letter-spacing:3px;text-shadow:0 0 20px rgba(200,155,60,.4)}
+.auth-modal .slogan{text-align:center;font-size:12px;color:var(--gray);margin-bottom:20px;letter-spacing:2px}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:20px}
+.auth-tab{flex:1;text-align:center;padding:10px 0;font-size:15px;color:var(--gray);cursor:pointer;position:relative}
+.auth-tab.on{color:var(--primary);font-weight:600}
+.auth-tab.on::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:32px;height:2px;background:var(--primary);border-radius:2px;box-shadow:0 0 8px var(--primary-glow)}
+.auth-input-group{margin-bottom:14px}
+.auth-input-group label{font-size:12px;color:var(--gray);display:block;margin-bottom:5px}
+.auth-input-row{display:flex;gap:8px}
+.auth-input{width:100%;height:44px;border:1px solid rgba(200,155,60,.2);border-radius:10px;padding:0 14px;font-size:14px;outline:none;transition:.2s;background:rgba(255,255,255,.04);color:var(--dark)}
+.auth-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(200,155,60,.1)}
+.auth-input::placeholder{color:var(--gray)}
+.btn-sms{height:44px;white-space:nowrap;border-radius:10px;font-size:13px;padding:0 14px;border:1px solid rgba(200,155,60,.3);background:rgba(200,155,60,.08);color:var(--primary);cursor:pointer;flex-shrink:0}
+.btn-sms:disabled{opacity:.5;cursor:not-allowed}
+.auth-submit{width:100%;height:50px;background:linear-gradient(135deg,#8a6520,#C89B3C,#e8c76a,#C89B3C,#8a6520);background-size:300% 100%;color:#1a1000;border:none;border-radius:25px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;-webkit-tap-highlight-color:rgba(0,0,0,.1);touch-action:manipulation;animation:goldShimmer 3s ease infinite;box-shadow:0 4px 20px rgba(200,155,60,.3)}
+.auth-submit:active{opacity:.85;transform:scale(.98)}
+.auth-skip{text-align:center;margin-top:14px;font-size:13px;color:var(--gray);cursor:pointer}
+.auth-skip span{color:var(--primary)}
+
+/* PAYMENT MODAL */
+.pay-modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:400;padding:20px;backdrop-filter:blur(4px)}
+.pay-modal{background:rgba(8,12,24,.98);border-radius:16px;width:100%;max-width:340px;overflow:hidden;border:1px solid rgba(200,155,60,.25);box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.pay-modal-hd{background:linear-gradient(135deg,rgba(45,27,105,.7),rgba(10,14,26,1));padding:20px;color:var(--dark);text-align:center;border-bottom:1px solid var(--border)}
+.pay-modal-hd .amount{font-size:32px;font-weight:700;color:#e8c76a}
+.pay-modal-hd .amount-label{font-size:12px;color:var(--gray);margin-top:4px}
+.pay-modal-body{padding:20px}
+.pay-amount-detail{background:rgba(255,255,255,.03);border-radius:10px;padding:12px 16px;margin-bottom:16px;border:1px solid rgba(200,155,60,.1)}
+.pay-amount-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;color:var(--dark)}
+.pay-amount-row .label{color:var(--gray)}
+.pay-methods{display:flex;gap:10px;margin-bottom:16px}
+.pay-method{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 0;border:1px solid rgba(200,155,60,.15);border-radius:10px;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}
+.pay-method.on{border-color:var(--primary);background:rgba(200,155,60,.1);box-shadow:0 0 12px rgba(200,155,60,.15)}
+.pay-method .pm-icon{font-size:28px;margin-bottom:4px}
+.pay-method .pm-name{font-size:12px;font-weight:600;color:var(--dark)}
+.pay-qr{background:rgba(255,255,255,.03);border-radius:10px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:14px;color:var(--gray);font-size:13px;gap:6px;border:1px solid rgba(200,155,60,.1)}
+.pay-qr .qr-icon{font-size:36px}
+.pay-qr .qr-tip{font-size:11px;color:var(--gray)}
+.pay-confirm{width:100%;height:44px;background:linear-gradient(135deg,#8a6520,#C89B3C,#e8c76a,#C89B3C);background-size:200% 100%;color:#1a1000;border:none;border-radius:22px;font-size:15px;font-weight:700;cursor:pointer;animation:goldShimmer 3s ease infinite}
+.pay-confirm:active{opacity:.85}
+.pay-note{text-align:center;font-size:11px;color:var(--gray);margin-top:10px}
+.pay-modal-footer{padding:0 20px 20px}
 </style>
-
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>悦行 · 电动行李箱租借</title>
-
+<title>阿柒悦行 · 电动行李箱租借</title>
 </head>
 <body>
 <div id="app">
   <!-- HOME PAGE -->
   <div class="page show" id="page-home">
-    <div class="nav-bar"><h1><img src="logo.png" style="width:32px;height:32px;border-radius:8px;vertical-align:middle;margin-right:8px;object-fit:cover;"> 悦行</h1><p>出行更悦，游玩无忧</p></div>
+    <div class="nav-bar"><h1><img src="logo.png" style="width:32px;height:32px;border-radius:8px;vertical-align:middle;margin-right:8px;object-fit:cover;"> 阿柒悦行</h1><p>侠义出行，无忧游玩</p></div>
     <div class="search-bar"><span class="ico">🔍</span><input placeholder="搜索附近归还点..."></div>
-    <div class="banner" id="banner"><div class="banner-inner" style="background:linear-gradient(135deg,#2D3436,#636e72)"><div class="banner-text"><h3>扫码即用</h3><p>30秒快速租借，随借随还</p></div><span class="emoji">📱</span></div><div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    <div class="banner" id="banner"><div class="banner-inner" style="background:linear-gradient(135deg,rgba(45,27,105,.9),rgba(10,14,26,.98))"><div class="banner-text"><h3>侠义出行</h3><p>阿柒护送，轻装行天下</p></div><span class="emoji">🧳</span></div><div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div></div></div>
     <div class="card"><div class="quick">
-      <div class="q-item" onclick="handleScanRent()"><div class="q-ico" style="background:#E8F8EF">📷</div><span class="q-txt">扫码租借</span></div>
-      <div class="q-item" onclick="switchTabTo('device-list')"><div class="q-ico" style="background:#E3F2FD">📋</div><span class="q-txt">设备列表</span></div>
-      <div class="q-item" onclick="navigateTo('help')"><div class="q-ico" style="background:#FFF3E0">📖</div><span class="q-txt">使用指南</span></div>
-      <div class="q-item" onclick="switchTabTo('profile')"><div class="q-ico" style="background:#F3E5F5">👤</div><span class="q-txt">个人中心</span></div>
+      <div class="q-item" onclick="handleScanRent()"><div class="q-ico" style="background:rgba(46,204,113,.1)">📷</div><span class="q-txt">扫码租借</span></div>
+      <div class="q-item" onclick="switchTabTo('device-list')"><div class="q-ico" style="background:rgba(52,152,219,.1)">📋</div><span class="q-txt">设备列表</span></div>
+      <div class="q-item" onclick="navigateTo('help')"><div class="q-ico" style="background:rgba(240,165,0,.1)">📖</div><span class="q-txt">使用指南</span></div>
+      <div class="q-item" onclick="switchTabTo('profile')"><div class="q-ico" style="background:rgba(123,94,167,.1)">👤</div><span class="q-txt">个人中心</span></div>
     </div></div>
     <div class="card"><div class="section-hd"><span class="t">💰 计费方式</span><span class="m">查看详情 ›</span></div>
       <div class="pricing-row">
@@ -426,15 +328,15 @@ body { display: flex; justify-content: center; }
   <!-- DEVICE DETAIL PAGE -->
   <div class="page" id="page-device-detail">
     <div class="detail-swiper" id="detail-swiper">🧳<div class="back-btn" onclick="goBack()">‹ 返回</div></div>
-    <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="detail-name" style="font-size:18px;font-weight:700"></span><span id="detail-status" class="tag"></span></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="detail-name" style="font-size:18px;font-weight:700;color:var(--dark)"></span><span id="detail-status" class="tag"></span></div>
       <div class="info-grid" id="detail-info"></div>
       <div class="battery-bar"><div class="battery-fill" id="detail-battery-bar"></div></div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚠️ 使用须知</span><div id="detail-rules"></div></div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">💰 选择套餐</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">⚠️ 使用须知</span><div id="detail-rules"></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">💰 选择套餐</span>
       <div class="pricing-row" id="detail-pricing"></div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🛡️ 押金</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">🛡️ 押金</span>
       <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:24px;font-weight:700;color:var(--warning)">¥500</span><span style="font-size:12px;color:var(--gray)">租赁结束后原路退回</span></div>
     </div>
     <div class="bottom-bar no-tab" id="detail-bottom" style="display: none;"></div>
@@ -444,17 +346,17 @@ body { display: flex; justify-content: center; }
   <div class="page" id="page-rental-active">
     <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>🧳 租赁中</h1><p>实时计费中</p></div>
     <div class="rental-card">
-      <div style="display:flex;align-items:center"><span style="font-size:40px;margin-right:12px">🧳</span><div><div id="ra-device" style="font-size:16px;font-weight:600"></div><span class="tag tag-success">租赁中</span></div></div>
+      <div style="display:flex;align-items:center"><span style="font-size:40px;margin-right:12px">🧳</span><div><div id="ra-device" style="font-size:16px;font-weight:600;color:var(--dark)"></div><span class="tag tag-success">租赁中</span></div></div>
       <div class="rental-stats"><div class="stat-item"><span class="v timer" id="ra-timer">00:00:00</span><span class="l">已租时长</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v price" id="ra-fee">¥0</span><span class="l">当前费用</span></div><div class="stat-divider"></div><div class="stat-item"><span class="v" id="ra-battery">80%</span><span class="l">剩余电量</span></div></div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约6.4小时</span><div style="margin-top:10px;padding:8px 10px;background:#FFF3E0;border-radius:8px;font-size:12px;color:#E65100">⚡ 电量不足？可免费更换电池，联系工作人员或拨打 <a href="tel:18630721779" style="color:#E65100;font-weight:600">18630721779</a></div></div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">💰 费用明细</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约6.4小时</span><div style="margin-top:10px;padding:8px 10px;background:rgba(200,155,60,.08);border-radius:8px;border:1px solid rgba(200,155,60,.2);font-size:12px;color:var(--primary)">⚡ 电量不足？可免费更换电池，联系工作人员或拨打 <a href="tel:18630721779" style="color:#e8c76a;font-weight:600">18630721779</a></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">💰 费用明细</span>
       <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
       <div class="fee-row"><span>押金</span><span>¥500</span></div>
       <div class="fee-row hl"><span>已产生费用</span><span class="price" id="ra-total">¥0</span></div>
       <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥19，同一天最高¥78封顶</span>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚠️ 温馨提醒</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">⚠️ 温馨提醒</span>
       <div class="rule">请在植物园指定归还点归还，切勿随意丢弃</div><div class="rule">归还前请拍照留证</div><div class="rule">逾期将按1.5倍费率计费</div>
     </div>
     <div class="bottom-bar no-tab" style="display: flex;">
@@ -467,12 +369,12 @@ body { display: flex; justify-content: center; }
   <!-- RETURN PAGE -->
   <div class="page" id="page-return">
     <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📦 归还设备</h1><p>选择归还点并确认</p></div>
-    <div style="margin:16px;padding:12px 16px;background:#FFF3E0;border-radius:10px;font-size:13px;color:#E65100">📦 归还前请检查设备外观，拍照上传留证</div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📍 选择归还点</span><div id="return-sites"></div></div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">📸 拍照留证</span>
+    <div style="margin:16px;padding:12px 16px;background:rgba(200,155,60,.08);border:1px solid rgba(200,155,60,.2);border-radius:10px;font-size:13px;color:var(--primary)">📦 归还前请检查设备外观，拍照上传留证</div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px;color:#e8c76a">📍 选择归还点</span><div id="return-sites"></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px;color:#e8c76a">📸 拍照留证</span>
       <div class="photo-grid">
-        <div class="photo-item" style="background:#e8f8ef">✅ 已拍</div>
-        <div class="photo-item" style="background:#e8f8ef">✅ 已拍</div>
+        <div class="photo-item" style="background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.2)">✅ 已拍</div>
+        <div class="photo-item" style="background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.2)">✅ 已拍</div>
         <div class="photo-item add">＋</div>
       </div>
       <span style="font-size:11px;color:var(--gray);margin-top:10px;display:block">建议拍摄：正面、侧面、各角度</span>
@@ -522,23 +424,23 @@ body { display: flex; justify-content: center; }
   <!-- HELP PAGE -->
   <div class="page" id="page-help">
     <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📖 使用指南</h1></div>
-    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">🧳 如何租借</div><div class="rule">打开小程序，在首页点击"扫码租借"或从设备列表选择</div><div class="rule">选择套餐（时租/日封顶），确认押金后点击租借</div><div class="rule">阅读并同意租赁协议，完成支付后租借生效</div></div>
-    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">📦 如何归还</div><div class="rule">在"租赁中"页面点击"立即归还"</div><div class="rule">选择植物园最近的归还点，拍照留证后确认归还</div><div class="rule">系统自动结算费用，押金原路退还（1-3个工作日）</div></div>
-    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">⚠️ 安全须知</div><div class="rule">最高时速6km/h，请勿在机动车道骑行</div><div class="rule">锂电池请勿暴晒、浸水、摔打，远离火源</div><div class="rule">如遇设备故障，请立即联系客服</div><div class="rule">正常磨损免赔，人为损坏照价赔偿</div></div>
-    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px">📞 联系我们</div><div class="rule">客服热线：18630721779</div><div class="rule">服务时间：08:00 - 22:00</div><div class="rule">地点：义乌植物园各门口服务台</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px;color:#e8c76a">🧳 如何租借</div><div class="rule">打开小程序，在首页点击"扫码租借"或从设备列表选择</div><div class="rule">选择套餐（时租/日封顶），确认押金后点击租借</div><div class="rule">阅读并同意租赁协议，完成支付后租借生效</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px;color:#e8c76a">📦 如何归还</div><div class="rule">在"租赁中"页面点击"立即归还"</div><div class="rule">选择植物园最近的归还点，拍照留证后确认归还</div><div class="rule">系统自动结算费用，押金原路退还（1-3个工作日）</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px;color:#e8c76a">⚠️ 安全须知</div><div class="rule">最高时速6km/h，请勿在机动车道骑行</div><div class="rule">锂电池请勿暴晒、浸水、摔打，远离火源</div><div class="rule">如遇设备故障，请立即联系客服</div><div class="rule">正常磨损免赔，人为损坏照价赔偿</div></div>
+    <div class="card"><div style="font-size:15px;font-weight:600;margin-bottom:12px;color:#e8c76a">📞 联系我们</div><div class="rule">客服热线：18630721779</div><div class="rule">服务时间：08:00 - 22:00</div><div class="rule">地点：义乌植物园各门口服务台</div></div>
   </div>
 
   <!-- AGREEMENT PAGE -->
   <div class="page" id="page-agreement">
     <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📄 租赁协议</h1></div>
-    <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong>悦行租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥500在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
+    <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong style="color:#e8c76a">阿柒悦行租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥500在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
   </div>
 
   <!-- ADMIN PAGE -->
   <div class="page" id="page-admin">
     <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>🔧 管理后台</h2><p id="admin-date"></p></div>
     <div class="stats-grid" id="admin-stats"></div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">⚡ 快捷操作</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">⚡ 快捷操作</span>
       <div class="shortcut-grid">
         <div class="shortcut" onclick="navigateTo('admin-devices')"><span class="si">🧳</span><span class="st">设备管理</span></div>
         <div class="shortcut" onclick="navigateTo('admin-orders')"><span class="si">📋</span><span class="st">订单管理</span></div>
@@ -546,16 +448,16 @@ body { display: flex; justify-content: center; }
         <div class="shortcut" onclick="navigateTo('admin-finance')"><span class="si">💰</span><span class="st">财务统计</span></div>
       </div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">📊 设备状态</span>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">📊 设备状态</span>
       <div class="bar-chart" id="admin-device-bars"></div>
     </div>
-    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px">🕐 最近订单</span><div id="admin-recent-orders"></div></div>
+    <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">🕐 最近订单</span><div id="admin-recent-orders"></div></div>
   </div>
 
   <!-- ADMIN SUB PAGES -->
   <div class="page" id="page-admin-devices">
     <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>🧳 设备管理</h2></div>
-    <div style="padding:16px"><div style="display:flex;gap:10px;margin-bottom:16px"><input style="flex:1;height:36px;border:1px solid var(--border);border-radius:18px;padding:0 14px;font-size:13px;outline:none" placeholder="搜索设备..."><button class="btn btn-primary btn-sm">+ 添加</button></div><div id="admin-device-list"></div></div>
+    <div style="padding:16px"><div style="display:flex;gap:10px;margin-bottom:16px"><input style="flex:1;height:36px;border:1px solid var(--border);border-radius:18px;padding:0 14px;font-size:13px;outline:none;background:rgba(255,255,255,.04);color:var(--dark)" placeholder="搜索设备..."><button class="btn btn-primary btn-sm">+ 添加</button></div><div id="admin-device-list"></div></div>
   </div>
   <div class="page" id="page-admin-orders">
     <div class="admin-hd" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h2>📋 订单管理</h2></div>
@@ -590,7 +492,7 @@ body { display: flex; justify-content: center; }
         </div>
       </div>
     </div>
-    <div class="scanner-footer">悦行 · 扫码自动识别设备</div>
+    <div class="scanner-footer">阿柒悦行 · 扫码自动识别设备</div>
   </div>
 
   <!-- GENERAL MODAL -->
@@ -602,7 +504,7 @@ body { display: flex; justify-content: center; }
   <div class="pay-modal-mask" id="pay-modal" style="display:none;">
     <div class="pay-modal">
       <div class="pay-modal-hd">
-        <div style="font-size:13px;opacity:0.85;margin-bottom:4px">需支付金额</div>
+        <div style="font-size:13px;color:var(--gray);margin-bottom:4px">需支付金额</div>
         <div class="amount" id="pay-total-amount">¥220</div>
         <div class="amount-label">租金 + ¥500押金（完成后退还）</div>
       </div>
@@ -629,8 +531,8 @@ body { display: flex; justify-content: center; }
         </div>
       </div>
       <div class="pay-modal-footer">
-        <div style="background:#fff8f0;border-radius:8px;padding:10px 12px;font-size:11px;color:#666;line-height:1.7;max-height:72px;overflow-y:auto;margin-bottom:10px">
-          <b style="color:#E65100">租赁协议：</b>租借人在使用设备过程中，须自行注意人身安全。因个人操作不当、摔倒、碰撞等意外造成的人身伤害，与悦行平台无关，本站不承担任何责任。设备损坏须照价赔偿，逾期未还按1.5倍计费，押金将在设备归还无损后1-3个工作日内原路退还。
+        <div style="background:rgba(200,155,60,.06);border:1px solid rgba(200,155,60,.15);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--gray);line-height:1.7;max-height:72px;overflow-y:auto;margin-bottom:10px">
+          <b style="color:var(--primary)">租赁协议：</b>租借人在使用设备过程中，须自行注意人身安全。因个人操作不当、摔倒、碰撞等意外造成的人身伤害，与阿柒悦行平台无关，本站不承担任何责任。设备损坏须照价赔偿，逾期未还按1.5倍计费，押金将在设备归还无损后1-3个工作日内原路退还。
         </div>
         <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray);margin-bottom:10px;cursor:pointer">
           <input type="checkbox" id="agree-checkbox" style="width:16px;height:16px;accent-color:var(--primary)">
@@ -642,12 +544,12 @@ body { display: flex; justify-content: center; }
     </div>
   </div>
 
-  <!-- LOGIN/REGISTER MODAL -->
+  <!-- LOGIN MODAL -->
   <div class="auth-modal-mask" id="auth-modal" style="display:none;">
     <div class="auth-modal">
-      <div class="logo"><img src="logo.png" style="width:72px;height:72px;border-radius:16px;object-fit:cover;"></div>
-      <div class="brand">悦行</div>
-      <div class="slogan">出行更悦，游玩无忧</div>
+      <div class="logo"><img src="logo.png" style="width:72px;height:72px;border-radius:16px;object-fit:cover;border:2px solid rgba(200,155,60,.3);box-shadow:0 0 20px rgba(200,155,60,.2)"></div>
+      <div class="brand">阿柒悦行</div>
+      <div class="slogan">侠义出行，无忧游玩</div>
       <div style="margin-bottom:16px;font-size:13px;color:var(--gray);text-align:center">输入手机号即可开始租借</div>
       <div id="auth-login-form">
         <div class="auth-input-group">
@@ -669,20 +571,16 @@ body { display: flex; justify-content: center; }
   </div>
 
   <!-- TOAST -->
-  <div id="toast" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); color: rgb(255, 255, 255); padding: 10px 20px; border-radius: 8px; font-size: 13px; z-index: 300; display: none; pointer-events: none; text-align: center; max-width: 200px;"></div>
+  <div id="toast" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(10,14,26,.95);border:1px solid rgba(200,155,60,.3);color:var(--dark);padding:10px 20px;border-radius:8px;font-size:13px;z-index:300;display:none;pointer-events:none;text-align:center;max-width:200px;box-shadow:0 4px 20px rgba(0,0,0,.5)"></div>
 </div>
 
 <script>
-// ===== PAYMENT CONFIG =====
-// TODO: 接入虎皮椒聚合收款 https://www.hupijiao.com 替换此处二维码
 const PAYMENT_CONFIG = {
-  provider: 'hupijiao',       // 虎皮椒聚合收款
-  merchantId: 'YOUR_MERCHANT_ID',  // 替换为你的商户ID
-  notifyUrl: 'YOUR_NOTIFY_URL',    // 替换为你的回调地址
-  // 接入说明: 注册 hupijiao.com → 获取商户ID → 生成收款码
+  provider: 'hupijiao',
+  merchantId: 'YOUR_MERCHANT_ID',
+  notifyUrl: 'YOUR_NOTIFY_URL',
 };
 
-// ===== DATA =====
 const DEVICES = [
   {id:'BOX-001',name:'电动行李箱A1',model:'标准版',battery:98,weight:12,status:'available',location:'植物园东门',site:'site_01'},
   {id:'BOX-002',name:'电动行李箱A2',model:'标准版',battery:97,weight:12,status:'available',location:'植物园东门',site:'site_01'},
@@ -696,35 +594,25 @@ const SITES = [
   {id:'site_03',name:'植物园北门服务台',address:'义乌植物园北门入口旁'}
 ];
 const RULES = ['最高时速6km/h，请勿在机动车道骑行','锂电池请勿暴晒、浸水、摔打，远离火源','设备归还需到植物园指定归还点','如遇设备故障，请立即联系客服','正常磨损免赔，人为损坏照价赔偿','未成年人需在监护人陪同下使用'];
-// 时租: ¥20/小时 (¥10/30分钟), 日租: ¥100封顶/天
 const PLANS = [
   {id:'hourly',name:'时租',price:19,unit:'/小时'},
   {id:'daily',name:'日封顶',price:78,unit:'/天'}
 ];
 const DEPOSIT = 500;
 const BANNERS = [
-  {title:'电动行李箱',desc:'解放双手，轻松逛植物园',emoji:'🧳',bg:'linear-gradient(135deg,#FF6B35,#e85d26)'},
-  {title:'扫码即用',desc:'30秒快速租借，随借随还',emoji:'📱',bg:'linear-gradient(135deg,#2D3436,#636e72)'},
-  {title:'安全可靠',desc:'¥500押金，退还有保障',emoji:'🛡️',bg:'linear-gradient(135deg,#e17055,#d63031)'}
+  {title:'侠义出行',desc:'阿柒护送，轻装行天下',emoji:'🧳',bg:'linear-gradient(135deg,rgba(45,27,105,.9),rgba(10,14,26,.98))'},
+  {title:'扫码即用',desc:'30秒起行，随借随还',emoji:'⚔️',bg:'linear-gradient(135deg,rgba(15,21,50,.95),rgba(45,27,105,.7))'},
+  {title:'安全承诺',desc:'押金¥500，归还如初',emoji:'🛡️',bg:'linear-gradient(135deg,rgba(10,14,26,.98),rgba(80,50,10,.6))'}
 ];
 
 const STATUS_MAP = {available:{text:'可用',cls:'tag-success'},rented:{text:'已租出',cls:'tag-warning'},maintenance:{text:'维护中',cls:'tag-danger'},offline:{text:'离线',cls:'tag-info'}};
 const ORDER_STATUS = {pending:{text:'待支付',cls:'tag-warning'},active:{text:'租赁中',cls:'tag-success'},completed:{text:'已完成',cls:'tag-info'},cancelled:{text:'已取消',cls:'tag-info'},overdue:{text:'已逾期',cls:'tag-danger'},returned:{text:'待结算',cls:'tag-info'}};
 
-// ===== ORDER STORAGE =====
-function loadOrders() {
-  const s = localStorage.getItem('ywx_orders');
-  if (s) return JSON.parse(s);
-  return [];
-}
+function loadOrders() { const s = localStorage.getItem('ywx_orders'); if (s) return JSON.parse(s); return []; }
 function saveOrders(o) { localStorage.setItem('ywx_orders', JSON.stringify(o)); }
 function getActiveOrder() { return loadOrders().find(o => o.status === 'active'); }
 
-// ===== USER AUTH =====
-function getUser() {
-  const s = localStorage.getItem('ywx_user');
-  return s ? JSON.parse(s) : null;
-}
+function getUser() { const s = localStorage.getItem('ywx_user'); return s ? JSON.parse(s) : null; }
 function saveUser(u) { localStorage.setItem('ywx_user', JSON.stringify(u)); }
 function isLoggedIn() { return !!getUser(); }
 
@@ -734,13 +622,8 @@ function showAuthModal(afterLogin) {
   if (afterLogin) pendingAfterLogin = afterLogin;
   document.getElementById('auth-modal').style.display = 'flex';
 }
-function hideAuthModal() {
-  document.getElementById('auth-modal').style.display = 'none';
-}
-function skipAuth() {
-  hideAuthModal();
-  toast('已以游客身份浏览');
-}
+function hideAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+function skipAuth() { hideAuthModal(); toast('已以游客身份浏览'); }
 
 function switchAuthTab(tab) {
   document.getElementById('auth-tab-login').classList.toggle('on', tab === 'login');
@@ -754,18 +637,12 @@ function sendSMS() {
   const phone = document.getElementById('reg-phone').value.trim();
   if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
   const btn = document.getElementById('sms-btn');
-  btn.disabled = true;
-  smsCountdown = 60;
-  // Mock: always succeeds with code 123456
+  btn.disabled = true; smsCountdown = 60;
   toast('验证码已发送（测试码：123456）');
   const timer = setInterval(() => {
     smsCountdown--;
     btn.textContent = smsCountdown + 's';
-    if (smsCountdown <= 0) {
-      clearInterval(timer);
-      btn.disabled = false;
-      btn.textContent = '获取验证码';
-    }
+    if (smsCountdown <= 0) { clearInterval(timer); btn.disabled = false; btn.textContent = '获取验证码'; }
   }, 1000);
 }
 
@@ -793,17 +670,13 @@ function handleQuickLogin() {
 function handleLogin() {
   const phone = document.getElementById('login-phone').value.trim();
   const pwd = document.getElementById('login-password') ? document.getElementById('login-password').value.trim() : '';
-
   if (!/^1[3-9]\d{9}$/.test(phone)) { toast('请输入正确的手机号'); return; }
   if (!pwd) { toast('请输入密码'); return; }
-  // Check stored users
   const users = JSON.parse(localStorage.getItem('ywx_users') || '[]');
   const user = users.find(u => u.phone === phone && u.password === pwd);
   if (!user) { toast('手机号或密码错误'); return; }
   saveUser({phone, id: user.id, name: user.name || '用户' + phone.slice(-4)});
-  hideAuthModal();
-  updateProfileUI();
-  toast('✅ 登录成功！欢迎回来');
+  hideAuthModal(); updateProfileUI(); toast('✅ 登录成功！欢迎回来');
 }
 
 function handleRegister() {
@@ -819,15 +692,13 @@ function handleRegister() {
   users.push(newUser);
   localStorage.setItem('ywx_users', JSON.stringify(users));
   saveUser({phone, id: newUser.id, name: newUser.name});
-  hideAuthModal();
-  updateProfileUI();
-  toast('🎉 注册成功！');
+  hideAuthModal(); updateProfileUI(); toast('🎉 注册成功！');
 }
 
 function handleShare() {
   const url = location.href.split('?')[0];
   if (navigator.share) {
-    navigator.share({ title: '悦行 · 电动行李箱租借', text: '悦行电动行李箱租借，出行更悦，游玩无忧！', url });
+    navigator.share({ title: '阿柒悦行 · 电动行李箱租借', text: '阿柒悦行电动行李箱租借，侠义出行，无忧游玩！', url });
   } else {
     navigator.clipboard && navigator.clipboard.writeText(url);
     toast('链接已复制，快分享给朋友吧！');
@@ -836,13 +707,13 @@ function handleShare() {
 
 function handleContact() {
   const c = document.getElementById('modal-content');
-  c.innerHTML = `<div style="text-align:center;padding:8px 0 4px"><div style="font-size:36px">📞</div><h3 style="margin:10px 0 16px">联系客服</h3><div style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:8px">18630721779</div><div style="font-size:12px;color:var(--gray);margin-bottom:20px">服务时间：08:00 - 22:00</div><a href="tel:18630721779" style="display:block;width:100%;height:44px;background:var(--primary);color:#fff;border:none;border-radius:22px;font-size:15px;font-weight:600;cursor:pointer;line-height:44px;text-decoration:none">立即拨打</a><button class="btn btn-secondary btn-block" style="margin-top:10px" onclick="hideModal()">关闭</button></div>`;
+  c.innerHTML = `<div style="text-align:center;padding:8px 0 4px"><div style="font-size:36px">📞</div><h3 style="margin:10px 0 16px">联系客服</h3><div style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:8px">18630721779</div><div style="font-size:12px;color:var(--gray);margin-bottom:20px">服务时间：08:00 - 22:00</div><a href="tel:18630721779" style="display:block;width:100%;height:44px;background:linear-gradient(135deg,#8a6520,#C89B3C,#e8c76a);color:#1a1000;border:none;border-radius:22px;font-size:15px;font-weight:700;cursor:pointer;line-height:44px;text-decoration:none">立即拨打</a><button class="btn btn-secondary btn-block" style="margin-top:10px" onclick="hideModal()">关闭</button></div>`;
   document.getElementById('modal').style.display = 'flex';
 }
 
 function handleAbout() {
   const c = document.getElementById('modal-content');
-  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 出行更悦</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>• 服务地点：义乌植物园东门/西门/北门</p><p>• 计费方式：¥19/小时，最高¥78/天封顶</p><p>• 押金：¥500，归还无损后原路退还</p><p>• 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
+  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">阿柒悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 侠义出行</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>◆ 服务地点：义乌植物园东门/西门/北门</p><p>◆ 计费方式：¥19/小时，最高¥78/天封顶</p><p>◆ 押金：¥500，归还无损后原路退还</p><p>◆ 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -856,8 +727,7 @@ function openAdmin() {
 function handleLogout() {
   if (!confirm('确定要退出登录吗？')) return;
   localStorage.removeItem('ywx_user');
-  updateProfileUI();
-  toast('已退出登录');
+  updateProfileUI(); toast('已退出登录');
 }
 
 function updateProfileUI() {
@@ -872,18 +742,14 @@ function updateProfileUI() {
     document.getElementById('profile-id').textContent = '点击登录账号';
     logoutMenu.style.display = 'none';
   }
-  // Update order stats
   const orders = loadOrders();
   const completed = orders.filter(o => o.status === 'completed' || o.status === 'overdue');
   document.getElementById('profile-order-count').textContent = completed.length;
   document.getElementById('profile-spent').textContent = '¥' + completed.reduce((s,o)=>s+(o.fee||0),0);
 }
 
-function maskPhone(phone) {
-  return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-}
+function maskPhone(phone) { return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2'); }
 
-// ===== STATE =====
 let currentPage = 'home';
 let selectedDevice = null;
 let selectedPlan = 'hourly';
@@ -893,7 +759,6 @@ let rentalTimer = null;
 let rentalStart = null;
 let bannerIdx = 0;
 
-// ===== NAV =====
 const TAB_PAGES = ['home','device-list','orders','profile'];
 const SUB_PAGES = ['device-detail','rental-active','return','order-detail','help','agreement','admin','admin-devices','admin-orders','admin-users','admin-finance'];
 
@@ -922,9 +787,7 @@ function navigateTo(page, data) {
   if (rentalTimer && page !== 'rental-active') { clearInterval(rentalTimer); rentalTimer = null; }
 }
 
-function switchTabTo(page) {
-  navigateTo(page);
-}
+function switchTabTo(page) { navigateTo(page); }
 
 function goBack() {
   const order = getActiveOrder();
@@ -934,7 +797,6 @@ function goBack() {
   } else navigateTo('home');
 }
 
-// ===== TOAST =====
 let toastTimer;
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -943,12 +805,10 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.style.display = 'none', 2000);
 }
 
-// ===== GENERAL MODAL =====
 function showModal(type) {
   const m = document.getElementById('modal');
   const c = document.getElementById('modal-content');
   if (type === 'agreement') {
-    const plan = PLANS.find(p => p.id === selectedPlan);
     c.innerHTML = `<h3>租赁协议确认</h3><div class="modal-body">1. 租赁方确认已年满18周岁。\n\n2. 请遵守交通法规。\n\n3. 锂电池请勿暴晒、浸水、摔打。\n\n4. 正常磨损免赔，人为损坏照价赔偿。\n\n5. 逾期按1.5倍费率计费。\n\n6. 押金¥500归还后1-3个工作日退还。</div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();showPayModal()">确认租借</button></div>`;
   } else if (type === 'extend') {
     c.innerHTML = `<h3>延长租赁</h3><div class="extend-opts"><div class="extend-opt on" onclick="selectExtend(this)"><span class="t">1小时</span><span class="p">¥20</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">2小时</span><span class="p">¥40</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">整天</span><span class="p">¥100</span></div></div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();toast('已延长租赁时长')">确认延长</button></div>`;
@@ -958,7 +818,6 @@ function showModal(type) {
 function hideModal() { document.getElementById('modal').style.display = 'none'; }
 function selectExtend(el) { el.parentElement.querySelectorAll('.extend-opt').forEach(e => e.classList.remove('on')); el.classList.add('on'); }
 
-// ===== PAYMENT MODAL =====
 function showPayModal() {
   const plan = PLANS.find(p => p.id === selectedPlan);
   const rental = plan ? plan.price : 20;
@@ -988,11 +847,9 @@ function updateQrArea() {
 function handlePayConfirm() {
   const cb = document.getElementById('agree-checkbox');
   if (cb && !cb.checked) { toast('请先阅读并同意租赁协议'); return; }
-  hidePayModal();
-  doConfirmRent();
+  hidePayModal(); doConfirmRent();
 }
 
-// ===== HOME =====
 function initHome() {
   renderBanner();
   setInterval(renderBanner, 4000);
@@ -1016,7 +873,6 @@ function handleScanRent() {
   openScanner();
 }
 
-// ===== SCANNER =====
 let scannerStream = null;
 let scannerTimer = null;
 
@@ -1026,14 +882,11 @@ function openScanner() {
     .then(stream => {
       scannerStream = stream;
       const video = document.getElementById('scanner-video');
-      video.srcObject = stream;
-      video.play();
+      video.srcObject = stream; video.play();
       scannerTimer = setInterval(scanFrame, 300);
     })
     .catch(err => {
-      closeScanner();
-      toast('无法访问摄像头，请检查权限');
-      navigateTo('device-list');
+      closeScanner(); toast('无法访问摄像头，请检查权限'); navigateTo('device-list');
     });
 }
 
@@ -1047,33 +900,22 @@ function scanFrame() {
   const video = document.getElementById('scanner-video');
   if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
   const canvas = document.getElementById('scanner-canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+  canvas.width = video.videoWidth; canvas.height = video.videoHeight;
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const code = window.jsQR && jsQR(imageData.data, imageData.width, imageData.height);
   if (code && code.data) {
-    const data = code.data.trim();
-    closeScanner();
-    // 支持 BOX-001 格式 或完整URL中包含设备ID
+    const data = code.data.trim(); closeScanner();
     const match = data.match(/BOX-\d+/i);
     if (match) {
       const dev = DEVICES.find(d => d.id.toUpperCase() === match[0].toUpperCase());
-      if (dev) {
-        toast('✅ 识别成功：' + dev.name);
-        navigateTo('device-detail', dev.id);
-      } else {
-        toast('设备不存在：' + match[0]);
-      }
-    } else {
-      toast('无效的设备码');
-      navigateTo('device-list');
-    }
+      if (dev) { toast('✅ 识别成功：' + dev.name); navigateTo('device-detail', dev.id); }
+      else { toast('设备不存在：' + match[0]); }
+    } else { toast('无效的设备码'); navigateTo('device-list'); }
   }
 }
 
-// ===== DEVICE LIST =====
 function renderDeviceList(filter) {
   filter = filter || '';
   const devs = DEVICES.filter(d => !filter || d.name.includes(filter) || d.id.includes(filter) || d.model.includes(filter));
@@ -1085,7 +927,6 @@ function renderDeviceList(filter) {
 }
 function filterDevices() { renderDeviceList(document.getElementById('dev-search').value); }
 
-// ===== DEVICE DETAIL =====
 function initDetailPage(devId) {
   selectedDevice = DEVICES.find(d => d.id === devId);
   if (!selectedDevice) { toast('设备不存在'); return; }
@@ -1134,31 +975,20 @@ function doConfirmRent() {
   const orders = loadOrders();
   const newOrder = {
     id: 'ORD' + Date.now().toString().slice(-10),
-    deviceId: selectedDevice.id,
-    deviceName: selectedDevice.name,
-    status: 'active',
-    plan: selectedPlan,
-    planFee: plan.price,
-    deposit: DEPOSIT,
-    startAt: Date.now(),
-    endAt: null,
-    fee: plan.price
+    deviceId: selectedDevice.id, deviceName: selectedDevice.name,
+    status: 'active', plan: selectedPlan, planFee: plan.price,
+    deposit: DEPOSIT, startAt: Date.now(), endAt: null, fee: plan.price
   };
-  orders.unshift(newOrder);
-  saveOrders(orders);
-  selectedDevice.status = 'rented';
-  selectedDevice.location = '使用中';
-  toast('🎉 租借成功！设备已解锁');
-  navigateTo('rental-active');
+  orders.unshift(newOrder); saveOrders(orders);
+  selectedDevice.status = 'rented'; selectedDevice.location = '使用中';
+  toast('🎉 租借成功！设备已解锁'); navigateTo('rental-active');
 }
 
-// ===== RENTAL TIMER =====
-// Billing: ¥19 per hour (60min block, round up), daily cap ¥78
 function calcFee(elapsedMs) {
   const elapsedMins = elapsedMs / 1000 / 60;
-  const slots = Math.ceil(elapsedMins / 60); // round up to 60min blocks
-  const fee = slots * 19; // ¥19 per hour
-  return Math.min(fee, 78); // cap at ¥78
+  const slots = Math.ceil(elapsedMins / 60);
+  const fee = slots * 19;
+  return Math.min(fee, 78);
 }
 
 function startRentalTimer() {
@@ -1186,14 +1016,12 @@ function startRentalTimer() {
     document.getElementById('ra-fee').textContent = '¥' + fee;
     document.getElementById('ra-total').textContent = '¥' + fee;
   }
-  tick();
-  rentalTimer = setInterval(tick, 1000);
+  tick(); rentalTimer = setInterval(tick, 1000);
 }
 
-// ===== RETURN =====
 function initReturnPage() {
   selectedReturnSite = '';
-  document.getElementById('return-sites').innerHTML = SITES.map(s => `<div class="return-site" id="rs-${s.id}" onclick="selectReturnSite('${s.id}')"><div class="return-radio"></div><div><div style="font-size:14px;font-weight:500">${s.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${s.address}</div></div></div>`).join('');
+  document.getElementById('return-sites').innerHTML = SITES.map(s => `<div class="return-site" id="rs-${s.id}" onclick="selectReturnSite('${s.id}')"><div class="return-radio"></div><div><div style="font-size:14px;font-weight:500;color:var(--dark)">${s.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${s.address}</div></div></div>`).join('');
 }
 function selectReturnSite(id) {
   selectedReturnSite = id;
@@ -1207,8 +1035,7 @@ function handleReturn() {
   const orders = loadOrders();
   const idx = orders.findIndex(o => o.status === 'active');
   if (idx === -1) { toast('没有进行中的订单'); return; }
-  orders[idx].status = 'completed';
-  orders[idx].endAt = Date.now();
+  orders[idx].status = 'completed'; orders[idx].endAt = Date.now();
   const elapsed = Date.now() - orders[idx].startAt;
   orders[idx].fee = calcFee(elapsed);
   saveOrders(orders);
@@ -1219,7 +1046,6 @@ function handleReturn() {
   navigateTo('order-detail', JSON.stringify(orders[idx]));
 }
 
-// ===== ORDERS =====
 let orderFilter = 'all';
 function renderOrders(filter) {
   if (filter) orderFilter = filter;
@@ -1247,7 +1073,6 @@ function viewOrder(id) {
   if (o) navigateTo('order-detail', JSON.stringify(o));
 }
 
-// ===== ORDER DETAIL =====
 function initOrderDetail(data) {
   let order;
   try { order = typeof data === 'string' ? JSON.parse(data) : data; } catch(e) { order = {}; }
@@ -1257,7 +1082,7 @@ function initOrderDetail(data) {
   const timeStr = (start.getMonth()+1)+'/'+start.getDate()+' '+String(start.getHours()).padStart(2,'0')+':'+String(start.getMinutes()).padStart(2,'0');
   const endStr = order.endAt ? (new Date(order.endAt).getMonth()+1)+'/'+new Date(order.endAt).getDate()+' '+String(new Date(order.endAt).getHours()).padStart(2,'0')+':'+String(new Date(order.endAt).getMinutes()).padStart(2,'0') : '-';
   document.getElementById('order-detail-content').innerHTML = `
-    <div style="text-align:center;padding:16px 0"><span style="font-size:48px">🧳</span><div style="font-size:18px;font-weight:700;margin-top:8px">${order.deviceName}</div><span class="tag ${st.cls}" style="margin-top:8px;display:inline-block">${st.text}</span></div>
+    <div style="text-align:center;padding:16px 0"><span style="font-size:48px">🧳</span><div style="font-size:18px;font-weight:700;margin-top:8px;color:var(--dark)">${order.deviceName}</div><span class="tag ${st.cls}" style="margin-top:8px;display:inline-block">${st.text}</span></div>
     <div class="fee-row"><span>订单号</span><span>${order.id}</span></div>
     <div class="fee-row"><span>设备编号</span><span>${order.deviceId||'-'}</span></div>
     <div class="fee-row"><span>套餐</span><span>${PLANS.find(p=>p.id===order.plan)?.name||order.plan||'-'}</span></div>
@@ -1267,7 +1092,6 @@ function initOrderDetail(data) {
     <div class="fee-row hl"><span>总费用</span><span class="price">¥${order.fee||0}</span></div>`;
 }
 
-// ===== ADMIN =====
 function initAdmin() {
   const d = new Date();
   document.getElementById('admin-date').textContent = d.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});
@@ -1292,13 +1116,13 @@ function initAdmin() {
   ].map(b => `<div class="bar-row"><span class="bar-label">${b.label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(b.count/total*100)}%;background:${b.color}"></div></div><span class="bar-num">${b.count}</span></div>`).join('');
   document.getElementById('admin-recent-orders').innerHTML = orders.slice(0,5).map(o => {
     const st = ORDER_STATUS[o.status] || ORDER_STATUS.completed;
-    return `<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)"><span style="flex:1;font-size:13px">${o.id}</span><span style="font-size:13px;font-weight:600;color:var(--danger);margin-right:12px">¥${o.fee||0}</span><span class="tag ${st.cls}">${st.text}</span></div>`;
+    return `<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)"><span style="flex:1;font-size:13px;color:var(--dark)">${o.id}</span><span style="font-size:13px;font-weight:600;color:var(--danger);margin-right:12px">¥${o.fee||0}</span><span class="tag ${st.cls}">${st.text}</span></div>`;
   }).join('') || '<div class="empty"><div class="t">暂无订单</div></div>';
 }
 
 function initAdminDevices() {
   document.getElementById('admin-device-list').innerHTML = DEVICES.map(d => `
-    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:600">${d.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${d.id} · ${d.model}</div></div><div><span class="tag ${STATUS_MAP[d.status].cls}">${STATUS_MAP[d.status].text}</span><span style="font-size:12px;color:var(--gray);margin-left:8px">🔋${d.battery}%</span></div></div></div>`).join('');
+    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:600;color:var(--dark)">${d.name}</div><div style="font-size:12px;color:var(--gray);margin-top:2px">${d.id} · ${d.model}</div></div><div><span class="tag ${STATUS_MAP[d.status].cls}">${STATUS_MAP[d.status].text}</span><span style="font-size:12px;color:var(--gray);margin-left:8px">🔋${d.battery}%</span></div></div></div>`).join('');
 }
 
 let adminOrderFilter = 'all';
@@ -1312,7 +1136,7 @@ function initAdminOrders(filter) {
   document.getElementById('admin-order-list').innerHTML = filtered.map(o => {
     const st = ORDER_STATUS[o.status] || ORDER_STATUS.completed;
     const start = new Date(o.startAt);
-    return `<div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:600">${o.deviceName}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${o.id} · ${(start.getMonth()+1)+'/'+start.getDate()}</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--danger)">¥${o.fee||0}</div><span class="tag ${st.cls}" style="font-size:10px">${st.text}</span></div></div></div>`;
+    return `<div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:600;color:var(--dark)">${o.deviceName}</div><div style="font-size:11px;color:var(--gray);margin-top:2px">${o.id} · ${(start.getMonth()+1)+'/'+start.getDate()}</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:600;color:var(--danger)">¥${o.fee||0}</div><span class="tag ${st.cls}" style="font-size:10px">${st.text}</span></div></div></div>`;
   }).join('') || '<div class="empty"><div class="t">暂无订单</div></div>';
 }
 function adminOrderTab(f, el) {
@@ -1327,7 +1151,7 @@ function initAdminUsers() {
     {name:'用户示例',id:'YWX001',phone:'138****0000',orders:3,spent:180,credit:95}
   ];
   document.getElementById('admin-user-list').innerHTML = mockUsers.map(u => `
-    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px">😎</div><div style="flex:1"><div style="font-size:14px;font-weight:600">${u.name}<span style="font-size:11px;color:var(--gray);font-weight:400;margin-left:6px">${u.id}</span></div><div style="font-size:11px;color:var(--gray);margin-top:2px">${u.phone||''} · 信用${u.credit}</div></div></div></div>`).join('');
+    <div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.2);display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px">😎</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--dark)">${u.name}<span style="font-size:11px;color:var(--gray);font-weight:400;margin-left:6px">${u.id}</span></div><div style="font-size:11px;color:var(--gray);margin-top:2px">${u.phone||''} · 信用${u.credit}</div></div></div></div>`).join('');
 }
 
 function initAdminFinance(period) {
@@ -1336,10 +1160,7 @@ function initAdminFinance(period) {
   const todayStr = now.toDateString();
   const weekAgo = Date.now() - 7*86400000;
   const monthAgo = Date.now() - 30*86400000;
-  const calc = (filter) => {
-    const f = orders.filter(filter);
-    return {orders: f.length, income: f.reduce((s,o)=>s+(o.fee||0),0), refund: 0};
-  };
+  const calc = (filter) => { const f = orders.filter(filter); return {orders: f.length, income: f.reduce((s,o)=>s+(o.fee||0),0), refund: 0}; };
   const data = {
     today: calc(o => new Date(o.startAt).toDateString()===todayStr),
     week: calc(o => o.startAt >= weekAgo),
@@ -1351,7 +1172,7 @@ function initAdminFinance(period) {
       <div class="stat-card"><span class="n">${d.orders}</span><span class="l">订单数</span></div>
       <div class="stat-card money"><span class="n">¥${d.income}</span><span class="l">收入</span></div>
     </div>
-    <div class="card" style="margin:0"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px">💰 收入明细</span>
+    <div class="card" style="margin:0"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:10px;color:#e8c76a">💰 收入明细</span>
       <div class="fee-row"><span>租赁收入</span><span>¥${d.income}</span></div>
       <div class="fee-row"><span>退款支出</span><span style="color:var(--danger)">-¥${d.refund}</span></div>
       <div class="fee-row hl"><span>净收入</span><span class="price">¥${d.income-d.refund}</span></div>
@@ -1363,25 +1184,18 @@ function financePeriod(p, el) {
   initAdminFinance(p);
 }
 
-// ===== INIT =====
 initHome();
 renderDeviceList();
 updateProfileUI();
 
-// Show auth modal on first visit if not logged in
-// Check URL for device param (from QR code scan via WeChat)
 const urlParams = new URLSearchParams(window.location.search);
 const deviceParam = urlParams.get('device');
 if (deviceParam) {
   const dev = DEVICES.find(d => d.id.toUpperCase() === deviceParam.toUpperCase());
   if (dev) {
     setTimeout(() => {
-      if (!isLoggedIn()) {
-        showAuthModal();
-        setTimeout(() => navigateTo('device-detail', dev.id), 500);
-      } else {
-        navigateTo('device-detail', dev.id);
-      }
+      if (!isLoggedIn()) { showAuthModal(); setTimeout(() => navigateTo('device-detail', dev.id), 500); }
+      else { navigateTo('device-detail', dev.id); }
     }, 500);
   }
 }
@@ -1391,12 +1205,8 @@ if (!isLoggedIn() && !localStorage.getItem('ywx_guest_seen') && !deviceParam) {
 }
 localStorage.setItem('ywx_guest_seen', '1');
 
-// Check active order
 const activeOrder = getActiveOrder();
-if (activeOrder) {
-  setTimeout(() => toast('💡 您有一笔进行中的租赁'), 1500);
-}
+if (activeOrder) { setTimeout(() => toast('💡 您有一笔进行中的租赁'), 1500); }
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </body></html>
