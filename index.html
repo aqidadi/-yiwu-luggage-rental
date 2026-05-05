@@ -309,10 +309,10 @@ body{display:flex;justify-content:center}
     </div></div>
     <div class="card"><div class="section-hd"><span class="t">💰 计费方式</span><span class="m">查看详情 ›</span></div>
       <div class="pricing-row">
-        <div class="pricing-card"><span class="name">时租</span><span class="price">¥19</span><span class="unit">/小时</span></div>
-        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥78</span><span class="unit">/天</span></div>
+        <div class="pricing-card"><span class="name">时租</span><span class="price">¥20</span><span class="unit">/小时</span></div>
+        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥80</span><span class="unit">/天</span></div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每小时计费¥19 · 同一天最高¥78封顶</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每小时计费¥20 · 同一天最高¥80封顶</div>
     </div>
     <div class="card"><div class="section-hd"><span class="t">🧳 可用设备</span></div><div id="home-devices"></div></div>
     <div class="card"><div class="section-hd"><span class="t">🏪 服务站点</span></div><div id="home-sites"></div></div>
@@ -354,7 +354,7 @@ body{display:flex;justify-content:center}
       <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
       <div class="fee-row"><span>押金</span><span>¥500</span></div>
       <div class="fee-row hl"><span>已产生费用</span><span class="price" id="ra-total">¥0</span></div>
-      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥19，同一天最高¥78封顶</span>
+      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥20，同一天最高¥80封顶</span>
     </div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">⚠️ 温馨提醒</span>
       <div class="rule">请在植物园指定归还点归还，切勿随意丢弃</div><div class="rule">归还前请拍照留证</div><div class="rule">逾期将按1.5倍费率计费</div>
@@ -595,8 +595,8 @@ const SITES = [
 ];
 const RULES = ['最高时速6km/h，请勿在机动车道骑行','锂电池请勿暴晒、浸水、摔打，远离火源','设备归还需到植物园指定归还点','如遇设备故障，请立即联系客服','正常磨损免赔，人为损坏照价赔偿','未成年人需在监护人陪同下使用'];
 const PLANS = [
-  {id:'hourly',name:'时租',price:19,unit:'/小时'},
-  {id:'daily',name:'日封顶',price:78,unit:'/天'}
+  {id:'hourly',name:'时租',price:20,unit:'/小时'},
+  {id:'daily',name:'日封顶',price:80,unit:'/天'}
 ];
 const DEPOSIT = 500;
 const BANNERS = [
@@ -713,7 +713,7 @@ function handleContact() {
 
 function handleAbout() {
   const c = document.getElementById('modal-content');
-  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">阿柒悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 侠义出行</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>◆ 服务地点：义乌植物园东门/西门/北门</p><p>◆ 计费方式：¥19/小时，最高¥78/天封顶</p><p>◆ 押金：¥500，归还无损后原路退还</p><p>◆ 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
+  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">阿柒悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 侠义出行</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>◆ 服务地点：义乌植物园东门/西门/北门</p><p>◆ 计费方式：¥20/小时，最高¥80/天封顶</p><p>◆ 押金：¥500，归还无损后原路退还</p><p>◆ 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -811,7 +811,7 @@ function showModal(type) {
   if (type === 'agreement') {
     c.innerHTML = `<h3>租赁协议确认</h3><div class="modal-body">1. 租赁方确认已年满18周岁。\n\n2. 请遵守交通法规。\n\n3. 锂电池请勿暴晒、浸水、摔打。\n\n4. 正常磨损免赔，人为损坏照价赔偿。\n\n5. 逾期按1.5倍费率计费。\n\n6. 押金¥500归还后1-3个工作日退还。</div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();showPayModal()">确认租借</button></div>`;
   } else if (type === 'extend') {
-    c.innerHTML = `<h3>延长租赁</h3><div class="extend-opts"><div class="extend-opt on" onclick="selectExtend(this)"><span class="t">1小时</span><span class="p">¥20</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">2小时</span><span class="p">¥40</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">整天</span><span class="p">¥100</span></div></div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();toast('已延长租赁时长')">确认延长</button></div>`;
+    c.innerHTML = `<h3>延长租赁</h3><div class="extend-opts"><div class="extend-opt on" onclick="selectExtend(this)"><span class="t">1小时</span><span class="p">¥20</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">2小时</span><span class="p">¥40</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">整天</span><span class="p">¥80</span></div></div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();toast('已延长租赁时长')">确认延长</button></div>`;
   }
   m.style.display = 'flex';
 }
