@@ -309,10 +309,10 @@ body{display:flex;justify-content:center}
     </div></div>
     <div class="card"><div class="section-hd"><span class="t">💰 计费方式</span><span class="m">查看详情 ›</span></div>
       <div class="pricing-row">
-        <div class="pricing-card"><span class="name">时租</span><span class="price">¥20</span><span class="unit">/小时</span></div>
-        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥80</span><span class="unit">/天</span></div>
+        <div class="pricing-card"><span class="name">时租</span><span class="price">¥25</span><span class="unit">/小时</span></div>
+        <div class="pricing-card"><span class="name">日封顶</span><span class="price">¥100</span><span class="unit">/天</span></div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每小时计费¥20 · 同一天最高¥80封顶</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--gray);text-align:center">每小时计费¥25 · 同一天最高¥100封顶</div>
     </div>
     <div class="card"><div class="section-hd"><span class="t">🧳 可用设备</span></div><div id="home-devices"></div></div>
     <div class="card"><div class="section-hd"><span class="t">🏪 服务站点</span></div><div id="home-sites"></div></div>
@@ -337,7 +337,7 @@ body{display:flex;justify-content:center}
       <div class="pricing-row" id="detail-pricing"></div>
     </div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">🛡️ 押金</span>
-      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:24px;font-weight:700;color:var(--warning)">¥500</span><span style="font-size:12px;color:var(--gray)">租赁结束后原路退回</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:24px;font-weight:700;color:var(--warning)">¥1000</span><span style="font-size:12px;color:var(--gray)">租赁结束后原路退回</span></div>
     </div>
     <div class="bottom-bar no-tab" id="detail-bottom" style="display: none;"></div>
   </div>
@@ -352,9 +352,9 @@ body{display:flex;justify-content:center}
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">🔋 电池状态</span><div class="battery-bar" style="height:10px"><div class="battery-fill" id="ra-battery-bar" style="width:80%"></div></div><span style="font-size:12px;color:var(--gray);margin-top:8px;display:block" id="ra-battery-tip">预估续航：约6.4小时</span><div style="margin-top:10px;padding:8px 10px;background:rgba(200,155,60,.08);border-radius:8px;border:1px solid rgba(200,155,60,.2);font-size:12px;color:var(--primary)">⚡ 电量不足？可免费更换电池，联系工作人员或拨打 <a href="tel:18630721779" style="color:#e8c76a;font-weight:600">18630721779</a></div></div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">💰 费用明细</span>
       <div class="fee-row"><span>套餐</span><span id="ra-plan">时租</span></div>
-      <div class="fee-row"><span>押金</span><span>¥500</span></div>
+      <div class="fee-row"><span>押金</span><span>¥1000</span></div>
       <div class="fee-row hl"><span>已产生费用</span><span class="price" id="ra-total">¥0</span></div>
-      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥20，同一天最高¥80封顶</span>
+      <span style="font-size:11px;color:var(--gray);margin-top:8px;display:block">每小时计费¥25，同一天最高¥100封顶</span>
     </div>
     <div class="card"><span style="font-size:15px;font-weight:600;display:block;margin-bottom:8px;color:#e8c76a">⚠️ 温馨提醒</span>
       <div class="rule">请在植物园指定归还点归还，切勿随意丢弃</div><div class="rule">归还前请拍照留证</div><div class="rule">逾期将按1.5倍费率计费</div>
@@ -433,7 +433,7 @@ body{display:flex;justify-content:center}
   <!-- AGREEMENT PAGE -->
   <div class="page" id="page-agreement">
     <div class="nav-bar" style="position:relative"><div class="back-btn" onclick="goBack()">‹ 返回</div><h1>📄 租赁协议</h1></div>
-    <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong style="color:#e8c76a">阿柒悦行租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥500在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
+    <div class="card" style="font-size:13px;line-height:1.9;color:var(--gray)"><strong style="color:#e8c76a">阿柒悦行租赁服务协议</strong><br><br>1. 租赁方确认已年满18周岁，具有完全民事行为能力。<br><br>2. 设备使用过程中，请遵守交通法规，不得在机动车道骑行。<br><br>3. 锂电池安全：请勿暴晒、浸水、摔打设备，远离火源和高温环境。<br><br>4. 正常磨损免赔。人为损坏（如严重刮花、摔裂、进水等）照价赔偿。<br><br>5. 归还时请到植物园指定归还点，归还前请检查设备外观并拍照上传。<br><br>6. 逾期未归还将按1.5倍费率计费。<br><br>7. 押金¥1000在设备归还且无损坏后原路退还（1-3个工作日）。<br><br>8. 未成年人需在监护人陪同下使用。<br><br>9. 本协议自租借成功时生效，至设备归还且结算完毕后失效。</div>
   </div>
 
   <!-- ADMIN PAGE -->
@@ -506,12 +506,12 @@ body{display:flex;justify-content:center}
       <div class="pay-modal-hd">
         <div style="font-size:13px;color:var(--gray);margin-bottom:4px">需支付金额</div>
         <div class="amount" id="pay-total-amount">¥220</div>
-        <div class="amount-label">租金 + ¥500押金（完成后退还）</div>
+        <div class="amount-label">租金 + ¥1000押金（完成后退还）</div>
       </div>
       <div class="pay-modal-body">
         <div class="pay-amount-detail">
           <div class="pay-amount-row"><span class="label">租金预估</span><span id="pay-rental-fee">¥20</span></div>
-          <div class="pay-amount-row"><span class="label">押金（退还）</span><span>¥500</span></div>
+          <div class="pay-amount-row"><span class="label">押金（退还）</span><span>¥1000</span></div>
           <div class="pay-amount-row" style="font-weight:600;padding-top:6px;border-top:1px solid var(--border);margin-top:4px"><span>合计</span><span id="pay-total-calc" style="color:var(--danger)">¥220</span></div>
         </div>
         <div class="pay-methods">
@@ -595,14 +595,14 @@ const SITES = [
 ];
 const RULES = ['最高时速6km/h，请勿在机动车道骑行','锂电池请勿暴晒、浸水、摔打，远离火源','设备归还需到植物园指定归还点','如遇设备故障，请立即联系客服','正常磨损免赔，人为损坏照价赔偿','未成年人需在监护人陪同下使用'];
 const PLANS = [
-  {id:'hourly',name:'时租',price:20,unit:'/小时'},
-  {id:'daily',name:'日封顶',price:80,unit:'/天'}
+  {id:'hourly',name:'时租',price:25,unit:'/小时'},
+  {id:'daily',name:'日封顶',price:100,unit:'/天'}
 ];
 const DEPOSIT = 500;
 const BANNERS = [
   {title:'侠义出行',desc:'阿柒护送，轻装行天下',emoji:'🧳',bg:'linear-gradient(135deg,rgba(45,27,105,.9),rgba(10,14,26,.98))'},
   {title:'扫码即用',desc:'30秒起行，随借随还',emoji:'⚔️',bg:'linear-gradient(135deg,rgba(15,21,50,.95),rgba(45,27,105,.7))'},
-  {title:'安全承诺',desc:'押金¥500，归还如初',emoji:'🛡️',bg:'linear-gradient(135deg,rgba(10,14,26,.98),rgba(80,50,10,.6))'}
+  {title:'安全承诺',desc:'押金¥1000，归还如初',emoji:'🛡️',bg:'linear-gradient(135deg,rgba(10,14,26,.98),rgba(80,50,10,.6))'}
 ];
 
 const STATUS_MAP = {available:{text:'可用',cls:'tag-success'},rented:{text:'已租出',cls:'tag-warning'},maintenance:{text:'维护中',cls:'tag-danger'},offline:{text:'离线',cls:'tag-info'}};
@@ -713,7 +713,7 @@ function handleContact() {
 
 function handleAbout() {
   const c = document.getElementById('modal-content');
-  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">阿柒悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 侠义出行</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>◆ 服务地点：义乌植物园东门/西门/北门</p><p>◆ 计费方式：¥20/小时，最高¥80/天封顶</p><p>◆ 押金：¥500，归还无损后原路退还</p><p>◆ 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
+  c.innerHTML = `<div style="text-align:center;padding:8px 0"><div style="font-size:48px">🧳</div><h3 style="margin:10px 0 6px">阿柒悦行</h3><div style="font-size:12px;color:var(--gray);margin-bottom:16px">电动行李箱租借 · 侠义出行</div><div style="font-size:13px;color:var(--gray);line-height:1.8;text-align:left"><p>◆ 服务地点：义乌植物园东门/西门/北门</p><p>◆ 计费方式：¥25/小时，最高¥100/天封顶</p><p>◆ 押金：¥1000，归还无损后原路退还</p><p>◆ 客服热线：18630721779</p></div><button class="btn btn-secondary btn-block" style="margin-top:20px" onclick="hideModal()">关闭</button></div>`;
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -809,7 +809,7 @@ function showModal(type) {
   const m = document.getElementById('modal');
   const c = document.getElementById('modal-content');
   if (type === 'agreement') {
-    c.innerHTML = `<h3>租赁协议确认</h3><div class="modal-body">1. 租赁方确认已年满18周岁。\n\n2. 请遵守交通法规。\n\n3. 锂电池请勿暴晒、浸水、摔打。\n\n4. 正常磨损免赔，人为损坏照价赔偿。\n\n5. 逾期按1.5倍费率计费。\n\n6. 押金¥500归还后1-3个工作日退还。</div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();showPayModal()">确认租借</button></div>`;
+    c.innerHTML = `<h3>租赁协议确认</h3><div class="modal-body">1. 租赁方确认已年满18周岁。\n\n2. 请遵守交通法规。\n\n3. 锂电池请勿暴晒、浸水、摔打。\n\n4. 正常磨损免赔，人为损坏照价赔偿。\n\n5. 逾期按1.5倍费率计费。\n\n6. 押金¥1000归还后1-3个工作日退还。</div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();showPayModal()">确认租借</button></div>`;
   } else if (type === 'extend') {
     c.innerHTML = `<h3>延长租赁</h3><div class="extend-opts"><div class="extend-opt on" onclick="selectExtend(this)"><span class="t">1小时</span><span class="p">¥20</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">2小时</span><span class="p">¥40</span></div><div class="extend-opt" onclick="selectExtend(this)"><span class="t">整天</span><span class="p">¥80</span></div></div><div class="modal-footer"><button class="btn btn-secondary" style="flex:1" onclick="hideModal()">取消</button><button class="btn btn-primary" style="flex:1" onclick="hideModal();toast('已延长租赁时长')">确认延长</button></div>`;
   }
